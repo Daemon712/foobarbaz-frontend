@@ -1,10 +1,10 @@
-import { FoobarbazFrontendV2Page } from './app.po';
+import { FoobarbazPage } from './app.po';
 
 describe('foobarbaz-frontend-v2 App', function() {
-  let page: FoobarbazFrontendV2Page;
+  let page: FoobarbazPage;
 
   beforeEach(() => {
-    page = new FoobarbazFrontendV2Page();
+    page = new FoobarbazPage();
   });
 
   it('should display message saying app works', () => {
