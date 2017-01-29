@@ -8,7 +8,7 @@ export class Challenge {
   template: string;
 }
 
-enum ChallengeStatus {
+export enum ChallengeStatus {
   NotStarted,
   InProgress,
   Completed
