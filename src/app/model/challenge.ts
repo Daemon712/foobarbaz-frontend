@@ -6,6 +6,7 @@ export class Challenge {
   author: string;
   created: Date;
   template: string;
+  tags: string[];
 }
 
 export enum ChallengeStatus {
