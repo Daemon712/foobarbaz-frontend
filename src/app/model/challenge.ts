@@ -7,6 +7,7 @@ export class Challenge {
   created: Date;
   template: string;
   tags: string[];
+  likes: number;
 }
 
 export enum ChallengeStatus {

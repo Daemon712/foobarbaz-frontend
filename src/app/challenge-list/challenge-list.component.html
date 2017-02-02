@@ -1,5 +1,41 @@
-<div *ngFor="let challenge of challenges">
-  <h3>{{challenge.name}}</h3>
-  <p>{{challenge.description}}</p>
-  <hr/>
+<div class="card-deck">
+  <div *ngFor="let challenge of challenges" class="col-lg-4 col-md-6 col-sm-12">
+    <div class="card my-2">
+      <div class="card-header">
+        <h5 class="card-title m-0">
+          <span [ngSwitch]="challenge.status">
+            <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-2">
+              <i class="fa fa-play"></i>
+            </span>
+            <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-2">
+              <i class="fa fa-play"></i>
+            </span>
+            <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-2">
+              <i class="fa fa-check"></i>
+            </span>
+          </span>
+          <a routerLink ="/challanges/{{challenge.id}}">{{challenge.name}}</a>
+        </h5>
+      </div>
+      <div class="card-block pt-2">
+        <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
+          {{tag}}
+        </span>
+        <span [hidden]="!challenge.likes">
+          <i class="fa fa-thumbs-up"></i> {{challenge.likes}}
+        </span>
+        <p class="card-text text-justify mt-2">{{challenge.description}}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted row">
+          <span class="col-6 text-left">
+            <i class="fa fa-user"></i> {{challenge.author}}
+          </span>
+          <span class="col-6 text-right">
+            <i class="fa fa-calendar"></i> {{challenge.created | date: "mediumDate"}}
+          </span>
+        </small>
+      </div>
+    </div>
+  </div>
 </div>

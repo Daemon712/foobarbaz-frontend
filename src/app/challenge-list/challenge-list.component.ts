@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {ChallengeService} from "../service/challenge.service";
-import {Challenge} from "../model/challenge";
+import {Challenge, ChallengeStatus} from "../model/challenge";
 
 @Component({
   selector: 'app-challenge-list',
@@ -10,6 +10,7 @@ import {Challenge} from "../model/challenge";
 })
 export class ChallengeListComponent implements OnInit {
   challenges: Challenge[];
+  challengeStatus = ChallengeStatus;
 
   constructor(
       private router: Router,
