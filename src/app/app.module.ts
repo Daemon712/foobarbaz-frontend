@@ -10,6 +10,7 @@ import {InMemoryWebApiModule} from "angular-in-memory-web-api";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {RouterModule, Routes} from "@angular/router";
 import {ChallengeService} from "./service/challenge.service";
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
   { path: 'challenges',  component: ChallengeListComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ChallengeListComponent
+    ChallengeListComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
