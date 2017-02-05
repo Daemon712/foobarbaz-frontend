@@ -1,40 +1,83 @@
-<div class="card-deck">
-  <div *ngFor="let challenge of challenges" class="col-lg-4 col-md-6 col-sm-12">
+<div class="jumbotron">
+  <h1 class="display-3">Архив задач</h1>
+  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+  <p>
+    <button class="btn btn-success">
+      <i class="fa fa-plus"></i>
+      <span> Предложить новую задачу</span>
+    </button>
+  </p>
+</div>
+<div class="row">
+  <div class="col-3">
+    <div class="card my-2">
+      <div class="card-block">
+        <div class="card-text">Привет. Я пагинация</div>
+      </div>
+    </div>
+    <div class="card my-2">
+      <div class="card-block">
+        <div class="card-text">Привет. Я сортировка</div>
+      </div>
+    </div>
     <div class="card my-2">
       <div class="card-header">
-        <h5 class="card-title m-0">
+        <i class="fa fa-search"> </i>
+        <span>Фильтр</span>
+      </div>
+      <div class="card-block">
+        <div class="card-text">Привет. Я поиск</div>
+      </div>
+    </div>
+    <div class="card my-2">
+      <div class="card-header">
+        <i class="fa fa-star"> </i>
+        <span>Популярные метки</span>
+      </div>
+      <div class="card-block">
+        <div class="card-text">Привет. я список тегов</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    <div *ngFor="let challenge of challenges" class="card my-2">
+      <div class="card-header">
+        <h3 class="m-0">
           <span [ngSwitch]="challenge.status">
-            <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-2">
+            <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-3">
               <i class="fa fa-play"></i>
             </span>
-            <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-2">
+            <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-3">
               <i class="fa fa-play"></i>
             </span>
-            <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-2">
+            <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-3">
               <i class="fa fa-check"></i>
             </span>
           </span>
           <a routerLink ="/challanges/{{challenge.id}}">{{challenge.name}}</a>
-        </h5>
+        </h3>
       </div>
-      <div class="card-block pt-2">
-        <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
-          {{tag}}
-        </span>
-        <span [hidden]="!challenge.likes">
-          <i class="fa fa-thumbs-up"></i> {{challenge.likes}}
-        </span>
-        <p class="card-text text-justify mt-2">{{challenge.description}}</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted row">
-          <span class="col-6 text-left">
-            <i class="fa fa-user"></i> {{challenge.author}}
+      <div class="card-block pt-2 row">
+        <div class="col-9">
+          <p class="card-text text-justify mt-2">{{challenge.description}}</p>
+          <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
+            {{tag}}
           </span>
-          <span class="col-6 text-right">
-            <i class="fa fa-calendar"></i> {{challenge.created | date: "mediumDate"}}
-          </span>
-        </small>
+        </div>
+        <div class="col-3 text-muted text-right">
+          <div [hidden]="!challenge.likes">
+            <span> {{challenge.likes}}</span>
+            <i class="fa fa-thumbs-up"></i>
+          </div>
+          <div>
+            <span> {{challenge.author}}</span>
+            <i class="fa fa-user"></i>
+          </div>
+          <div>
+            <span> {{challenge.created | date: "mediumDate"}}</span>
+            <i class="fa fa-calendar"></i>
+          </div>
+        </div>
       </div>
     </div>
   </div>
