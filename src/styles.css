@@ -3,3 +3,14 @@
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
 }
+
+/* Forms */
+label.col-form-label {
+  text-align: right;
+}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 4px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 4px solid #a94442; /* red */
+}

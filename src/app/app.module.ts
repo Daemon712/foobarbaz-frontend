@@ -11,8 +11,10 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {RouterModule, Routes} from "@angular/router";
 import {ChallengeService} from "./service/challenge.service";
 import { NavbarComponent } from './navbar/navbar.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
+  { path: 'login',  component: LoginComponent },
   { path: 'challenges',  component: ChallengeListComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
@@ -21,7 +23,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     ChallengeListComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

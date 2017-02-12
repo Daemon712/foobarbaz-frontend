@@ -1,0 +1,52 @@
+<div class="jumbotron">
+  <h1 class="display-3">Вход в систему</h1>
+  <p class="lead">Для доступа ко всей функциональности нашего портала Вам необходимо пройти авторизацию</p>
+</div>
+<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+  <div class="form-group row">
+    <label for="username" class="col-md-4 col-form-label">Имя Пользователя</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text"
+             id="username" name="username" #username="ngModel"
+             [(ngModel)]="model.username"
+             required>
+    </div>
+    <div *ngIf="username.errors && (username.dirty || username.touched)"
+         class="col-md-4 text-danger col-form-label">
+      <div [hidden]="!username.errors['required']">
+        Укажите имя пользователя
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="password" class="col-md-4 col-form-label">Пароль</label>
+    <div class="col-md-4">
+      <input class="form-control" type="password"
+             id="password" name="password" #password="ngModel"
+             [(ngModel)]="model.password"
+             required>
+    </div>
+    <div *ngIf="password.errors && (password.dirty || password.touched)"
+         class="col-md-4 text-danger col-form-label">
+      <div [hidden]="!password.errors['required']">
+        Укажите пароль
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-4 offset-md-4">
+      <button type="submit"
+              class="btn btn-primary"
+              [disabled]="!loginForm.form.valid">
+        <i class="fa fa-sign-in"></i>
+        <span>Войти</span>
+      </button>
+    </div>
+  </div>
+</form>
+<hr/>
+<div class="text-center">
+  <span>Еще нет аккаунта? </span>
+  <a routerLink="/sign-up">Зарегистрируйтесь</a>
+</div>
