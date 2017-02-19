@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NewUser} from "../model/new-user";
+import {NewUser} from "../../../model/new-user";
 
 @Component({
   selector: 'app-signup',

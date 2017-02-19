@@ -1,9 +1,6 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { ChallengeListComponent } from './challenge-list.component';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {ChallengeListComponent} from "./challenge-list.component";
 
 describe('ChallengeListComponent', () => {
   let component: ChallengeListComponent;

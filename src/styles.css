@@ -1,7 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+/* Common */
 .jumbotron {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
+  padding: 2rem 4rem !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 /* Forms */

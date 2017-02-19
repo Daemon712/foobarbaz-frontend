@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {UserCredentials} from "../model/user-credentials";
-import {FormGroup, Validators, FormBuilder} from "@angular/forms";
+import {UserCredentials} from "../../../model/user-credentials";
 
 @Component({
-  // moduleId: module.id,
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: 'login.component.html',
+  styleUrls: ['login.component.css']
 })
 export class LoginComponent implements OnInit {
   model = new UserCredentials();

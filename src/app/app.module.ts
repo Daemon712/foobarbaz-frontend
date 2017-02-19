@@ -4,15 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ChallengeListComponent } from './challenge-list/challenge-list.component';
+import { ChallengeListComponent } from './components/challenge/list/challenge-list.component';
 import {InMemoryDataService} from "./service/in-memory-data.service";
 import {InMemoryWebApiModule} from "angular-in-memory-web-api";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {RouterModule, Routes} from "@angular/router";
 import {ChallengeService} from "./service/challenge.service";
-import { NavbarComponent } from './navbar/navbar.component';
-import { LoginComponent } from './login/login.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { SignUpComponent } from './components/user/sign-up/sign-up.component';
 import { EqualValidator } from './directives/equal-validator.directive';
 
 const routes: Routes = [
