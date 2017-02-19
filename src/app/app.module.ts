@@ -14,6 +14,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { SignUpComponent } from './components/user/sign-up/sign-up.component';
 import { EqualValidator } from './directives/equal-validator.directive';
+import {TagService} from "./service/tag.service";
+import { TagsComponent } from './components/tags/tags.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -30,6 +32,7 @@ const routes: Routes = [
     LoginComponent,
     SignUpComponent,
     EqualValidator,
+    TagsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,7 @@ const routes: Routes = [
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     RouterModule.forRoot(routes)
   ],
-  providers: [ChallengeService],
+  providers: [ChallengeService, TagService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

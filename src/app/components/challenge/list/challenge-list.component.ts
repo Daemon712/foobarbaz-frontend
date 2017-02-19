@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
 import {ChallengeService} from "../../../service/challenge.service";
 import {Challenge, ChallengeStatus} from "../../../model/challenge";
 

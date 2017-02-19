@@ -1,5 +1,6 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {ChallengeStatus} from "../model/challenge";
+import {Tag} from "../model/tag";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -11,7 +12,7 @@ export class InMemoryDataService implements InMemoryDbService {
         status: ChallengeStatus.NotStarted,
         author: 'Игорь',
         created: new Date('02 06 2017'),
-        tags: ["строка"],
+        tags: ["цикл"],
         likes: 5,
       },
       {
@@ -62,7 +63,19 @@ export class InMemoryDataService implements InMemoryDbService {
         likes: 2,
       },
     ];
-    return {challenges};
+
+    let tags: Tag[] = [
+      new Tag("Массивы", 3),
+      new Tag("Списки", 7),
+      new Tag("Рекурсия", 12),
+      new Tag("Строки", 10),
+      new Tag("Математика", 6),
+      new Tag("Бинарные операции", 4),
+      new Tag("Ввод-вывод", 2),
+    ];
+
+
+    return {challenges, tags};
   }
 }
 
