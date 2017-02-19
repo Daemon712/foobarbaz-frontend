@@ -1,0 +1,68 @@
+<div class="jumbotron">
+  <h1 class="display-3">Регистрация</h1>
+  <p class="lead">Для доступа ко всей функциональности данного портала Вам необходимо создать аккаунт</p>
+</div>
+<form (ngSubmit)="onSubmit()" #signUpForm="ngForm">
+  <div class="form-group row">
+
+    <label for="username" class="col-md-4 col-form-label">Имя Пользователя</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text"
+             id="username" name="username" #username="ngModel"
+             [(ngModel)]="model.username"
+             required maxlength="32" pattern="[a-zA-Zа-яА-Я0-9\-._ ]+">
+    </div>
+    <div *ngIf="username.errors && (username.dirty || username.touched)"
+         class="col-md-4 text-danger col-form-label">
+      <div [hidden]="!username.errors['required']">Укажите имя пользователя</div>
+      <div [hidden]="!username.errors['pattern']">Имя содержит недопустимые символы</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="password" class="col-md-4 col-form-label">Пароль</label>
+    <div class="col-md-4">
+      <input class="form-control" type="password"
+             id="password" name="password" #password="ngModel"
+             [(ngModel)]="model.password"
+             required minlength="6" maxlength="32">
+    </div>
+    <div *ngIf="password.errors && (password.dirty || password.touched)"
+         class="col-md-4 text-danger col-form-label">
+      <div [hidden]="!password.errors['required']">Укажите пароль</div>
+      <div [hidden]="!password.errors['minlength']">Пароль должен быть не меньше 6 символов</div>
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label for="confirmPassword" class="col-md-4 col-form-label">Повторите Пароль</label>
+    <div class="col-md-4">
+      <input class="form-control" type="password"
+             id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel"
+             [(ngModel)]="model.confirmPassword"
+             required maxlength="24" validateEqual="password">
+    </div>
+    <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)"
+         class="col-md-4 text-danger col-form-label">
+      <div [hidden]="!confirmPassword.errors['required']">Укажите пароль еще раз</div>
+      <div [hidden]="!confirmPassword.errors['validateEqual']">Пароли не совпадают</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-4 offset-md-4">
+      <button type="submit"
+              class="btn btn-success"
+              [disabled]="!signUpForm.form.valid">
+        <i class="fa fa-user-plus"></i>
+        <span>Создать аккаунт</span>
+      </button>
+    </div>
+  </div>
+</form>
+<hr/>
+<div class="text-center">
+  <span>Уже есть аккаунт? </span>
+  <a routerLink="/login">Войдите</a>
+</div>

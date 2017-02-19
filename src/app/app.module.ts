@@ -12,9 +12,12 @@ import {RouterModule, Routes} from "@angular/router";
 import {ChallengeService} from "./service/challenge.service";
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { EqualValidator } from './directives/equal-validator.directive';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
+  { path: 'sign-up',  component: SignUpComponent },
   { path: 'challenges',  component: ChallengeListComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
@@ -25,6 +28,8 @@ const routes: Routes = [
     ChallengeListComponent,
     NavbarComponent,
     LoginComponent,
+    SignUpComponent,
+    EqualValidator,
   ],
   imports: [
     BrowserModule,
