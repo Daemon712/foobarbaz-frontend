@@ -8,6 +8,8 @@ export class Challenge {
   template: string;
   tags: string[];
   likes: number;
+  liked: boolean;
+  comments: number;
 }
 
 export enum ChallengeStatus {

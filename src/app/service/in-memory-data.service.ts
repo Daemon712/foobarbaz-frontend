@@ -11,9 +11,11 @@ export class InMemoryDataService implements InMemoryDbService {
         description: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
         status: ChallengeStatus.NotStarted,
         author: 'Игорь',
-        created: new Date('02 06 2017'),
+        created: new Date('03 01 2017'),
         tags: ["цикл"],
         likes: 5,
+        liked: true,
+        comments: 12,
       },
       {
         id: 2,
@@ -21,8 +23,9 @@ export class InMemoryDataService implements InMemoryDbService {
         description: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
         status: ChallengeStatus.InProgress,
         author: 'Марина',
-        created: new Date('02 09 2017'),
-        tags: ["рекурсия"],
+        created: new Date('02 25 2017'),
+        tags: ["рекурсия", "математика"],
+        comments: 4,
       },
       {
         id: 3,
@@ -42,6 +45,9 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Сергей',
         created: new Date('02 06 2017'),
         tags: ["строка"],
+        likes: 15,
+        liked: true,
+        comments: 26,
       },
       {
         id: 5,
@@ -61,6 +67,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('02 11 2017'),
         tags: ["массив","цикл"],
         likes: 2,
+        comments: 12,
       },
     ];
 

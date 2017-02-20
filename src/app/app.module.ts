@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {NgModule, LOCALE_ID} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -42,7 +42,11 @@ const routes: Routes = [
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     RouterModule.forRoot(routes)
   ],
-  providers: [ChallengeService, TagService],
+  providers: [
+    { provide: LOCALE_ID, useValue: "ru-RU" },
+    ChallengeService,
+    TagService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

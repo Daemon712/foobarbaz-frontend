@@ -60,21 +60,25 @@
       <div class="card-block pt-2 row">
         <div class="col-9">
           <p class="card-text text-justify mt-2">{{challenge.description}}</p>
-          <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
+          <span *ngFor="let tag of challenge.tags" class="badge badge-default badge-pill mr-1">
             {{tag}}
           </span>
         </div>
         <div class="col-3 text-muted text-right">
-          <div [hidden]="!challenge.likes">
+          <div [hidden]="!challenge.likes" [class.text-primary]="challenge.liked">
             <span> {{challenge.likes}}</span>
             <i class="fa fa-thumbs-up"></i>
+          </div>
+          <div [hidden]="!challenge.comments">
+            <span> {{challenge.comments}}</span>
+            <i class="fa fa-comments"></i>
           </div>
           <div>
             <span> {{challenge.author}}</span>
             <i class="fa fa-user"></i>
           </div>
           <div>
-            <span> {{challenge.created | date: "mediumDate"}}</span>
+            <span> {{challenge.created | date: "shortDate"}}</span>
             <i class="fa fa-calendar"></i>
           </div>
         </div>
