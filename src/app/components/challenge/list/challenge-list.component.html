@@ -10,17 +10,7 @@
 </div>
 <div class="row">
   <div class="col-3">
-    <div class="card my-2">
-      <div class="card-block">
-        <div class="card-text">Привет. Я пагинация</div>
-      </div>
-    </div>
-    <div class="card my-2">
-      <div class="card-block">
-        <div class="card-text">Привет. Я сортировка</div>
-      </div>
-    </div>
-    <div class="card my-2">
+    <div class="card mb-2">
       <div class="card-header">
         <i class="fa fa-search"> </i>
         <span>Фильтр</span>
@@ -29,7 +19,7 @@
         <div class="card-text">Привет. Я поиск</div>
       </div>
     </div>
-    <div class="card my-2">
+    <div class="card mb-2">
       <div class="card-header">
         <i class="fa fa-star"> </i>
         <span>Популярные метки</span>
@@ -40,20 +30,53 @@
     </div>
   </div>
   <div class="col-9">
-    <div *ngFor="let challenge of challenges" class="card my-2">
+    <div class="pull-left">
+      <ngb-pagination [collectionSize]="80"
+                      [(page)]="page"
+                      [maxSize]="5"
+                      [rotate]="true"
+                      [directionLinks]="false"
+                      [size]="'sm'">
+      </ngb-pagination>
+    </div>
+    <div class="pull-right">
+      <label>
+        <select class="custom-select custom-select-sm" [(ngModel)]="sortField">
+          <option value="created">По дате создания</option>
+          <option value="name">По названию</option>
+          <option value="author">По автору</option>
+          <option value="likes">По рейтингу</option>
+          <option value="comments">По комментариям</option>
+        </select>
+      </label>
+      <div class="btn-group btn-group-sm" role="group">
+        <button type="button" class="btn btn-outline-primary"
+                [class.active]="!sortReverse"
+                (click)="sortReverse = false">
+          <i class="fa fa-sort-amount-asc"></i>
+        </button>
+        <button type="button" class="btn btn-outline-primary"
+                [class.active]="sortReverse"
+                (click)="sortReverse = true">
+          <i class="fa fa-sort-amount-desc"></i>
+        </button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div *ngFor="let challenge of challenges" class="card mb-2">
       <div class="card-header">
         <h3 class="m-0">
-          <span [ngSwitch]="challenge.status">
-            <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-3">
-              <i class="fa fa-play"></i>
+          <small [ngSwitch]="challenge.status" class="mr-1">
+            <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-2">
+              <i class="fa fa-play fa-fw"></i>
             </span>
-            <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-3">
-              <i class="fa fa-play"></i>
+            <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-2">
+              <i class="fa fa-play fa-fw"></i>
             </span>
-            <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-3">
-              <i class="fa fa-check"></i>
+            <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-2">
+              <i class="fa fa-check fa-fw"></i>
             </span>
-          </span>
+          </small>
           <a routerLink ="/challanges/{{challenge.id}}">{{challenge.name}}</a>
         </h3>
       </div>

@@ -10,6 +10,9 @@ import {Challenge, ChallengeStatus} from "../../../model/challenge";
 export class ChallengeListComponent implements OnInit {
   challenges: Challenge[];
   challengeStatus = ChallengeStatus;
+  page = 1;
+  sortField = "created";
+  sortReverse = false;
 
   constructor(
       private challengeService: ChallengeService

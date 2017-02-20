@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, LOCALE_ID} from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpModule, JsonpModule} from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ChallengeListComponent } from './components/challenge/list/challenge-list.component';
@@ -37,6 +37,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
+    JsonpModule,
     HttpModule,
     NgbModule.forRoot(),
     InMemoryWebApiModule.forRoot(InMemoryDataService),
