@@ -81,8 +81,11 @@ export class InMemoryDataService implements InMemoryDbService {
       new Tag("Ввод-вывод", 2),
     ];
 
+    let users = [
+      {username: "admin", password: "1234"},
+      {username: "user",  password: "1"},
+    ];
 
-    return {challenges, tags};
-  }
-}
+    return {challenges, tags, users};
+  }}
 

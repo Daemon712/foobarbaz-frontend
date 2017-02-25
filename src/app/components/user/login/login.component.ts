@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {UserCredentials} from "../../../model/user-credentials";
+import {User} from "../../../model/user";
+import {Router} from "@angular/router";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-login',
@@ -7,16 +9,30 @@ import {UserCredentials} from "../../../model/user-credentials";
   styleUrls: ['login.component.css']
 })
 export class LoginComponent implements OnInit {
-  model = new UserCredentials();
+  model = new User();
   submitted = false;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+  ) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
     this.submitted = true;
+    this.userService.authenticate(this.model)
+      .then(user => {
+        if (user == null){
+          this.submitted = false;
+        } else {
+          this.router.navigate(["/"]);
+        }
+      })
+      .catch(() => {
+        this.submitted = false;
+      });
   }
 }
 

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import {NewUser} from "../../../model/new-user";
+import {Component} from '@angular/core';
+import {User} from "../../../model/user";
+import {UserService} from "../../../service/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -7,11 +9,24 @@ import {NewUser} from "../../../model/new-user";
   styleUrls: ['sign-up.component.css']
 })
 export class SignUpComponent {
-  model = new NewUser();
+  model: User = new User();
+  submitted = false;
 
-  constructor() { }
+  constructor(private userService: UserService,
+              private router: Router,) {
+  }
 
   onSubmit() {
-
+    this.submitted = true;
+    this.userService.addUser(this.model)
+      .then((user) => {
+          if (user == null) {
+            this.submitted = false;
+          } else {
+            this.router.navigate(["login"]);
+          }
+        }
+      )
+      .catch(() => this.submitted = false);
   }
 }

@@ -54,7 +54,7 @@
     <div class="col-md-4 offset-md-4">
       <button type="submit"
               class="btn btn-success"
-              [disabled]="!signUpForm.form.valid">
+              [disabled]="!signUpForm.form.valid || submitted">
         <i class="fa fa-user-plus"></i>
         <span>Создать аккаунт</span>
       </button>

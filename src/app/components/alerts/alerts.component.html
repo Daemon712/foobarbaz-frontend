@@ -1,0 +1,5 @@
+<div class="holder">
+  <div *ngFor="let alert of alerts">
+    <ngb-alert [type]="alertType[alert.type]" (close)="closeAlert(alert)">{{ alert.text }}</ngb-alert>
+  </div>
+</div>

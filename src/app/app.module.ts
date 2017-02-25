@@ -16,10 +16,15 @@ import { SignUpComponent } from './components/user/sign-up/sign-up.component';
 import { EqualValidator } from './directives/equal-validator.directive';
 import {TagService} from "./service/tag.service";
 import { TagsComponent } from './components/tags/tags.component';
+import { UserListComponent } from './components/user/list/user-list.component';
+import {UserService} from "./service/user.service";
+import { AlertsComponent } from './components/alerts/alerts.component';
+import {AlertService} from "./service/alert.service";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
+  { path: 'users',  component: UserListComponent },
   { path: 'challenges',  component: ChallengeListComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
@@ -33,6 +38,8 @@ const routes: Routes = [
     SignUpComponent,
     EqualValidator,
     TagsComponent,
+    UserListComponent,
+    AlertsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +54,9 @@ const routes: Routes = [
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },
     ChallengeService,
-    TagService
+    TagService,
+    UserService,
+    AlertService,
   ],
   bootstrap: [AppComponent]
 })

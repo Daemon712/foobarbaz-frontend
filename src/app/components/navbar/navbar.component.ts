@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../service/user.service";
+import {User} from "../../model/user";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -6,10 +9,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  user: User;
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+    this.userService.addListener(newUser => {
+      this.user = newUser;
+      console.log(newUser);
+    });
   }
 
+  logout() {
+    this.userService.logout();
+    this.router.navigate(["/"]);
+  }
 }
