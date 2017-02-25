@@ -20,11 +20,14 @@ import { UserListComponent } from './components/user/list/user-list.component';
 import {UserService} from "./service/user.service";
 import { AlertsComponent } from './components/alerts/alerts.component';
 import {AlertService} from "./service/alert.service";
+import { CreateChallengeComponent } from './components/challenge/create/create-challenge.component';
+import {AceEditorComponent} from "ng2-ace-editor";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
   { path: 'users',  component: UserListComponent },
+  { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges',  component: ChallengeListComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
@@ -40,6 +43,8 @@ const routes: Routes = [
     TagsComponent,
     UserListComponent,
     AlertsComponent,
+    CreateChallengeComponent,
+    AceEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,7 @@ const routes: Routes = [
     HttpModule,
     NgbModule.forRoot(),
     InMemoryWebApiModule.forRoot(InMemoryDataService),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },

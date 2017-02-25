@@ -5,7 +5,9 @@ export class Challenge {
   status: ChallengeStatus;
   author: string;
   created: Date;
-  template: string;
+  solutionTemplate: string;
+  solutionExample: string;
+  solutionTest: string;
   tags: string[];
   likes: number;
   liked: boolean;
