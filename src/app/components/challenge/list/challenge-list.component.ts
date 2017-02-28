@@ -13,6 +13,18 @@ export class ChallengeListComponent implements OnInit {
   page = 1;
   sortField = "created";
   sortReverse = false;
+  filter = {
+    name: null,
+    author: null,
+    status: {
+      notStarted: true,
+      inProgress: true,
+      completed: true,
+    },
+    createdAfter: null,
+    createdBefore: null,
+  };
+
 
   constructor(
       private challengeService: ChallengeService

@@ -30,41 +30,35 @@
     </div>
   </div>
 
-  <ngb-tabset type="tabs" class="form-group">
-    <ngb-tab title="Шаблон решения">
-      <template ngbTabContent>
-        <ace-editor class="form-control my-2"
-             [(text)]="model.solutionTemplate"
-             [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-        </ace-editor>
-      </template>
-    </ngb-tab>
-    <ngb-tab title="Пример решения">
-      <template ngbTabContent>
-        <ace-editor class="form-control my-2"
-             [(text)]="model.solutionExample"
-             [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-        </ace-editor>
-      </template>
-    </ngb-tab>
-    <ngb-tab title="Тесты">
-      <template ngbTabContent>
-        <ace-editor class="form-control my-2"
-             [(text)]="model.solutionTest"
-             [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-        </ace-editor>
-      </template>
-    </ngb-tab>
-  </ngb-tabset>
+  <tabset type="tabs" class="form-group">
+    <tab heading="Шаблон решения">
+      <ace-editor class="form-control my-2"
+           [(text)]="model.solutionTemplate"
+           [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+      </ace-editor>
+    </tab>
+    <tab heading="Пример решения">
+      <ace-editor class="form-control my-2"
+           [(text)]="model.solutionExample"
+           [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+      </ace-editor>
+    </tab>
+    <tab heading="Тесты">
+      <ace-editor class="form-control my-2"
+           [(text)]="model.solutionTest"
+           [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+      </ace-editor>
+    </tab>
+  </tabset>
 
   <div class="form-group">
     <button type="submit" class="btn btn-success">
       <i class="fa fa-plus"> </i>
-      <span>Создать</span>
+      <span> Создать</span>
     </button>
     <button type="submit" class="btn btn-primary">
       <i class="fa fa-play"> </i>
-      <span>Протестировать</span>
+      <span> Протестировать</span>
     </button>
   </div>
 </form>

@@ -16,12 +16,6 @@ export class AlertsComponent implements OnInit {
   ngOnInit() {
     this.alertService.addListener(alert => {
       this.alerts.push(alert);
-      setTimeout(() => this.closeAlert(alert), 10000);
     });
-  }
-
-  closeAlert(alert: Alert){
-    let index = this.alerts.indexOf(alert);
-    this.alerts.splice(index, 1);
   }
 }
