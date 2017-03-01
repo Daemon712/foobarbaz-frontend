@@ -4,6 +4,13 @@ import {Tag} from "../model/tag";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
+    let defaultSolutionTemplate =
+      "public class Foo {\n" +
+      "\tpublic int bar() {\n" +
+      "\t\t//...\n" +
+      "\t\treturn 0;\n" +
+      "\t}\n}";
+
     let challenges = [
       {
         id: 1,
@@ -16,6 +23,7 @@ export class InMemoryDataService implements InMemoryDbService {
         likes: 5,
         liked: true,
         comments: 12,
+        solutionTemplate: defaultSolutionTemplate,
       },
       {
         id: 2,
@@ -26,6 +34,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('02 25 2017'),
         tags: ["рекурсия", "математика"],
         comments: 4,
+        solutionTemplate: defaultSolutionTemplate,
       },
       {
         id: 3,
@@ -36,6 +45,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('02 11 2017'),
         tags: ["массив","цикл"],
         likes: 12,
+        solutionTemplate: defaultSolutionTemplate,
       },
       {
         id: 4,
@@ -48,6 +58,7 @@ export class InMemoryDataService implements InMemoryDbService {
         likes: 15,
         liked: true,
         comments: 26,
+        solutionTemplate: defaultSolutionTemplate,
       },
       {
         id: 5,
@@ -57,6 +68,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Анна',
         created: new Date('02 09 2017'),
         tags: ["рекурсия"],
+        solutionTemplate: defaultSolutionTemplate,
       },
       {
         id: 6,
@@ -68,6 +80,7 @@ export class InMemoryDataService implements InMemoryDbService {
         tags: ["массив","цикл"],
         likes: 2,
         comments: 12,
+        solutionTemplate: defaultSolutionTemplate,
       },
     ];
 

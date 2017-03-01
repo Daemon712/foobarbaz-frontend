@@ -1,0 +1,53 @@
+<div class="jumbotron">
+  <h1 class="display-3" *ngIf="challenge">{{challenge.name}}</h1>
+  <h1 class="display-3" *ngIf="!challenge">Загрузка...</h1>
+</div>
+<div class="row" *ngIf="challenge">
+  <div class="col-md-8">
+    <p class="lead">{{challenge.description}}</p>
+
+    <ace-editor class="form-control"
+                [(text)]="challenge.solutionTemplate" [readOnly]="true"
+                [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+    </ace-editor>
+
+    <div class="mt-3 text-right" *ngIf="challenge.tags">
+      <span *ngFor="let tag of challenge.tags"
+          class="badge badge-default badge-pill mr-1">{{tag}}</span>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <table class="table mb-0">
+        <tbody>
+        <tr>
+          <td>Автор</td>
+          <td>
+            <span class="fa fa-user"></span>
+            <span>{{challenge.author}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Дата создания</td>
+          <td>
+            <span>{{challenge.created | date:'d MMMM yyyy'}}</span>
+          </td>
+        </tr>
+        <tr *ngIf="challenge.likes" >
+          <td>Рейтинг</td>
+          <td [class.text-primary]="challenge.liked">
+            <span>{{challenge.likes}}</span>
+            <i class="fa fa-thumbs-up"></i>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg" title="Новое решение">
+      <span class="fa fa-play"> </span>
+      <span>Решить</span>
+    </button>
+  </div>
+</div>

@@ -16,6 +16,14 @@ export class ChallengeService {
         .catch(ChallengeService.handleError);
   }
 
+  getChallenge(id: number): Promise<Challenge>{
+
+    return this.http.get(`${this.url}/${id}`)
+      .toPromise()
+      .then(response => response.json().data as Challenge)
+      .catch(ChallengeService.handleError);
+  }
+
   private static handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);

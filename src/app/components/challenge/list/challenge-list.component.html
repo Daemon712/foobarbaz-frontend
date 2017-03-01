@@ -116,7 +116,7 @@
               <i class="fa fa-check fa-fw"></i>
             </span>
           </small>
-          <a routerLink ="/challanges/{{challenge.id}}">{{challenge.name}}</a>
+          <a [routerLink]="[challenge.id]">{{challenge.name}}</a>
         </h3>
       </div>
       <div class="card-block pt-2 row">

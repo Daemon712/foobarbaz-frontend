@@ -22,11 +22,13 @@ import {AlertService} from "./service/alert.service";
 import { CreateChallengeComponent } from './components/challenge/create/create-challenge.component';
 import {AceEditorComponent} from "ng2-ace-editor";
 import {AlertModule, PaginationModule, TabsModule, ButtonsModule} from 'ng2-bootstrap';
+import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
   { path: 'users',  component: UserListComponent },
+  { path: 'challenges/:id',  component: ViewChallengeComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges',  component: ChallengeListComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
@@ -45,6 +47,7 @@ const routes: Routes = [
     AlertsComponent,
     CreateChallengeComponent,
     AceEditorComponent,
+    ViewChallengeComponent,
   ],
   imports: [
     BrowserModule,

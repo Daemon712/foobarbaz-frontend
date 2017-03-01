@@ -1,0 +1,7 @@
+ace-editor {
+  min-height: 360px;
+}
+
+tr:first-child > td {
+  border-top: 0;
+}
