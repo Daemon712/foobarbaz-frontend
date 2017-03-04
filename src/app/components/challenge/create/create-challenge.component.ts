@@ -12,17 +12,6 @@ export class CreateChallengeComponent implements OnInit {
   options = {
     fontSize: '16px'
   };
-  newTag: string;
-  //TODO: load availableTags from TagService
-  availableTags: string[] = [
-    "Массивы",
-    "Списки",
-    "Рекурсия",
-    "Строки",
-    "Математика",
-    "Бинарные операции",
-    "Ввод-вывод"
-  ];
 
   constructor() { }
 
@@ -61,9 +50,4 @@ export class CreateChallengeComponent implements OnInit {
       "\t}\n" +
       "}"
   };
-
-  onSelect(){
-    this.model.tags.push(this.newTag);
-    this.newTag = null;
-  }
 }

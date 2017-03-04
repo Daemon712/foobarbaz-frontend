@@ -23,6 +23,7 @@ import { CreateChallengeComponent } from './components/challenge/create/create-c
 import {AceEditorComponent} from "ng2-ace-editor";
 import {AlertModule, PaginationModule, TabsModule, ButtonsModule, TypeaheadModule} from 'ng2-bootstrap';
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
+import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -48,6 +49,7 @@ const routes: Routes = [
     CreateChallengeComponent,
     AceEditorComponent,
     ViewChallengeComponent,
+    TagPickerComponent,
   ],
   imports: [
     BrowserModule,

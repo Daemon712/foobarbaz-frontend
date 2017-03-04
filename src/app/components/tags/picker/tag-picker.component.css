@@ -1,0 +1,10 @@
+.input-group-addon {
+  display: block;
+  background: white;
+}
+.fa-close:hover {
+  cursor: pointer;
+}
+.badge {
+  font-size: 1.15rem;
+}

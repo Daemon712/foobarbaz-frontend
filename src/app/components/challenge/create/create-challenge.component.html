@@ -32,13 +32,8 @@
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="newTag">Метки</label>
-        <span *ngFor="let tag of model.tags" class="badge badge-default badge-pill mr-1">{{tag}}</span>
-        <input class="form-control" id="newTag"
-               [(ngModel)]="newTag"
-               [ngModelOptions]="{standalone: true}"
-               [typeahead]="availableTags"
-               (typeaheadOnSelect)="onSelect($event)">
+        <label class="control-label">Метки</label>
+        <app-tag-picker [(tags)]="model.tags"></app-tag-picker>
       </div>
 
     </tab>

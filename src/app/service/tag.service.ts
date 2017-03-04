@@ -15,6 +15,14 @@ export class TagService {
       .catch(TagService.handleError);
   }
 
+  findTags(name: string): Promise<Tag[]>{
+    // if (name == null) return this.getTags();
+    return this.http.get(`${this.url}?name=${name}`)
+      .toPromise()
+      .then(response => response.json().data as Tag[])
+      .catch(TagService.handleError);
+  }
+
   private static handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
