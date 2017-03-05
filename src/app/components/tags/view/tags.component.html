@@ -1,6 +1,6 @@
 <div class="text-center">
   <span *ngFor="let tag of tags"
-       class="badge badge-default badge-pill m-1"
+       class="badge badge-default m-1"
         [style.fontSize]="12 + 8*(tag.usages - minUsages)/(maxUsages - minUsages) + 'px'">
     <a>{{tag.name}}</a>
   </span>

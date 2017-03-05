@@ -17,45 +17,47 @@
       </div>
       <div class="card-block">
         <div class="card-text">
-          <div class="form-group">
+          <div class="form-group mb-2">
             <input class="form-control form-control-sm" type="text" placeholder="Название"
-                   [(ngModel)]="filter.name">
+                   [(ngModel)]="newFilter.name">
           </div>
-          <div class="form-group">
+          <div class="form-group mb-2">
             <input class="form-control form-control-sm" type="text" placeholder="Автор"
-                   [(ngModel)]="filter.author">
+                   [(ngModel)]="newFilter.author">
           </div>
 
-          <div class="form-group text-center">
+          <div class="form-group mb-1 text-center">
             <div class="btn-group btn-group-sm" role="group">
               <label class="btn btn-outline-primary" title="Новые"
-                     [(ngModel)]="filter.status.notStarted" btnCheckbox>
+                     [(ngModel)]="newFilter.status.notStarted" btnCheckbox>
                 <i class="fa fa-play fa-fw"></i>
               </label>
               <label class="btn btn-outline-info" title="Начатые"
-                     [(ngModel)]="filter.status.inProgress" btnCheckbox>
+                     [(ngModel)]="newFilter.status.inProgress" btnCheckbox>
                 <i class="fa fa-play fa-fw"></i>
               </label>
               <label class="btn btn-outline-success" title="Решенные"
-                     [(ngModel)]="filter.status.completed" btnCheckbox>
+                     [(ngModel)]="newFilter.status.completed" btnCheckbox>
                 <i class="fa fa-check fa-fw"></i>
               </label>
             </div>
           </div>
 
           <!--TODO: date picker-->
-          <div class="form-group">
+          <div class="form-group mb-2">
             <input class="form-control form-control-sm" type="text" placeholder="Созданы после"
-                   [(ngModel)]="filter.createdAfter">
+                   [(ngModel)]="newFilter.createdAfter">
           </div>
-          <div class="form-group">
+          <div class="form-group mb-2">
             <input class="form-control form-control-sm" type="text" placeholder="Созданы до"
-                   [(ngModel)]="filter.createdBefore">
+                   [(ngModel)]="newFilter.createdBefore">
           </div>
 
-          <div *ngIf="filter.name || filter.author || filter.createdAfter || filter.createdBefore" class="text-center">
-            <button class="btn btn-primary btn-sm">Применить</button>
-            <button class="btn btn-secondary btn-sm">Сбросить</button>
+          <div *ngIf="showClearButton()" class="text-center mt-1">
+            <button *ngIf="showClearButton()" class="btn btn-secondary btn-sm"
+                    (click)="clearFilter()">Сбросить</button>
+            <button *ngIf="showApplyButton()" class="btn btn-primary btn-sm"
+                    (click)="applyFilter()">Применить</button>
           </div>
         </div>
       </div>
@@ -75,8 +77,8 @@
       <pagination class="pagination-sm"
                   [totalItems]="80" [(ngModel)]="page"
                   [maxSize]="5" [boundaryLinks]="true"
-                  previousText="&lsaquo;" nextText="&rsaquo;"
-                  firstText="&laquo;" lastText="&raquo;">
+                  [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
+                  [firstText]="'&laquo;'" [lastText]="'&raquo;'">
       </pagination>
     </div>
     <div class="pull-right">
@@ -90,10 +92,10 @@
         </select>
       </label>
       <div class="btn-group btn-group-sm">
-        <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" btnRadio="false">
+        <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" [btnRadio]="false">
           <i class="fa fa-sort-amount-asc"></i>
         </label>
-        <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" btnRadio="true">
+        <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" [btnRadio]="true">
           <i class="fa fa-sort-amount-desc"></i>
         </label>
       </div>
@@ -122,7 +124,7 @@
       <div class="card-block pt-2 row">
         <div class="col-9">
           <p class="card-text text-justify mt-2">{{challenge.description}}</p>
-          <span *ngFor="let tag of challenge.tags" class="badge badge-default badge-pill mr-1">
+          <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
             {{tag}}
           </span>
         </div>

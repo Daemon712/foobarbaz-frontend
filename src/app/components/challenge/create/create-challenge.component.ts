@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Challenge} from "../../../model/challenge";
+import {AceEditorComponent} from "ng2-ace-editor";
 
 @Component({
   selector: 'app-create-challenge',
@@ -7,6 +8,13 @@ import {Challenge} from "../../../model/challenge";
   styleUrls: ['create-challenge.component.css'],
 })
 export class CreateChallengeComponent implements OnInit {
+
+  @ViewChild('solutionTemplateEditor')
+  solutionTemplateEditor: AceEditorComponent;
+  @ViewChild('solutionExampleEditor')
+  solutionExampleEditor: AceEditorComponent;
+  @ViewChild('solutionTestEditor')
+  solutionTestEditor: AceEditorComponent;
 
   model: Challenge = new Challenge();
   options = {
@@ -21,6 +29,26 @@ export class CreateChallengeComponent implements OnInit {
 
   onSubmit(){
 
+  }
+
+  //Dirty hack. Because AceEditor is not rendered after tab opening
+  solutionTemplateReady = false;
+  openSolutionTemplate(){
+    if (this.solutionTemplateReady) return;
+    this.solutionTemplateReady = true;
+    this.solutionTemplateEditor.getEditor().clearSelection();
+  }
+  solutionExampleReady = false;
+  openSolutionExample(){
+    if (this.solutionExampleReady) return;
+    this.solutionExampleReady = true;
+    this.solutionExampleEditor.getEditor().clearSelection();
+  }
+  solutionTestReady = false;
+  openSolutionTest(){
+    if (this.solutionTestReady) return;
+    this.solutionTestReady = true;
+    this.solutionTestEditor.getEditor().clearSelection();
   }
 
   private initDefaultValues(){

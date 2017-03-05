@@ -13,7 +13,7 @@ export class ChallengeListComponent implements OnInit {
   page = 1;
   sortField = "created";
   sortReverse = false;
-  filter = {
+  defaultFilter = {
     name: null,
     author: null,
     status: {
@@ -24,6 +24,8 @@ export class ChallengeListComponent implements OnInit {
     createdAfter: null,
     createdBefore: null,
   };
+  newFilter = Object.assign({}, this.defaultFilter);
+  activeFilter = Object.assign({}, this.defaultFilter);
 
 
   constructor(
@@ -36,4 +38,21 @@ export class ChallengeListComponent implements OnInit {
     );
   }
 
+  applyFilter(){
+    console.log(this.newFilter);
+    this.activeFilter = Object.assign({}, this.newFilter);
+  }
+
+  clearFilter(){
+    this.newFilter = Object.assign({}, this.defaultFilter);
+    this.activeFilter = Object.assign({}, this.defaultFilter);
+  }
+
+  showApplyButton(){
+    return JSON.stringify(this.activeFilter) !== JSON.stringify(this.newFilter);
+  }
+
+  showClearButton(){
+    return this.showApplyButton() || JSON.stringify(this.activeFilter) !== JSON.stringify(this.defaultFilter);
+  }
 }

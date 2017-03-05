@@ -14,7 +14,7 @@ import { LoginComponent } from './components/user/login/login.component';
 import { SignUpComponent } from './components/user/sign-up/sign-up.component';
 import { EqualValidator } from './directives/equal-validator.directive';
 import {TagService} from "./service/tag.service";
-import { TagsComponent } from './components/tags/tags.component';
+import { TagsComponent } from './components/tags/view/tags.component';
 import { UserListComponent } from './components/user/list/user-list.component';
 import {UserService} from "./service/user.service";
 import { AlertsComponent } from './components/alerts/alerts.component';
