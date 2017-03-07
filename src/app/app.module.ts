@@ -24,6 +24,8 @@ import {AceEditorComponent} from "ng2-ace-editor";
 import {AlertModule, PaginationModule, TabsModule, ButtonsModule, TypeaheadModule} from 'ng2-bootstrap';
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
+import {TestSolutionService} from "./service/test-solution.service";
+import { TestResultsTableComponent } from './components/test-results/test-results-table.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -50,6 +52,7 @@ const routes: Routes = [
     AceEditorComponent,
     ViewChallengeComponent,
     TagPickerComponent,
+    TestResultsTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,7 @@ const routes: Routes = [
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },
     ChallengeService,
+    TestSolutionService,
     TagService,
     UserService,
     AlertService,

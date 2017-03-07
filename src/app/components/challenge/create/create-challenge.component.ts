@@ -1,6 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Challenge} from "../../../model/challenge";
 import {AceEditorComponent} from "ng2-ace-editor";
+import {ChallengeService} from "../../../service/challenge.service";
+import {TestSolutionService} from "../../../service/test-solution.service";
+import {TestResult} from "../../../model/test-result";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-challenge',
@@ -17,18 +21,45 @@ export class CreateChallengeComponent implements OnInit {
   solutionTestEditor: AceEditorComponent;
 
   model: Challenge = new Challenge();
+  testResults: TestResult[];
   options = {
     fontSize: '16px'
   };
 
-  constructor() { }
+  submitted = false;
+  testResultsActive = false;
+
+  constructor(
+    private challengeService: ChallengeService,
+    private testSolutionService: TestSolutionService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.initDefaultValues();
   }
 
   onSubmit(){
+    this.challengeService.createChallenge(this.model)
+      .then(challenge => {
+        if (!challenge) {
+          this.submitted = false;
+        } else {
+          this.router.navigate([`challenges/${challenge.id}`]);
+        }
+      });
+  }
 
+  testSolution(){
+    this.testSolutionService.testNewChallenge(this.model)
+      .then(testResults => {
+        if (!testResults){
+          this.submitted = false;
+        } else {
+          this.testResults = testResults;
+          this.testResultsActive = true;
+        }
+    });
   }
 
   //Dirty hack. Because AceEditor is not rendered after tab opening

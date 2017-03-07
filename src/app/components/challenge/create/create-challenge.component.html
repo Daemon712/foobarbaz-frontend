@@ -2,7 +2,7 @@
   <h1 class="display-3">Создать задачу</h1>
   <p class="lead">Создай задачу. Не хочу. Все так говорят, а ты создай задачу.</p>
 </div>
-<form (ngSubmit)="onSubmit()" #createChallengeForm="ngForm">
+<form (ngSubmit)="onSubmit()" #createChallengeForm="ngForm" novalidate>
   <tabset type="tabs" class="form-group">
     <tab heading="Параметры" class="py-3">
 
@@ -44,7 +44,7 @@
       [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
       </ace-editor>
     </tab>
-    <tab heading="Модульный Тест" (select)="openSolutionTest()" class="py-3">
+    <tab heading="Модульный тест" (select)="openSolutionTest()" class="py-3">
       <ace-editor class="form-control"
                   #solutionTestEditor
                   [(text)]="model.solutionTest"
@@ -58,14 +58,20 @@
            [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
       </ace-editor>
     </tab>
+    <tab heading="Результаты теста" class="py-3"
+         [disabled]="!testResults" [active]="testResultsActive" (deselect)="testResultsActive = false">
+      <app-test-results-table [testResults]="testResults" class="card"></app-test-results-table>
+    </tab>
   </tabset>
 
   <div class="form-group">
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-success"
+            [disabled]="!createChallengeForm.form.valid || submitted">
       <i class="fa fa-plus"> </i>
       <span> Создать</span>
     </button>
-    <button type="submit" class="btn btn-primary">
+    <button type="button" class="btn btn-primary"
+            (click)="testSolution()" [disabled]="submitted">
       <i class="fa fa-play"> </i>
       <span> Протестировать</span>
     </button>

@@ -82,15 +82,13 @@
       </pagination>
     </div>
     <div class="pull-right">
-      <label>
-        <select class="custom-select custom-select-sm" [(ngModel)]="sortField">
-          <option value="created">По дате создания</option>
-          <option value="name">По названию</option>
-          <option value="author">По автору</option>
-          <option value="likes">По рейтингу</option>
-          <option value="comments">По комментариям</option>
-        </select>
-      </label>
+      <select class="custom-select custom-select-sm" [(ngModel)]="sortField" title="sortField">
+        <option value="created">По дате создания</option>
+        <option value="name">По названию</option>
+        <option value="author">По автору</option>
+        <option value="likes">По рейтингу</option>
+        <option value="comments">По комментариям</option>
+      </select>
       <div class="btn-group btn-group-sm">
         <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" [btnRadio]="false">
           <i class="fa fa-sort-amount-asc"></i>

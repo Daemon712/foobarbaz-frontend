@@ -1,6 +1,7 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {ChallengeStatus} from "../model/challenge";
 import {Tag} from "../model/tag";
+import {TestResult, TestStatus} from "../model/test-result";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -83,6 +84,14 @@ export class InMemoryDataService implements InMemoryDbService {
         solutionTemplate: defaultSolutionTemplate,
       },
     ];
+    let tests: TestResult[] = [
+      new TestResult("testOne",       TestStatus.success),
+      new TestResult("testTwo",       TestStatus.success),
+      new TestResult("testThree",     TestStatus.success),
+      new TestResult("testZero",      TestStatus.failed,  "Ожидалось: 1, Результат: 0"),
+      new TestResult("testInfinity",  TestStatus.ignored),
+      new TestResult("testNegative",  TestStatus.error,   "ArithmeticException"),
+    ];
 
     let tags: Tag[] = [
       new Tag("Массивы", 3),
@@ -99,6 +108,11 @@ export class InMemoryDataService implements InMemoryDbService {
       {username: "user",  password: "1"},
     ];
 
-    return {challenges, tags, users};
+    return {
+      challenges,
+      tests,
+      tags,
+      users,
+    };
   }}
 
