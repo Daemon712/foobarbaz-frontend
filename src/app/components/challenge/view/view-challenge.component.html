@@ -6,14 +6,29 @@
   <div class="col-md-8">
     <p class="lead">{{challenge.description}}</p>
 
-    <ace-editor class="form-control"
+    <ace-editor class="form-control my-2"
                 [(text)]="challenge.solutionTemplate" [readOnly]="true"
                 [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
     </ace-editor>
 
-    <div class="mt-3 text-right" *ngIf="challenge.tags">
+    <div class="my-3 clearfix">
+      <div class="pull-left">
+        <button type="button" class="btn btn-info btn-sm"
+                (click)="openComments()" [disabled]="comments">
+          <span>Комментарии </span>
+          <i class="fa fa-comments"></i>
+          <span> {{challenge.comments}}</span>
+        </button>
+      </div>
+
+      <div class="pull-right" *ngIf="challenge.tags">
       <span *ngFor="let tag of challenge.tags"
-          class="badge badge-default mr-1">{{tag}}</span>
+            class="badge badge-default mr-1">{{tag}}</span>
+      </div>
+    </div>
+
+    <div *ngIf="comments" class="my-1">
+      <app-comments [comments]="comments"></app-comments>
     </div>
   </div>
 
@@ -31,7 +46,7 @@
         <tr>
           <td>Дата создания</td>
           <td>
-            <span>{{challenge.created | date:'d MMMM yyyy'}}</span>
+            <span>{{challenge.created | date:'d MMM yyyy'}}</span>
           </td>
         </tr>
         <tr *ngIf="challenge.likes" >
@@ -46,8 +61,8 @@
     </div>
 
     <button type="submit" class="btn btn-primary btn-lg" title="Новое решение">
-      <span class="fa fa-play"> </span>
-      <span>Решить</span>
+      <i class="fa fa-play"></i>
+      <span> Решить</span>
     </button>
   </div>
 </div>

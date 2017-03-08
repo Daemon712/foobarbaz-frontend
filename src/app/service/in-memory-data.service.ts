@@ -108,11 +108,51 @@ export class InMemoryDataService implements InMemoryDbService {
       {username: "user",  password: "1"},
     ];
 
+    let comments = [
+      {
+        id: 1,
+        author: 'Петр',
+        text: 'Отличная задача! Решил с удовольствием',
+        date: new Date('02 11 2017'),
+      },
+      {
+        id: 2,
+        author: 'Оксана',
+        text: 'Сложно. Два джня думала(',
+        date: new Date('02 12 2017'),
+      },
+      {
+        id: 3,
+        author: 'Михаил',
+        text: 'Так и не смог решить...',
+        date: new Date('02 12 2017'),
+      },
+      {
+        id: 4,
+        author: 'Татьяна',
+        text: 'Сначала не поняла, потом додумалась и решила за 2 минуты :)',
+        date: new Date('02 13 2017'),
+      },
+      {
+        id: 5,
+        author: 'Диана',
+        text: 'Слишком просто.',
+        date: new Date('02 14 2017'),
+      },
+      {
+        id: 6,
+        author: 'Алексей',
+        text: 'В школе такую на паскале решал)',
+        date: new Date('02 11 2017'),
+      },
+    ];
+
     return {
       challenges,
       tests,
       tags,
       users,
+      comments,
     };
   }}
 

@@ -1,0 +1,4 @@
+.body{
+  overflow-y: scroll;
+  height: calc(100% - 56px);
+}

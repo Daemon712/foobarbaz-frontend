@@ -1,0 +1,15 @@
+<ul class="list-group">
+  <li *ngFor="let comment of comments" class="list-group-item">
+    <div class="w-100">
+      <small class="pull-right text-muted">
+        <i class="fa fa-calendar"></i>
+        {{comment.date | date: 'd MMM yyyy'}}
+      </small>
+      <h5>
+        <i class="fa fa-user"></i>
+        <span> {{comment.author}}</span>
+      </h5>
+      <p>{{comment.text}}</p>
+    </div>
+  </li >
+</ul>

@@ -26,6 +26,8 @@ import { ViewChallengeComponent } from './components/challenge/view/view-challen
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
 import {TestSolutionService} from "./service/test-solution.service";
 import { TestResultsTableComponent } from './components/test-results/test-results-table.component';
+import {CommentService} from "./service/comment.service";
+import { CommentsComponent } from './components/comments/comments.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -53,6 +55,7 @@ const routes: Routes = [
     ViewChallengeComponent,
     TagPickerComponent,
     TestResultsTableComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,7 @@ const routes: Routes = [
     ChallengeService,
     TestSolutionService,
     TagService,
+    CommentService,
     UserService,
     AlertService,
   ],
