@@ -12,6 +12,8 @@ export class Challenge {
   likes: number;
   liked: boolean;
   comments: number;
+  views: number;
+  solutions: number;
 }
 
 export enum ChallengeStatus {

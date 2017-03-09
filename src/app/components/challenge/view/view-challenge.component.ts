@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Challenge} from "../../../model/challenge";
+import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import 'rxjs/add/operator/switchMap';
@@ -14,6 +14,7 @@ import {Comment} from "../../../model/comment";
 export class ViewChallengeComponent implements OnInit {
 
   challenge: Challenge;
+  challengeStatus = ChallengeStatus;
   comments: Comment[];
   options = {
     fontSize: '18px'

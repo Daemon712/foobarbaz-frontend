@@ -1,3 +1,14 @@
 .custom-select {
   height: 28px;
 }
+
+.challenge-status {
+  position: relative;
+  top: -4px;
+  left: 4px;
+}
+
+.tags-container {
+  position: absolute;
+  bottom: 0;
+}

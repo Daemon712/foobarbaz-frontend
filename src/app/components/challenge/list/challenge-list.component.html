@@ -1,6 +1,9 @@
 <div class="jumbotron">
   <h1 class="display-3">Архив задач</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+  <p class="lead">
+    На этой странице Вы можете просмотреть все задачи на нашем портале.
+    <br/>
+    Воспользуйтесь фильтром, чтобы найти себе новые интересные задачи.</p>
   <p>
     <a class="btn btn-success" [routerLink]="['/challenges/create']">
       <i class="fa fa-plus"></i>
@@ -86,14 +89,16 @@
         <option value="created">По дате создания</option>
         <option value="name">По названию</option>
         <option value="author">По автору</option>
+        <option value="views">По просмотрам</option>
+        <option value="solutions">По кол-ву решений</option>
         <option value="likes">По рейтингу</option>
         <option value="comments">По комментариям</option>
       </select>
       <div class="btn-group btn-group-sm">
-        <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" [btnRadio]="false">
+        <label class="btn btn-outline-primary mb-0" [(ngModel)]="sortReverse" [btnRadio]="false">
           <i class="fa fa-sort-amount-asc"></i>
         </label>
-        <label class="btn btn-outline-primary" [(ngModel)]="sortReverse" [btnRadio]="true">
+        <label class="btn btn-outline-primary mb-0" [(ngModel)]="sortReverse" [btnRadio]="true">
           <i class="fa fa-sort-amount-desc"></i>
         </label>
       </div>
@@ -101,8 +106,12 @@
     <div class="clearfix"></div>
     <div *ngFor="let challenge of challenges" class="card mb-2">
       <div class="card-header">
+        <div class="pull-right m-1">
+          <span> {{challenge.author}}</span>
+          <i class="fa fa-user"></i>
+        </div>
         <h3 class="m-0">
-          <small [ngSwitch]="challenge.status" class="mr-1">
+          <small [ngSwitch]="challenge.status" class="challenge-status mr-3">
             <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-2"
                   title="Начать решение">
               <i class="fa fa-play fa-fw"></i>
@@ -122,11 +131,21 @@
       <div class="card-block pt-2 row">
         <div class="col-9">
           <p class="card-text text-justify mt-2">{{challenge.description}}</p>
-          <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
-            {{tag}}
-          </span>
+          <div class="tags-container">
+            <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
+              {{tag}}
+            </span>
+          </div>
         </div>
-        <div class="col-3 text-muted text-right">
+        <div class="col-3 text-muted small text-right">
+          <div>
+            <span> {{challenge.views}}</span>
+            <i class="fa fa-eye"></i>
+          </div>
+          <div [hidden]="!challenge.solutions" [class.text-success]="challenge.status === challengeStatus.Completed">
+            <span> {{challenge.solutions}}</span>
+            <i class="fa fa-check"></i>
+          </div>
           <div [hidden]="!challenge.likes" [class.text-primary]="challenge.liked">
             <span> {{challenge.likes}}</span>
             <i class="fa fa-thumbs-up"></i>
@@ -136,11 +155,7 @@
             <i class="fa fa-comments"></i>
           </div>
           <div>
-            <span> {{challenge.author}}</span>
-            <i class="fa fa-user"></i>
-          </div>
-          <div>
-            <span> {{challenge.created | date: "shortDate"}}</span>
+            <span> {{challenge.created | date: "dd MMM yyyy"}}</span>
             <i class="fa fa-calendar"></i>
           </div>
         </div>

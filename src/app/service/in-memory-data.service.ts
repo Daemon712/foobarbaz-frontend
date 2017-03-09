@@ -24,6 +24,8 @@ export class InMemoryDataService implements InMemoryDbService {
         likes: 5,
         liked: true,
         comments: 12,
+        views: 52,
+        solutions: 12,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -35,6 +37,8 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('02 25 2017'),
         tags: ["рекурсия", "математика"],
         comments: 4,
+        views: 85,
+        solutions: 32,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -46,6 +50,8 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('02 11 2017'),
         tags: ["массив","цикл"],
         likes: 12,
+        views: 110,
+        solutions: 56,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -59,6 +65,8 @@ export class InMemoryDataService implements InMemoryDbService {
         likes: 15,
         liked: true,
         comments: 26,
+        views: 32,
+        solutions: 8,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -69,6 +77,8 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Анна',
         created: new Date('02 09 2017'),
         tags: ["рекурсия"],
+        views: 45,
+        solutions: 5,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -81,6 +91,8 @@ export class InMemoryDataService implements InMemoryDbService {
         tags: ["массив","цикл"],
         likes: 2,
         comments: 12,
+        views: 10,
+        solutions: 0,
         solutionTemplate: defaultSolutionTemplate,
       },
     ];
