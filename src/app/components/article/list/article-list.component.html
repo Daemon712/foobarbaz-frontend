@@ -1,0 +1,84 @@
+<div class="jumbotron">
+  <h1 class="display-3">Архив статей</h1>
+  <p class="lead">
+    На этой странице Вы можете просмотреть все статьи на нашем портале.</p>
+  <p>
+    <a class="btn btn-success" [routerLink]="['/articles/create']">
+      <i class="fa fa-plus"></i>
+      <span> Разместить статью</span>
+    </a>
+  </p>
+</div>
+
+<div class="clearfix">
+  <div class="pull-left">
+    <pagination class="pagination-sm"
+                [totalItems]="80" [(ngModel)]="page"
+                [maxSize]="5" [boundaryLinks]="true"
+                [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
+                [firstText]="'&laquo;'" [lastText]="'&raquo;'">
+    </pagination>
+  </div>
+  <div class="pull-right">
+    <select class="custom-select custom-select-sm" [(ngModel)]="sortField" title="sortField">
+      <option value="created">По дате создания</option>
+      <option value="name">По названию</option>
+      <option value="author">По автору</option>
+      <option value="views">По просмотрам</option>
+      <option value="likes">По рейтингу</option>
+      <option value="comments">По комментариям</option>
+    </select>
+    <div class="btn-group btn-group-sm">
+      <label class="btn btn-outline-primary mb-0" [(ngModel)]="sortReverse" [btnRadio]="false">
+        <i class="fa fa-sort-amount-asc"></i>
+      </label>
+      <label class="btn btn-outline-primary mb-0" [(ngModel)]="sortReverse" [btnRadio]="true">
+        <i class="fa fa-sort-amount-desc"></i>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div *ngFor="let article of articles" class="card mb-2">
+  <div class="card-header">
+    <div class="pull-right m-1">
+      <span> {{article.author}}</span>
+      <i class="fa fa-user"></i>
+    </div>
+    <h3 class="m-0">
+      <a [routerLink]="[article.id]">{{article.name}}</a>
+    </h3>
+  </div>
+  <div class="card-block pt-2 row">
+    <div class="col-9">
+      <p class="card-text text-justify mt-2">
+        {{article.body | slice:0:200}}
+        {{article.body.length > 200 ? '...' : ''}}
+      </p>
+      <div class="tags-container">
+            <span *ngFor="let tag of article.tags" class="badge badge-default mr-1">
+              {{tag}}
+            </span>
+      </div>
+    </div>
+    <div class="col-3 text-muted small text-right">
+      <div>
+        <span> {{article.views}}</span>
+        <i class="fa fa-eye"></i>
+      </div>
+      <div [hidden]="!article.likes" [class.text-primary]="article.liked">
+        <span> {{article.likes}}</span>
+        <i class="fa fa-thumbs-up"></i>
+      </div>
+      <div [hidden]="!article.comments">
+        <span> {{article.comments}}</span>
+        <i class="fa fa-comments"></i>
+      </div>
+      <div>
+        <span> {{article.created | date: "dd MMM yyyy"}}</span>
+        <i class="fa fa-calendar"></i>
+      </div>
+    </div>
+  </div>
+</div>
+

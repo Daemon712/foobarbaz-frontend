@@ -28,11 +28,14 @@ import {TestSolutionService} from "./service/test-solution.service";
 import { TestResultsTableComponent } from './components/test-results/test-results-table.component';
 import {CommentService} from "./service/comment.service";
 import { CommentsComponent } from './components/comments/comments.component';
+import {ArticleService} from "./service/article.service";
+import { ArticleListComponent } from './components/article/list/article-list.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
   { path: 'users',  component: UserListComponent },
+  { path: 'articles',  component: ArticleListComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges/:id',  component: ViewChallengeComponent },
   { path: 'challenges',  component: ChallengeListComponent },
@@ -56,6 +59,7 @@ const routes: Routes = [
     TagPickerComponent,
     TestResultsTableComponent,
     CommentsComponent,
+    ArticleListComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +77,7 @@ const routes: Routes = [
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },
+    ArticleService,
     ChallengeService,
     TestSolutionService,
     TagService,
