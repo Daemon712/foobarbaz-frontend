@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import 'rxjs/add/operator/switchMap';
 import {CommentService} from "../../../service/comment.service";
 import {Comment} from "../../../model/comment";
+import {AceEditorComponent} from "ng2-ace-editor";
 
 @Component({
   selector: 'app-view-challenge',
@@ -13,9 +14,14 @@ import {Comment} from "../../../model/comment";
 })
 export class ViewChallengeComponent implements OnInit {
 
+  @ViewChild('editor')
+  editor : AceEditorComponent;
+
   challenge: Challenge;
   challengeStatus = ChallengeStatus;
   comments: Comment[];
+  newComment: string;
+
   options = {
     fontSize: '18px'
   };
@@ -29,10 +35,14 @@ export class ViewChallengeComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
-      .subscribe((challenge: Challenge) => this.challenge = challenge);
+      .subscribe((challenge: Challenge) => {
+        this.challenge = challenge;
+        this.editor.setText(challenge.solutionTemplate);
+        this.editor.getEditor().clearSelection();
+      });
   }
 
-  openComments(){
+  loadComments(){
     this.commentService.getChallengeComments(this.challenge.id)
       .then(comments => this.comments = comments);
   }

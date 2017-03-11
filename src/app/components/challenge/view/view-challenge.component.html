@@ -1,51 +1,59 @@
-<div class="jumbotron">
-  <h1 class="display-3" *ngIf="challenge">{{challenge.name}}</h1>
-  <h1 class="display-3" *ngIf="!challenge">Загрузка...</h1>
-  <p class="lead" *ngIf="challenge">{{challenge.description}}</p>
+<div class="jumbotron" *ngIf="challenge">
+  <h1 class="display-3">{{challenge.name}}</h1>
+  <p class="lead">{{challenge.description}}</p>
+  <div class="lead" *ngIf="challenge.tags">
+    <span *ngFor="let tag of challenge.tags"
+          class="badge badge-default mr-1">{{tag}}</span>
+    <i class="fa fa-tags ml-1"></i>
+  </div>
 </div>
-<div class="row" *ngIf="challenge">
+<div class="jumbotron" *ngIf="!challenge">
+  <h1 class="display-3">Загрузка...</h1>
+</div>
+<div class="row">
   <div class="col-md-8">
-    <ace-editor class="form-control mb-2"
-                [(text)]="challenge.solutionTemplate" [readOnly]="true"
+    <ace-editor #editor class="form-control mb-3" [readOnly]="true"
                 [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
     </ace-editor>
 
-    <div class="my-3">
-        <button type="button" class="btn btn-success btn-sm"
-                [disabled]="true">
+    <tabset type="pills" [justified]="true" *ngIf="challenge">
+      <tab customClass="tab-sm tab-success pr-2" class="py-3">
+        <template tabHeading>
           <i class="fa fa-plus"></i>
           <span> Комменировать</span>
+        </template>
+        <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
+        <button type="button" class="btn btn-primary btn-sm"
+                [disabled]="!newComment">
+          Оставить комментарий
         </button>
-
-        <button type="button" class="btn btn-info btn-sm"
-                (click)="openComments()" [disabled]="comments">
+        <button type="button" class="btn btn-secondary btn-sm"
+                [disabled]="!newComment" (click)="newComment = ''">
+          Отмена
+        </button>
+      </tab>
+      <tab customClass="tab-sm tab-info px-2" class="py-3"
+           [disabled]="!challenge.comments" (select)="loadComments()">
+        <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
-          <span> {{challenge.comments}}</span>
-        </button>
-
-        <button type="button" class="btn btn-info btn-sm"
-                [disabled]="true">
-          <span>Решения </span>
+          <span> {{challenge.comments || 0}}</span>
+        </template>
+        <app-comments [comments]="comments"></app-comments>
+      </tab>
+      <tab customClass="tab-sm tab-info pl-2" class="py-3"
+           [disabled]="!challenge.sharedSolutions">
+        <template tabHeading>
+          <span>Опубликованные Решения </span>
           <i class="fa fa-check"></i>
-          <span> {{challenge.solutions}}</span>
-        </button>
-    </div>
-
-    <div *ngIf="comments" class="my-1">
-      <app-comments [comments]="comments"></app-comments>
-    </div>
+          <span> {{challenge.sharedSolutions || 0}}</span>
+        </template>
+      </tab>
+    </tabset>
   </div>
 
-  <div class="col-md-4">
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-lg" title="Новое решение">
-        <i class="fa fa-play"></i>
-        <span>Решить</span>
-      </button>
-    </div>
-
-    <div class="card my-2">
+  <div class="col-md-4" *ngIf="challenge">
+    <div class="card mb-3" *ngIf="challenge">
       <table class="table mb-0">
         <tbody>
         <tr>
@@ -69,7 +77,7 @@
           </td>
         </tr>
         <tr>
-          <td>Решения</td>
+          <td>Успешные решения</td>
           <td [class.text-success]="challenge.status === challengeStatus.Completed">
             <span>{{challenge.solutions}} </span>
             <i class="fa fa-check"></i>
@@ -86,9 +94,24 @@
       </table>
     </div>
 
-    <div *ngIf="challenge.tags" class="my-2">
-        <span *ngFor="let tag of challenge.tags"
-              class="badge badge-default mr-1">{{tag}}</span>
+    <accordion class="my-3">
+      <accordion-group #revisions>
+        <div accordion-heading>
+          <b>Ваши попытки</b>
+          <i class="pull-right my-1 fa"
+             [class.fa-chevron-down]="revisions?.isOpen"
+             [class.fa-chevron-right]="!revisions?.isOpen"></i>
+        </div>
+        <!--TODO revision-view-->
+        Revisions
+      </accordion-group>
+    </accordion>
+
+    <div class="my-3">
+      <button type="submit" class="btn btn-primary btn-lg" title="Новое решение">
+        <i class="fa fa-play"></i>
+        <span>Решить</span>
+      </button>
     </div>
   </div>
 </div>

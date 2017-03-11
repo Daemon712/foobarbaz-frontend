@@ -1,4 +1,5 @@
 <ul class="list-group">
+  <li [hidden]="comments" class="list-group-item lead">Загрузка...</li>
   <li *ngFor="let comment of comments" class="list-group-item">
     <div class="w-100">
       <small class="pull-right text-muted">

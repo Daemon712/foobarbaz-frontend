@@ -1,0 +1,53 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+/* Common */
+.jumbotron {
+  padding: 2rem 4rem !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* Forms */
+label.col-form-label {
+  text-align: right;
+}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 4px solid $btn-success-border; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 4px solid $btn-danger-border; /* red */
+}
+
+/* Accordion */
+accordion .card-title {
+  margin-bottom: 0 !important;
+}
+
+/* Tabs */
+.nav-item.tab-sm>a.nav-link {
+  @extend .btn-sm;
+}
+
+.nav-item.tab-primary>a.nav-link {
+  @extend .btn-primary;
+}
+.nav-item.tab-secondary>a.nav-link {
+  @extend .btn-secondary;
+}
+.nav-item.tab-success>a.nav-link {
+  @extend .btn-success;
+}
+.nav-item.tab-info>a.nav-link {
+  @extend .btn-info;
+}
+.nav-item.tab-warning>a.nav-link {
+  @extend .btn-warning;
+}
+.nav-item.tab-danger>a.nav-link {
+  @extend .btn-danger;
+}
+.nav-item.disabled>a.nav-link.disabled {
+  opacity: .65;
+  pointer-events: none;
+  @include box-shadow(none);
+}

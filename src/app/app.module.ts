@@ -21,7 +21,7 @@ import { AlertsComponent } from './components/alerts/alerts.component';
 import {AlertService} from "./service/alert.service";
 import { CreateChallengeComponent } from './components/challenge/create/create-challenge.component';
 import {AceEditorComponent} from "ng2-ace-editor";
-import {AlertModule, PaginationModule, TabsModule, ButtonsModule, TypeaheadModule} from 'ng2-bootstrap';
+import {AccordionModule, AlertModule, PaginationModule, TabsModule, ButtonsModule, TypeaheadModule} from 'ng2-bootstrap';
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
 import {TestSolutionService} from "./service/test-solution.service";
@@ -69,6 +69,7 @@ const routes: Routes = [
     HttpModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     RouterModule.forRoot(routes),
+    AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ButtonsModule.forRoot(),
     PaginationModule.forRoot(),
