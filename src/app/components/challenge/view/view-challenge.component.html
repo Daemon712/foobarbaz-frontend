@@ -20,11 +20,11 @@
       <tab customClass="tab-sm tab-success pr-2" class="py-3">
         <template tabHeading>
           <i class="fa fa-plus"></i>
-          <span> Комменировать</span>
+          <span> Комментировать</span>
         </template>
         <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
         <button type="button" class="btn btn-primary btn-sm"
-                [disabled]="!newComment">
+                [disabled]="!newComment" (click)="sendComment()">
           Оставить комментарий
         </button>
         <button type="button" class="btn btn-secondary btn-sm"
@@ -37,7 +37,7 @@
         <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
-          <span> {{challenge.comments || 0}}</span>
+          <span> {{comments?.length || challenge.comments || 0}}</span>
         </template>
         <app-comments [comments]="comments"></app-comments>
       </tab>
@@ -94,23 +94,42 @@
       </table>
     </div>
 
-    <accordion class="my-3">
-      <accordion-group #revisions>
+    <accordion [hidden]="challenge.status === challengeStatus.NotStarted" class="my-3">
+      <accordion-group #revisionsAccordion>
         <div accordion-heading>
           <b>Ваши попытки</b>
           <i class="pull-right my-1 fa"
-             [class.fa-chevron-down]="revisions?.isOpen"
-             [class.fa-chevron-right]="!revisions?.isOpen"></i>
+             [class.fa-chevron-down]="revisionsAccordion?.isOpen"
+             [class.fa-chevron-right]="!revisionsAccordion?.isOpen"></i>
         </div>
         <!--TODO revision-view-->
         Revisions
       </accordion-group>
     </accordion>
 
-    <div class="my-3">
-      <button type="submit" class="btn btn-primary btn-lg" title="Новое решение">
+    <div [ngSwitch]="challenge.status" class="my-3">
+      <button *ngSwitchCase="challengeStatus.NotStarted"
+              type="submit" class="btn btn-primary btn-lg" title="Новое решение">
         <i class="fa fa-play"></i>
-        <span>Решить</span>
+        <span> Решить</span>
+      </button>
+
+      <button *ngSwitchCase="challengeStatus.InProgress"
+              type="submit" class="btn btn-info" title="Продолжить решение">
+        <i class="fa fa-play"></i>
+        <span> Продолжить решение</span>
+      </button>
+
+      <button *ngSwitchCase="challengeStatus.Completed"
+              type="submit" class="btn btn-success" title="Просмотреть решение">
+        <i class="fa fa-check"></i>
+        <span> Просмотреть решение</span>
+      </button>
+
+      <button *ngIf="challenge.status !== challengeStatus.NotStarted"
+              type="submit" class="btn btn-primary my-2" title="Новое решение">
+        <i class="fa fa-play"></i>
+        <span> Новое решение</span>
       </button>
     </div>
   </div>

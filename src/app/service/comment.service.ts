@@ -19,9 +19,10 @@ export class CommentService {
 
   addChallengeComment(text: string): Promise<Comment>{
     //TODO params should be filled on server
+
     let comment: Comment = {
-      id: 0,
-      body: text,
+      id: 10 + 10000 * Math.random(),
+      text: text,
       author: "User",
       date: new Date(),
     };

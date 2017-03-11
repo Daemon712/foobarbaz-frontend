@@ -42,6 +42,11 @@ export class ViewChallengeComponent implements OnInit {
       });
   }
 
+  sendComment(){
+    this.commentService.addChallengeComment(this.newComment);
+    this.newComment = null;
+  }
+
   loadComments(){
     this.commentService.getChallengeComments(this.challenge.id)
       .then(comments => this.comments = comments);

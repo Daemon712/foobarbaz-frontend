@@ -3,8 +3,7 @@
   <li *ngFor="let comment of comments" class="list-group-item">
     <div class="w-100">
       <small class="pull-right text-muted">
-        <i class="fa fa-calendar"></i>
-        {{comment.date | date: 'd MMM yyyy'}}
+        {{comment.date | date: 'd MMM yyyy hh:mm'}}
       </small>
       <h5>
         <i class="fa fa-user"></i>
