@@ -6,6 +6,7 @@ import 'rxjs/add/operator/switchMap';
 import {Comment} from "../../../model/comment";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {Revision} from "../../../model/revision";
+import {SharedSolution} from "../../../model/shared-solution";
 
 @Component({
   selector: 'app-view-challenge',
@@ -20,6 +21,7 @@ export class ViewChallengeComponent implements OnInit {
   challenge: Challenge;
   challengeStatus = ChallengeStatus;
   revisions: Revision[];
+  sharedSolutions: SharedSolution[];
   comments: Comment[];
   newComment: string;
 
@@ -39,6 +41,7 @@ export class ViewChallengeComponent implements OnInit {
         this.challenge = challenge;
         this.loadComments();
         this.loadRevisions();
+        this.loadSolutions();
         this.editor.setText(challenge.solutionTemplate);
         this.editor.getEditor().clearSelection();
       });
@@ -58,5 +61,10 @@ export class ViewChallengeComponent implements OnInit {
   loadRevisions(){
     this.challengeService.getRevisions(this.challenge.id)
       .then(revisions => this.revisions = revisions)
+  }
+
+  loadSolutions(){
+    this.challengeService.getSharedSolutions(this.challenge.id)
+      .then(solutions => this.sharedSolutions = solutions);
   }
 }

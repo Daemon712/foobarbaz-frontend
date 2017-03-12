@@ -2,7 +2,9 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {ChallengeStatus} from "../model/challenge";
 import {Tag} from "../model/tag";
 import {TestResult, TestStatus} from "../model/test-result";
-import {Revision, RevisionStatus} from "../model/revision";
+import {Revision} from "../model/revision";
+import {SharedSolution} from "../model/shared-solution";
+import {SolutionStatus} from "../model/solutions-status";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -141,6 +143,7 @@ export class InMemoryDataService implements InMemoryDbService {
         comments: 12,
         views: 52,
         solutions: 12,
+        sharedSolutions: 3,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -154,6 +157,7 @@ export class InMemoryDataService implements InMemoryDbService {
         comments: 4,
         views: 85,
         solutions: 32,
+        sharedSolutions: 9,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -167,6 +171,7 @@ export class InMemoryDataService implements InMemoryDbService {
         likes: 12,
         views: 110,
         solutions: 56,
+        sharedSolutions: 12,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -182,6 +187,7 @@ export class InMemoryDataService implements InMemoryDbService {
         comments: 26,
         views: 32,
         solutions: 8,
+        sharedSolutions: 2,
         solutionTemplate: defaultSolutionTemplate,
       },
       {
@@ -240,48 +246,101 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 1,
         author: 'Петр',
         text: 'Отличная задача! Решил с удовольствием',
-        date: new Date('02 11 2017'),
+        date: new Date('02 11 2017 19:30'),
       },
       {
         id: 2,
         author: 'Оксана',
         text: 'Сложно. Два джня думала(',
-        date: new Date('02 12 2017'),
+        date: new Date('02 12 2017 09:51'),
       },
       {
         id: 3,
         author: 'Михаил',
         text: 'Так и не смог решить...',
-        date: new Date('02 12 2017'),
+        date: new Date('02 12 2017 22:46'),
       },
       {
         id: 4,
         author: 'Татьяна',
         text: 'Сначала не поняла, потом додумалась и решила за 2 минуты :)',
-        date: new Date('02 13 2017'),
+        date: new Date('02 13 2017 12:01'),
       },
       {
         id: 5,
         author: 'Диана',
         text: 'Слишком просто.',
-        date: new Date('02 14 2017'),
+        date: new Date('02 14 2017 16:24'),
       },
       {
         id: 6,
         author: 'Алексей',
         text: 'В школе такую на паскале решал)',
-        date: new Date('02 11 2017'),
+        date: new Date('02 11 2017 13:55'),
       },
     ];
 
     let revisions: Revision[] = [
-      new Revision(1, RevisionStatus.failed, new Date("03 02 2017")),
-      new Revision(2, RevisionStatus.empty, new Date("03 02 2017")),
-      new Revision(3, RevisionStatus.error, new Date("03 03 2017")),
-      new Revision(4, RevisionStatus.failed, new Date("03 03 2017")),
-      new Revision(5, RevisionStatus.empty, new Date("03 04 2017")),
-      new Revision(6, RevisionStatus.success, new Date("03 06 2017")),
+      new Revision(1, SolutionStatus.failed,  new Date("03 02 2017 13:55")),
+      new Revision(2, SolutionStatus.empty,   new Date("03 02 2017 16:24")),
+      new Revision(3, SolutionStatus.error,   new Date("03 03 2017 12:01")),
+      new Revision(4, SolutionStatus.failed,  new Date("03 03 2017 22:46")),
+      new Revision(5, SolutionStatus.empty,   new Date("03 04 2017 09:51")),
+      new Revision(6, SolutionStatus.success, new Date("03 06 2017 19:30")),
     ];
+
+    let sharedSolutions: SharedSolution[] = [
+      {
+        id: 1,
+        author: 'Анна',
+        comment: 'Сделала! Все тесты проходят!',
+        status: SolutionStatus.success,
+        date: new Date("03 02 2017 13:55"),
+        comments: 2,
+        likes: 4,
+        liked: false,
+      },
+      {
+        id: 2,
+        author: 'Сергей',
+        comment: 'Ошибка? Где? Не понимаю... Подскажите плиз',
+        status: SolutionStatus.error,
+        date: new Date("03 03 2017 16:24"),
+        comments: 8,
+        likes: 0,
+        liked: false,
+      },
+      {
+        id: 3,
+        author: 'Игорь',
+        comment: 'Сделал решение всего в 2 строчки. Зацените!',
+        status: SolutionStatus.success,
+        date: new Date("03 03 2017 12:03"),
+        comments: 0,
+        likes: 9,
+        liked: true,
+      },
+      {
+        id: 4,
+        author: 'Маша',
+        comment: 'Думаю, мое решение самое эффективное. Можно еще оптимизировать?',
+        status: SolutionStatus.success,
+        date: new Date("03 04 2017 19:30"),
+        comments: 2,
+        likes: 6,
+        liked: false,
+      },
+      {
+        id: 5,
+        author: 'Олег',
+        comment: 'Как пройти последний тест?? Помогите! Я уже голову сломал!',
+        status: SolutionStatus.failed,
+        date: new Date("03 04 2017 22:14"),
+        comments: 12,
+        likes: 0,
+        liked: false,
+      },
+  ];
 
     return {
       articles,
@@ -291,6 +350,7 @@ export class InMemoryDataService implements InMemoryDbService {
       users,
       comments,
       revisions,
+      sharedSolutions,
     };
   }}
 

@@ -14,6 +14,7 @@ export class Challenge {
   comments: number;
   views: number;
   solutions: number;
+  sharedSolutions: number;
 }
 
 export enum ChallengeStatus {

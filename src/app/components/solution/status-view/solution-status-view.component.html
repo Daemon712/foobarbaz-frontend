@@ -1,0 +1,22 @@
+<span [ngSwitch]="status">
+  <span *ngSwitchCase="revisionStatus.empty"
+        class="badge badge-bill badge-default"
+        title="Не тестировалось">
+    <i class="fa fa-fw fa-circle-o"></i>
+  </span>
+  <span *ngSwitchCase="revisionStatus.success"
+        class="badge badge-bill badge-success"
+        title="Все тесты прошли успешно">
+    <i class="fa fa-fw fa-check"></i>
+  </span>
+  <span *ngSwitchCase="revisionStatus.failed"
+        class="badge badge-bill badge-warning"
+        title="Есть проваленные тесты Нетестировалось">
+    <i class="fa fa-fw fa-remove"></i>
+  </span>
+  <span *ngSwitchCase="revisionStatus.error"
+        class="badge badge-bill badge-danger"
+        title="Есть ошибки">
+    <i class="fa fa-fw fa-remove"></i>
+  </span>
+</span>

@@ -5,6 +5,7 @@ import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
 import {Revision} from "../model/revision";
+import {SharedSolution} from "../model/shared-solution";
 
 @Injectable()
 export class ChallengeService {
@@ -74,6 +75,14 @@ export class ChallengeService {
     return this.http.get('api/revisions')
       .toPromise()
       .then(response => response.json().data as Revision[])
+      .catch(ChallengeService.handleError);
+  }
+
+  getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {
+    //TODO change url to 'api/challenges/:id/sharedSolutions'
+    return this.http.get('api/sharedSolutions')
+      .toPromise()
+      .then(response => response.json().data as SharedSolution[])
       .catch(ChallengeService.handleError);
   }
 

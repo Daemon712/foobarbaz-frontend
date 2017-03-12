@@ -25,11 +25,13 @@ import {AccordionModule, AlertModule, PaginationModule, TabsModule, ButtonsModul
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
 import {TestSolutionService} from "./service/test-solution.service";
-import { TestResultsTableComponent } from './components/test-results/test-results-table.component';
+import { TestResultsTableComponent } from './components/solution/test-results/test-results-table.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import {ArticleService} from "./service/article.service";
 import { ArticleListComponent } from './components/article/list/article-list.component';
-import { RevisionListComponent } from './components/revision-list/revision-list.component';
+import { RevisionListComponent } from './components/solution/revision-list/revision-list.component';
+import { SolutionStatusViewComponent } from './components/solution/status-view/solution-status-view.component';
+import { SharedSolutionListComponent } from './components/solution/shared-solution-list/shared-solution-list.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -61,6 +63,8 @@ const routes: Routes = [
     CommentsComponent,
     ArticleListComponent,
     RevisionListComponent,
+    SolutionStatusViewComponent,
+    SharedSolutionListComponent,
   ],
   imports: [
     BrowserModule,

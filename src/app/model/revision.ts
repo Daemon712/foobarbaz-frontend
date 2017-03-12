@@ -1,18 +1,13 @@
+import {SolutionStatus} from "./solutions-status";
+
 export class Revision {
   id: number;
-  status: RevisionStatus;
+  status: SolutionStatus;
   date: Date;
 
-  constructor(id: number, status: RevisionStatus = RevisionStatus.empty, date?: Date) {
+  constructor(id: number, status: SolutionStatus = SolutionStatus.empty, date?: Date) {
     this.id = id;
     this.status = status;
     this.date = date;
   }
-}
-
-export enum RevisionStatus {
-  success,
-  failed,
-  error,
-  empty,
 }

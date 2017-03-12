@@ -1,9 +1,9 @@
 <ul class="list-group">
-  <li [hidden]="comments" class="list-group-item lead">Загрузка...</li>
+  <li *ngIf="!comments" class="list-group-item lead">Загрузка...</li>
   <li *ngFor="let comment of comments" class="list-group-item">
     <div class="w-100">
       <small class="pull-right text-muted">
-        {{comment.date | date: 'd MMM yyyy hh:mm'}}
+        {{comment.date | date: 'd MMM yyyy HH:mm'}}
       </small>
       <h5>
         <i class="fa fa-user"></i>

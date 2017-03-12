@@ -27,27 +27,30 @@ accordion .card-title {
 .nav-item.tab-sm>a.nav-link {
   @extend .btn-sm;
 }
-
+.nav-justified>.nav-item>a.nav-link {
+  display: block !important;
+}
 .nav-item.tab-primary>a.nav-link {
+  @extend .btn;
   @extend .btn-primary;
 }
 .nav-item.tab-secondary>a.nav-link {
+  @extend .btn;
   @extend .btn-secondary;
 }
 .nav-item.tab-success>a.nav-link {
+  @extend .btn;
   @extend .btn-success;
 }
 .nav-item.tab-info>a.nav-link {
+  @extend .btn;
   @extend .btn-info;
 }
 .nav-item.tab-warning>a.nav-link {
+  @extend .btn;
   @extend .btn-warning;
 }
 .nav-item.tab-danger>a.nav-link {
+  @extend .btn;
   @extend .btn-danger;
-}
-.nav-item.disabled>a.nav-link.disabled {
-  opacity: .65;
-  pointer-events: none;
-  @include box-shadow(none);
 }

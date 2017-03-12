@@ -4,7 +4,7 @@
   <div class="lead" *ngIf="challenge.tags">
     <span *ngFor="let tag of challenge.tags"
           class="badge badge-default mr-1">{{tag}}</span>
-    <i class="fa fa-tags ml-1"></i>
+    <i class="fa fa-tags m-1 text-muted"></i>
   </div>
 </div>
 <div class="jumbotron" *ngIf="!challenge">
@@ -33,7 +33,7 @@
         </button>
       </tab>
       <tab customClass="tab-sm tab-info px-2" class="py-3"
-           [disabled]="!challenge.comments && !comments" (select)="loadComments()">
+           [disabled]="!challenge.comments && !comments?.length" (select)="loadComments()">
         <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
@@ -42,12 +42,13 @@
         <app-comments [comments]="comments"></app-comments>
       </tab>
       <tab customClass="tab-sm tab-info pl-2" class="py-3"
-           [disabled]="!challenge.sharedSolutions">
+           [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">
         <template tabHeading>
           <span>Опубликованные Решения </span>
-          <i class="fa fa-check"></i>
-          <span> {{challenge.sharedSolutions || 0}}</span>
+          <i class="fa fa-share-alt"></i>
+          <span> {{sharedSolutions?.length || challenge.sharedSolutions || 0}}</span>
         </template>
+        <app-shared-solution-list [solutions]="sharedSolutions"></app-shared-solution-list>
       </tab>
     </tabset>
   </div>

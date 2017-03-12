@@ -1,0 +1,33 @@
+<ul class="list-group">
+  <li *ngIf="!solutions" class="list-group-item lead">Загрузка...</li>
+  <li *ngFor="let solution of solutions" class="list-group-item">
+    <div class="w-100">
+      <div class="pull-right text-muted small text-right">
+        <div>
+          <span>{{solution.date | date: 'd MMM yyyy'}} </span>
+          <i class="fa fa-calendar"></i>
+        </div>
+        <div>
+          <span>{{solution.date | date: 'HH:mm'}} </span>
+          <i class="fa fa-clock-o"></i>
+        </div>
+        <div *ngIf="solution.comments">
+          <span>{{solution.comments}} </span>
+          <i class="fa fa-comments"></i>
+        </div>
+        <div *ngIf="solution.likes" [class.text-primary]="solution.liked">
+          <span>{{solution.likes}} </span>
+          <i class="fa fa-thumbs-up"></i>
+        </div>
+      </div>
+      <h5>
+        <i class="fa fa-user"></i>
+        <span> {{solution.author}}</span>
+      </h5>
+      <p>
+        <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
+        <a [routerLink]="'sharedSolutions/' + solution.id" title="Посмотреть">{{solution.comment}}</a>
+      </p>
+    </div>
+  </li >
+</ul>
