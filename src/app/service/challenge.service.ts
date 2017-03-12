@@ -54,13 +54,15 @@ export class ChallengeService {
       .catch(ChallengeService.handleError);
   }
 
-  addComment(text: string): Promise<Comment>{
+  addComment(challengeId: number, text: string): Promise<Comment>{
     //TODO params should be filled on server
     let comment: Comment = {
       id: 10 + 10000 * Math.random(),
       text: text,
       author: "User",
       date: new Date(),
+      likes: 0,
+      liked: false,
     };
 
     //TODO change url to 'api/challenges/:id/comments'
@@ -68,6 +70,27 @@ export class ChallengeService {
       .toPromise()
       .then(response => response.json().data as Comment)
       .catch(ChallengeService.handleError)
+  }
+
+  likeComment(challengeId: number, commentId: number, like: boolean): Promise<Comment>{
+    //TODO change url to 'api/challenges/:id/comments/:id/like'
+    return this.http.get(`api/comments/${commentId}`)
+      .toPromise()
+      .then(response => {
+        //TODO move the logic to server side
+        let comment = response.json().data as Comment;
+        if (like && !comment.liked){
+          comment.likes++;
+          comment.liked = true;
+        } else if (!like && comment.liked) {
+          comment.likes--;
+          comment.liked = false;
+        }
+        return this.http.post('api/comments', comment)
+          .toPromise()
+          .then(response => comment)
+      })
+      .catch(ChallengeService.handleError);
   }
 
   getRevisions(challengeId: number): Promise<Revision[]> {

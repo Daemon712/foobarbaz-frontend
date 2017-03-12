@@ -39,7 +39,7 @@
           <i class="fa fa-comments"></i>
           <span> {{comments?.length || challenge.comments || 0}}</span>
         </template>
-        <app-comments [comments]="comments"></app-comments>
+        <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
       </tab>
       <tab customClass="tab-sm tab-info pl-2" class="py-3"
            [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">

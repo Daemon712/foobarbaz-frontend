@@ -2,9 +2,22 @@
   <li *ngIf="!comments" class="list-group-item lead">Загрузка...</li>
   <li *ngFor="let comment of comments" class="list-group-item">
     <div class="w-100">
-      <small class="pull-right text-muted">
-        {{comment.date | date: 'd MMM yyyy HH:mm'}}
-      </small>
+      <div class="pull-right text-muted text-right">
+        <div class="btn btn-sm mb-2" (click)="like(comment)"
+             [class.btn-primary]="comment.liked"
+             [class.btn-secondary]="!comment.liked">
+          <span>{{comment.likes || 0}} </span>
+          <i class="fa fa-thumbs-up"></i>
+        </div>
+        <div class="small">
+          <span>{{comment.date | date: 'd MMM yyyy'}} </span>
+          <i class="fa fa-calendar"></i>
+        </div>
+        <div class="small">
+          <span>{{comment.date | date: 'HH:mm'}} </span>
+          <i class="fa fa-clock-o"></i>
+        </div>
+      </div>
       <h5>
         <i class="fa fa-user"></i>
         <span> {{comment.author}}</span>

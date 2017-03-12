@@ -16,11 +16,9 @@ export class ChallengeListComponent implements OnInit {
   defaultFilter = {
     name: null,
     author: null,
-    status: {
-      notStarted: true,
-      inProgress: true,
-      completed: true,
-    },
+    statusNotStarted: true,
+    statusInProgress: true,
+    statusCompleted: true,
     createdAfter: null,
     createdBefore: null,
   };
