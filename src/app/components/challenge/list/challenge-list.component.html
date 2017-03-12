@@ -139,6 +139,10 @@
         </div>
         <div class="col-3 text-muted small text-right">
           <div>
+            <span> {{challenge.created | date: "dd MMM yyyy"}}</span>
+            <i class="fa fa-calendar"></i>
+          </div>
+          <div>
             <span> {{challenge.views}}</span>
             <i class="fa fa-eye"></i>
           </div>
@@ -153,10 +157,6 @@
           <div [hidden]="!challenge.comments">
             <span> {{challenge.comments}}</span>
             <i class="fa fa-comments"></i>
-          </div>
-          <div>
-            <span> {{challenge.created | date: "dd MMM yyyy"}}</span>
-            <i class="fa fa-calendar"></i>
           </div>
         </div>
       </div>

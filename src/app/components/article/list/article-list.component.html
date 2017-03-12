@@ -10,8 +10,8 @@
   </p>
 </div>
 
-<div class="clearfix">
-  <div class="pull-left">
+<div class="row">
+  <div class="col-4 text-left">
     <pagination class="pagination-sm"
                 [totalItems]="80" [(ngModel)]="page"
                 [maxSize]="5" [boundaryLinks]="true"
@@ -19,7 +19,17 @@
                 [firstText]="'&laquo;'" [lastText]="'&raquo;'">
     </pagination>
   </div>
-  <div class="pull-right">
+  <div class="col-4 text-center">
+    <div class="input-group input-group-sm">
+      <input type="text" class="form-control" placeholder="Поиск...">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button">
+          <i class="fa fa-search"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="col-4 text-right">
     <select class="custom-select custom-select-sm" [(ngModel)]="sortField" title="sortField">
       <option value="created">По дате создания</option>
       <option value="name">По названию</option>
@@ -61,7 +71,11 @@
             </span>
       </div>
     </div>
-    <div class="col-3 text-muted small text-right">
+    <div class="col-3 text-muted text-right">
+      <div>
+        <span> {{article.created | date: "dd MMM yyyy"}}</span>
+        <i class="fa fa-calendar"></i>
+      </div>
       <div>
         <span> {{article.views}}</span>
         <i class="fa fa-eye"></i>
@@ -73,10 +87,6 @@
       <div [hidden]="!article.comments">
         <span> {{article.comments}}</span>
         <i class="fa fa-comments"></i>
-      </div>
-      <div>
-        <span> {{article.created | date: "dd MMM yyyy"}}</span>
-        <i class="fa fa-calendar"></i>
       </div>
     </div>
   </div>
