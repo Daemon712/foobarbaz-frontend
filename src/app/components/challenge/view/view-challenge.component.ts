@@ -3,7 +3,6 @@ import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import 'rxjs/add/operator/switchMap';
-import {CommentService} from "../../../service/comment.service";
 import {Comment} from "../../../model/comment";
 import {AceEditorComponent} from "ng2-ace-editor";
 
@@ -29,7 +28,6 @@ export class ViewChallengeComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
-    private commentService: CommentService,
   ) { }
 
   ngOnInit() {
@@ -43,12 +41,12 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   sendComment(){
-    this.commentService.addChallengeComment(this.newComment);
+    this.challengeService.addComment(this.newComment);
     this.newComment = null;
   }
 
   loadComments(){
-    this.commentService.getChallengeComments(this.challenge.id)
+    this.challengeService.getComments(this.challenge.id)
       .then(comments => this.comments = comments);
   }
 }

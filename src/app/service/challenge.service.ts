@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Challenge} from "../model/challenge";
+import {Comment} from "../model/comment";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
@@ -41,6 +42,29 @@ export class ChallengeService {
         return challenge;
       })
       .catch(ChallengeService.handleError);
+  }
+  
+  getComments(challengeId: number): Promise<Comment[]>{
+    //TODO change url to 'api/challenges/:id/comments'
+    return this.http.get('api/comments')
+      .toPromise()
+      .then(response => response.json().data as Comment[])
+      .catch(ChallengeService.handleError);
+  }
+
+  addComment(text: string): Promise<Comment>{
+    //TODO params should be filled on server
+    let comment: Comment = {
+      id: 10 + 10000 * Math.random(),
+      text: text,
+      author: "User",
+      date: new Date(),
+    };
+
+    //TODO change url to 'api/challenges/:id/comments'
+    return this.http.post('api/comments', comment)
+      .toPromise()
+      .then(response => response.json().data as Comment);
   }
 
   private static handleError(error: any): Promise<any> {
