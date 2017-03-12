@@ -33,7 +33,7 @@
         </button>
       </tab>
       <tab customClass="tab-sm tab-info px-2" class="py-3"
-           [disabled]="!challenge.comments" (select)="loadComments()">
+           [disabled]="!challenge.comments && !comments" (select)="loadComments()">
         <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
@@ -102,8 +102,8 @@
              [class.fa-chevron-down]="revisionsAccordion?.isOpen"
              [class.fa-chevron-right]="!revisionsAccordion?.isOpen"></i>
         </div>
-        <!--TODO revision-view-->
-        Revisions
+        <div [hidden]="revisions" class="lead">Загрузка...</div>
+        <app-revision-list [revisions]="revisions"></app-revision-list>
       </accordion-group>
     </accordion>
 

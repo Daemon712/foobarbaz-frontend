@@ -2,6 +2,7 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {ChallengeStatus} from "../model/challenge";
 import {Tag} from "../model/tag";
 import {TestResult, TestStatus} from "../model/test-result";
+import {Revision, RevisionStatus} from "../model/revision";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -273,6 +274,15 @@ export class InMemoryDataService implements InMemoryDbService {
       },
     ];
 
+    let revisions: Revision[] = [
+      new Revision(1, RevisionStatus.failed, new Date("03 02 2017")),
+      new Revision(2, RevisionStatus.empty, new Date("03 02 2017")),
+      new Revision(3, RevisionStatus.error, new Date("03 03 2017")),
+      new Revision(4, RevisionStatus.failed, new Date("03 03 2017")),
+      new Revision(5, RevisionStatus.empty, new Date("03 04 2017")),
+      new Revision(6, RevisionStatus.success, new Date("03 06 2017")),
+    ];
+
     return {
       articles,
       challenges,
@@ -280,6 +290,7 @@ export class InMemoryDataService implements InMemoryDbService {
       tags,
       users,
       comments,
+      revisions,
     };
   }}
 

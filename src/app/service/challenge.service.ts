@@ -4,6 +4,7 @@ import {Comment} from "../model/comment";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
+import {Revision} from "../model/revision";
 
 @Injectable()
 export class ChallengeService {
@@ -43,7 +44,7 @@ export class ChallengeService {
       })
       .catch(ChallengeService.handleError);
   }
-  
+
   getComments(challengeId: number): Promise<Comment[]>{
     //TODO change url to 'api/challenges/:id/comments'
     return this.http.get('api/comments')
@@ -64,7 +65,16 @@ export class ChallengeService {
     //TODO change url to 'api/challenges/:id/comments'
     return this.http.post('api/comments', comment)
       .toPromise()
-      .then(response => response.json().data as Comment);
+      .then(response => response.json().data as Comment)
+      .catch(ChallengeService.handleError)
+  }
+
+  getRevisions(challengeId: number): Promise<Revision[]> {
+    //TODO change url to 'api/challenges/:id/revisions'
+    return this.http.get('api/revisions')
+      .toPromise()
+      .then(response => response.json().data as Revision[])
+      .catch(ChallengeService.handleError);
   }
 
   private static handleError(error: any): Promise<any> {

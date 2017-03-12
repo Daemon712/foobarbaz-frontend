@@ -29,6 +29,7 @@ import { TestResultsTableComponent } from './components/test-results/test-result
 import { CommentsComponent } from './components/comments/comments.component';
 import {ArticleService} from "./service/article.service";
 import { ArticleListComponent } from './components/article/list/article-list.component';
+import { RevisionListComponent } from './components/revision-list/revision-list.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -59,6 +60,7 @@ const routes: Routes = [
     TestResultsTableComponent,
     CommentsComponent,
     ArticleListComponent,
+    RevisionListComponent,
   ],
   imports: [
     BrowserModule,
