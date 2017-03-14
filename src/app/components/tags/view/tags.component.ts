@@ -5,7 +5,6 @@ import {TagService} from "../../../service/tag.service";
 @Component({
   selector: 'app-tags',
   templateUrl: 'tags.component.html',
-  styleUrls: ['tags.component.css']
 })
 export class TagsComponent implements OnInit {
   tags: Tag[];
