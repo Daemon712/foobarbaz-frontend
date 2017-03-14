@@ -49,7 +49,10 @@
   </div>
 </div>
 
-<div [hidden]="articles?.length" class="alert alert-info lead p-3">Загрузка...</div>
+<div [hidden]="articles?.length" class="alert alert-info lead text-center p-3">
+  <i class="fa fa-spinner fa-pulse"></i>
+  <span> Загрузка...</span>
+</div>
 <div *ngFor="let article of articles" class="card mb-2">
   <div class="card-header">
     <div class="pull-right m-1">
