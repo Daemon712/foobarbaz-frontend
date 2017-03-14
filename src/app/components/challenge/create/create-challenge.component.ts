@@ -40,6 +40,7 @@ export class CreateChallengeComponent implements OnInit {
   }
 
   onSubmit(){
+    this.submitted = true;
     this.challengeService.createChallenge(this.model)
       .then(challenge => {
         if (!challenge) {
@@ -51,6 +52,7 @@ export class CreateChallengeComponent implements OnInit {
   }
 
   testSolution(){
+    this.submitted = true;
     this.testSolutionService.testNewChallenge(this.model)
       .then(testResults => {
         if (!testResults){

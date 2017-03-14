@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, LOCALE_ID} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule, JsonpModule} from '@angular/http';
+import { QuillEditorModule } from 'ng2-quill-editor';
 
 import { AppComponent } from './app.component';
 import { ChallengeListComponent } from './components/challenge/list/challenge-list.component';
@@ -32,11 +33,15 @@ import { ArticleListComponent } from './components/article/list/article-list.com
 import { RevisionListComponent } from './components/solution/revision-list/revision-list.component';
 import { SolutionStatusViewComponent } from './components/solution/status-view/solution-status-view.component';
 import { SharedSolutionListComponent } from './components/solution/shared-solution-list/shared-solution-list.component';
+import { CreateArticleComponent } from './components/article/create/create-article.component';
+import { ArticleViewComponent } from './components/article/view/article-view.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
   { path: 'users',  component: UserListComponent },
+  { path: 'articles/create',  component: CreateArticleComponent },
+  { path: 'articles/:id',  component: ArticleViewComponent },
   { path: 'articles',  component: ArticleListComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges/:id',  component: ViewChallengeComponent },
@@ -65,6 +70,8 @@ const routes: Routes = [
     RevisionListComponent,
     SolutionStatusViewComponent,
     SharedSolutionListComponent,
+    CreateArticleComponent,
+    ArticleViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +87,7 @@ const routes: Routes = [
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
+    QuillEditorModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },

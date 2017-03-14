@@ -54,3 +54,14 @@ accordion .card-title {
   @extend .btn;
   @extend .btn-danger;
 }
+
+/* Text Editor */
+quill-editor.form-control {
+  padding: 0 !important;
+}
+quill-editor.form-control>div {
+  border: 0 !important;
+}
+quill-editor.form-control>div.ql-toolbar {
+  background: $gray-lighter;
+}

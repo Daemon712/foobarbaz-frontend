@@ -49,6 +49,7 @@
   </div>
 </div>
 
+<div [hidden]="articles?.length" class="alert alert-info lead p-3">Загрузка...</div>
 <div *ngFor="let article of articles" class="card mb-2">
   <div class="card-header">
     <div class="pull-right m-1">
@@ -62,9 +63,9 @@
   <div class="card-block pt-2 row">
     <div class="col-9">
       <p class="card-text text-justify mt-2">
-        {{article.body | slice:0:200}}
-        {{article.body.length > 200 ? '...' : ''}}
+        {{article.description}}
       </p>
+      <br/>
       <div class="tags-container">
             <span *ngFor="let tag of article.tags" class="badge badge-default mr-1">
               {{tag}}

@@ -12,7 +12,7 @@
                id="name" name="name" #name="ngModel" [(ngModel)]="model.name"
                required minlength="4" maxlength="50" pattern="[a-zA-Zа-яА-Я0-9\-._ ]+">
         <div *ngIf="name.errors && (name.dirty || name.touched)"
-             class="col-md-4 text-danger col-form-label">
+             class="text-danger">
           <div [hidden]="!name.errors['required']">Укажите название задачи</div>
           <div [hidden]="!name.errors['minlength']">Слишком короткое название</div>
           <div [hidden]="!name.errors['pattern']">Название содержит недопустимые символы</div>
@@ -25,7 +25,7 @@
                   id="description" name="description" #description="ngModel" [(ngModel)]="model.description"
                   required minlength="50" maxlength="500"></textarea>
         <div *ngIf="description.errors && (description.dirty || description.touched)"
-             class="col-md-4 text-danger col-form-label">
+             class="text-dangerl">
           <div [hidden]="!description.errors['required']">Напишите подробное описание</div>
           <div [hidden]="!description.errors['minlength']">Слишком короткое описание</div>
         </div>

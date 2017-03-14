@@ -38,7 +38,7 @@ export class ChallengeService {
     return this.http.post(this.url, challenge)
       .toPromise()
       .then(response => {
-        challenge = response.json().data as Challenge;
+        let challenge = response.json().data as Challenge;
         if (challenge) this.alertService.success("Вы успешно создали задачу");
         else this.alertService.warning("Не удалось создать задачу");
         return challenge;

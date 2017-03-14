@@ -25,6 +25,7 @@
         "../node_modules/ace-builds/src-min/ace.js",
         "../node_modules/ace-builds/src-min/mode-java.js",
         "../node_modules/ace-builds/src-min/theme-dreamweaver.js",
+        "../node_modules/quill/dist/quill.js",
         "../node_modules/jquery/dist/jquery.slim.js",
         "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js"
