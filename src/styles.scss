@@ -55,6 +55,24 @@ accordion .card-title {
   @extend .btn-danger;
 }
 
+/* Button Groups */
+// Justified variants
+.btn-group-fill {
+  display: flex;
+  .btn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+.btn-group-justified {
+  display: flex;
+  .btn {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
 /* Text Editor */
 quill-editor.form-control {
   padding: 0 !important;

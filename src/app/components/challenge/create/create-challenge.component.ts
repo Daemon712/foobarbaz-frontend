@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Challenge} from "../../../model/challenge";
+import {AccessOption, Challenge} from "../../../model/challenge";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {ChallengeService} from "../../../service/challenge.service";
 import {TestSolutionService} from "../../../service/test-solution.service";
@@ -21,8 +21,12 @@ export class CreateChallengeComponent implements OnInit {
   solutionTestEditor: AceEditorComponent;
 
   model: Challenge = new Challenge();
+  accessOption = AccessOption;
   testResults: TestResult[];
   options = {
+    printMargin: false,
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
     fontSize: '16px'
   };
 
@@ -33,7 +37,10 @@ export class CreateChallengeComponent implements OnInit {
     private challengeService: ChallengeService,
     private testSolutionService: TestSolutionService,
     private router: Router,
-  ) { }
+  ) {
+    this.model.commentAccess = AccessOption.allow;
+    this.model.sharedSolutionAccess = AccessOption.solvedOnly;
+  }
 
   ngOnInit() {
     this.initDefaultValues();

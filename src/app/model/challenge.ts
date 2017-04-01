@@ -15,10 +15,18 @@ export class Challenge {
   views: number;
   solutions: number;
   sharedSolutions: number;
+  commentAccess: AccessOption;
+  sharedSolutionAccess: AccessOption;
 }
 
 export enum ChallengeStatus {
   NotStarted,
   InProgress,
   Completed
+}
+
+export enum AccessOption {
+  allow,
+  deny,
+  solvedOnly,
 }

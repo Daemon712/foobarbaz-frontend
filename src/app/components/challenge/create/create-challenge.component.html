@@ -1,13 +1,35 @@
-<div class="jumbotron">
-  <h1 class="display-3">Создать задачу</h1>
-  <p class="lead">Создай задачу. Не хочу. Все так говорят, а ты создай задачу.</p>
-</div>
 <form (ngSubmit)="onSubmit()" #createChallengeForm="ngForm" novalidate>
-  <tabset type="tabs" class="form-group">
+
+  <div class="jumbotron">
+    <h1 class="display-3">Создать задачу</h1>
+    <p class="lead">На этой странице Вы можете создать новую задачу для нашего сообщества</p>
+    <div>
+      <button class="btn btn-success"
+              [title]="createChallengeForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
+              [disabled]="!createChallengeForm.form.valid || submitted">
+        <i class="fa fa-plus"> </i>
+        <span> Создать задачу</span>
+      </button>
+
+      <button type="button" class="btn btn-primary mx-2"
+              (click)="testSolution()" [disabled]="submitted">
+        <i class="fa fa-play"> </i>
+        <span> Протестировать пример</span>
+      </button>
+
+      <button type="button" class="btn btn-secondary" [disabled]="submitted">
+        <i class="fa fa-save"> </i>
+        <span> Сохранить как черновик</span>
+      </button>
+    </div>
+  </div>
+
+  <tabset type="tabs" class="form-group" [justified]="true">
+
     <tab heading="Параметры" class="py-3">
 
       <div class="form-group">
-        <label class="control-label" for="name">Название</label>
+        <label for="name">Название</label>
         <input type="text" class="form-control"
                id="name" name="name" #name="ngModel" [(ngModel)]="model.name"
                required minlength="4" maxlength="50" pattern="[a-zA-Zа-яА-Я0-9\-._ ]+">
@@ -20,23 +42,55 @@
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="description">Описание</label>
+        <label for="description">Аннотация</label>
         <textarea class="form-control"
-                  id="description" name="description" #description="ngModel" [(ngModel)]="model.description"
-                  required minlength="50" maxlength="500"></textarea>
-        <div *ngIf="description.errors && (description.dirty || description.touched)"
-             class="text-dangerl">
-          <div [hidden]="!description.errors['required']">Напишите подробное описание</div>
-          <div [hidden]="!description.errors['minlength']">Слишком короткое описание</div>
+                  id="description" name="annotation" #annotation="ngModel" [(ngModel)]="model.description"
+                  required minlength="50" maxlength="300"></textarea>
+        <div *ngIf="annotation.errors && (annotation.dirty || annotation.touched)"
+             class="text-danger">
+          <div [hidden]="!annotation.errors['required']">Напишите аннотацию</div>
+          <div [hidden]="!annotation.errors['minlength']">Слишком короткая аннотация</div>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="control-label">Метки</label>
+        <label>Ключевые слова</label>
         <app-tag-picker [(tags)]="model.tags"></app-tag-picker>
       </div>
 
+      <div class="row">
+        <div class="form-group col-6">
+          <label>Комментарии</label>
+          <div class="btn-group btn-group-fill">
+            <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+            <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+            <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
+          </div>
+        </div>
+
+        <div class="form-group col-6">
+          <label>Публичные решения</label>
+          <div class="btn-group btn-group-fill">
+            <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+            <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+            <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.deny">Запретить</label>
+          </div>
+        </div>
+      </div>
+
     </tab>
+
+    <tab heading="Описание" class="py-3">
+      <quill-editor class="form-control required">
+      </quill-editor>
+    </tab>
+
     <tab heading="Шаблон решения" (select)="openSolutionTemplate()" class="py-3">
       <ace-editor class="form-control"
                   #solutionTemplateEditor
@@ -44,13 +98,15 @@
       [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
       </ace-editor>
     </tab>
-    <tab heading="Модульный тест" (select)="openSolutionTest()" class="py-3">
+
+    <tab heading="Тест" (select)="openSolutionTest()" class="py-3">
       <ace-editor class="form-control"
                   #solutionTestEditor
                   [(text)]="model.solutionTest"
                   [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
       </ace-editor>
     </tab>
+
     <tab heading="Пример решения" (select)="openSolutionExample()" class="py-3">
       <ace-editor class="form-control"
                   #solutionExampleEditor
@@ -58,22 +114,13 @@
            [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
       </ace-editor>
     </tab>
-    <tab heading="Результаты теста" class="py-3"
-         [disabled]="!testResults" [active]="testResultsActive" (deselect)="testResultsActive = false">
+
+    <tab class="py-3" [disabled]="!testResults"
+         [active]="testResultsActive" (deselect)="testResultsActive = false">
+      <template tabHeading>
+        <span [title]="testResults ? '' : 'Тестирование еще не проводилось'">Результаты теста</span>
+      </template>
       <app-test-results-table [testResults]="testResults" class="card"></app-test-results-table>
     </tab>
   </tabset>
-
-  <div class="form-group">
-    <button type="submit" class="btn btn-success"
-            [disabled]="!createChallengeForm.form.valid || submitted">
-      <i class="fa fa-plus"> </i>
-      <span> Создать</span>
-    </button>
-    <button type="button" class="btn btn-primary"
-            (click)="testSolution()" [disabled]="submitted">
-      <i class="fa fa-play"> </i>
-      <span> Протестировать</span>
-    </button>
-  </div>
 </form>

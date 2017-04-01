@@ -85,9 +85,12 @@ export class InMemoryDataService implements InMemoryDbService {
 
     let defaultSolutionTemplate =
       "public class Foo {\n" +
-      "\tpublic int bar() {\n" +
+      "\tpublic int sum(int[] array) {\n" +
+      "\t\tint x = 0;\n" +
+      "\t\t\n" +
       "\t\t//...\n" +
-      "\t\treturn 0;\n" +
+      "\t\t\n" +
+      "\t\treturn x;\n" +
       "\t}\n}";
 
     let challenges = [
@@ -171,10 +174,10 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Аркадий',
         created: new Date('02 11 2017'),
         tags: ["Массивы","Циклы"],
-        likes: 2,
+        likes: 3,
         comments: 12,
-        views: 10,
-        solutions: 0,
+        views: 30,
+        solutions: 7,
         solutionTemplate: defaultSolutionTemplate,
       },
     ];
@@ -214,7 +217,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 2,
         author: 'Оксана',
-        text: 'Сложно. Два джня думала(',
+        text: 'Сложно. Два дня думала(',
         likes: 1,
         date: new Date('02 12 2017 09:51'),
       },
