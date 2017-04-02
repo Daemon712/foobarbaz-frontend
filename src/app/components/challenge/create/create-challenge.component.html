@@ -87,38 +87,129 @@
     </tab>
 
     <tab heading="Описание" class="py-3">
-      <quill-editor class="form-control required">
-      </quill-editor>
+      <div class="row">
+        <div class="col-8">
+          <quill-editor class="form-control required">
+          </quill-editor>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-image"></i>
+              <span> Изображения</span>
+            </div>
+            <div class="card-block">
+              <!--TODO: add attachments control-->
+              <button type="button" class="btn btn-secondary btn-sm">
+                <i class="fa fa-upload"></i>
+                <span> Добавить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </tab>
 
     <tab heading="Шаблон решения" (select)="openSolutionTemplate()" class="py-3">
-      <ace-editor class="form-control"
-                  #solutionTemplateEditor
-           [(text)]="model.solutionTemplate"
-      [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-      </ace-editor>
+      <div class="row">
+        <div class="col-8">
+          <ace-editor class="form-control"
+                      #solutionTemplateEditor
+               [(text)]="model.solutionTemplate"
+          [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+          </ace-editor>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-question"></i>
+              <span> Помощь</span>
+            </div>
+            <div class="card-block text-justify">
+              <p>
+                Шаблон послужит основой для всех новых решений пользователей.
+              </p>
+              <p>
+                Объявите все методы, которые пользователь потом должен будет
+                реализовать и которые Вы хотите вызывать в тестах.
+              </p>
+              <p>
+                Шаблон должен компилироваться без ошибок и должен не проходить тесты.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </tab>
 
-    <tab heading="Тест" (select)="openSolutionTest()" class="py-3">
-      <ace-editor class="form-control"
-                  #solutionTestEditor
-                  [(text)]="model.solutionTest"
-                  [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-      </ace-editor>
+    <tab heading="Тесты" (select)="openSolutionTest()" class="py-3">
+      <div class="row">
+        <div class="col-8">
+          <ace-editor class="form-control"
+                      #solutionTestEditor
+                      [(text)]="model.solutionTest"
+                      [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+          </ace-editor>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-question"></i>
+              <span> Помощь</span>
+            </div>
+            <div class="card-block text-justify">
+              <p>
+                Чтобы добавить тест, напишите публичный нестатичный метод
+                без параметров и пометьте его аннотацией <code>@Test</code>
+              </p>
+              <p>
+                Проверьте результат с помощью класса
+                <a href="http://junit.sourceforge.net/javadoc/org/junit/Assert.html">org.junit.Assert</a>.
+                Например, вызов <code>Assert.assertEquals(expected, actual)</code> сравнит два объекта и завалит тест, если они не равны.
+              </p>
+              <p>
+                О других возможностях <b>JUnit</b> можно почитать
+                <a href="http://junit.org/junit4/">на официальном сайте</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </tab>
 
     <tab heading="Пример решения" (select)="openSolutionExample()" class="py-3">
-      <ace-editor class="form-control"
-                  #solutionExampleEditor
-           [(text)]="model.solutionExample"
-           [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-      </ace-editor>
+      <div class="row">
+        <div class="col-8">
+          <ace-editor class="form-control"
+                      #solutionExampleEditor
+                      [(text)]="model.solutionExample"
+                      [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+          </ace-editor>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-question"></i>
+              <span> Помощь</span>
+            </div>
+            <div class="card-block text-justify">
+              <p>
+                Пример решения нужен, чтобы убедиться, что у задачи вообще есть решение.
+              </p>
+              <p>
+                Ваше решение будет сохранено и задача сразу будет решенной.
+                Также Вы сможете потом опубликовать свое решение.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </tab>
 
     <tab class="py-3" [disabled]="!testResults"
          [active]="testResultsActive" (deselect)="testResultsActive = false">
       <template tabHeading>
-        <span [title]="testResults ? '' : 'Тестирование еще не проводилось'">Результаты теста</span>
+        <span [title]="testResults ? '' : 'Запустите тестирование, чтобы увидеть результаты'">Результаты тестов</span>
       </template>
       <app-test-results-table [testResults]="testResults" class="card"></app-test-results-table>
     </tab>

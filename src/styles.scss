@@ -76,10 +76,12 @@ accordion .card-title {
 /* Text Editor */
 quill-editor.form-control {
   padding: 0 !important;
+  min-height: 400px;
 }
 quill-editor.form-control>div {
   border: 0 !important;
 }
 quill-editor.form-control>div.ql-toolbar {
-  background: $gray-lighter;
+  background: $gray-lightest;
+  border-bottom: 1px solid rgba($black,.125) !important;
 }
