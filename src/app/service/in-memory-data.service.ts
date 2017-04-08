@@ -8,80 +8,18 @@ import {SolutionStatus} from "../model/solutions-status";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    let defaultDescription = 'Таким образом сложившаяся структура организации играет важную роль в ' +
-      'формировании форм развития. Разнообразный и богатый опыт постоянный количественный рост и сфера ' +
-      'нашей активности представляет собой интересный эксперимент проверки. Таким образом сложившаяся ' +
-      'структура организации играет важную роль в формировании форм развития. Разнообразный и богатый опыт ' +
-      'постоянный количественный рост и сфера нашей активности представляет собой интересный эксперимент проверки';
-
-    let defaultBody = '<h2>Заголовок</h2>Равным образом новая модель играет важную роль в ' +
+    let defaultDescription = '<h2>Заголовок</h2>Равным образом новая модель играет важную роль в ' +
       'формировании соответствующий условий активизации. Повседневная практика показывает, ' +
       'что постоянный количественный рост и сфера нашей активности обеспечивает широкому кругу ' +
       '(специалистов) участие в <i>формировании модели развития</i>. Таким образом реализация ' +
       'намеченных плановых заданий представляет собой интересный эксперимент проверки модели ' +
-      'развития. Идейные соображения высшего порядка, а также рамки и место обучения кадров ' +
+      'развития.<br/>Идейные соображения высшего порядка, а также рамки и место обучения кадров ' +
       'способствует подготовки и реализации позиций, занимаемых участниками в отношении ' +
       'поставленных задач. <b>Задача организации</b>, в особенности же укрепление и развитие ' +
       'структуры влечет за собой процесс внедрения и модернизации системы обучения кадров, ' +
-      'соответствует насущным потребностям. Товарищи! укрепление и развитие структуры в ' +
+      'соответствует насущным потребностям. <u>Товарищи!</u> укрепление и развитие структуры в ' +
       'значительной степени обуславливает создание системы обучения кадров, соответствует ' +
-      'насущным потребностям.<br/>С другой стороны укрепление и развитие структуры влечет за ' +
-      'собой процесс внедрения и модернизации новых предложений. Разнообразный и богатый опыт' +
-      ' постоянный количественный рост и сфера нашей активности влечет за собой процесс' +
-      ' внедрения и модернизации позиций, <u>занимаемых участниками</u> в отношении поставленных ' +
-      'задач. Товарищи! сложившаяся структура организации представляет собой интересный ' +
-      'эксперимент проверки новых предложений. Равным образом рамки и место обучения кадров ' +
-      'обеспечивает широкому кругу (специалистов) участие в формировании форм развития.';
-
-    let articles = [
-      {
-        id: 1,
-        name: 'Объектно Ориентированное Программирование',
-        description: defaultDescription,
-        body: defaultBody,
-        author: 'Игорь',
-        created: new Date('03 01 2017'),
-        tags: ['ООП', 'Объекты', 'Абстракция'],
-        likes: 17,
-        liked: true,
-        comments: 8,
-        views: 59,
-      }, {
-        id: 2,
-        name: 'Операторы в Java',
-        description: defaultDescription,
-        body: defaultBody,
-        author: 'Елена',
-        created: new Date('03 02 2017'),
-        tags: ['Операторы', 'Синтаксис'],
-        likes: 5,
-        comments: 2,
-        views: 15,
-      }, {
-        id: 3,
-        name: 'Управляющие конструкции',
-        description: defaultDescription,
-        body: defaultBody,
-        author: 'Игорь',
-        created: new Date('03 01 2017'),
-        tags: ['Циклы', 'switch', 'foreach'],
-        likes: 9,
-        comments: 4,
-        views: 15,
-      }, {
-        id: 4,
-        name: 'Коллекции в Java',
-        description: defaultDescription,
-        body: defaultBody,
-        author: 'Игорь',
-        created: new Date('03 01 2017'),
-        tags: ['Коллекции', 'List', 'Map', 'Set'],
-        likes: 22,
-        liked: true,
-        comments: 12,
-        views: 103,
-      }
-    ];
+      'насущным потребностям.';
 
     let defaultSolutionTemplate =
       "public class Foo {\n" +
@@ -97,7 +35,8 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 1,
         name: 'Палиндромы',
-        description: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
+        abstract: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
+        description: defaultDescription,
         status: ChallengeStatus.NotStarted,
         author: 'Игорь',
         created: new Date('03 01 2017'),
@@ -113,7 +52,8 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 2,
         name: 'Факториал',
-        description: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
+        abstract: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
+        description: defaultDescription,
         status: ChallengeStatus.InProgress,
         author: 'Марина',
         created: new Date('02 25 2017'),
@@ -127,7 +67,8 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 3,
         name: 'Сумма элементов',
-        description: 'На вход подается массив целых чисел. Посчитайте сумму элеметов массива',
+        abstract: 'На вход подается массив целых чисел. Посчитайте сумму элеметов массива',
+        description: defaultDescription,
         status: ChallengeStatus.Completed,
         author: 'Михаил',
         created: new Date('02 11 2017'),
@@ -141,7 +82,8 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 4,
         name: 'Палиндромы',
-        description: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
+        abstract: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
+        description: defaultDescription,
         status: ChallengeStatus.NotStarted,
         author: 'Сергей',
         created: new Date('02 06 2017'),
@@ -157,7 +99,8 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 5,
         name: 'Факториал',
-        description: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
+        abstract: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
+        description: defaultDescription,
         status: ChallengeStatus.NotStarted,
         author: 'Анна',
         created: new Date('02 09 2017'),
@@ -169,7 +112,8 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 6,
         name: 'Сумма элементов',
-        description: 'На вход подается массив целых чисел. Посчитайте сумму элеметов массива',
+        abstract: 'На вход подается массив целых чисел. Посчитайте сумму элеметов массива',
+        description: defaultDescription,
         status: ChallengeStatus.InProgress,
         author: 'Аркадий',
         created: new Date('02 11 2017'),
@@ -252,12 +196,12 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     let revisions: Revision[] = [
-      new Revision(1, SolutionStatus.failed,  new Date("03 02 2017 13:55")),
+      new Revision(1, SolutionStatus.failed,  new Date("03 02 2017 13:55"), 3, 4),
       new Revision(2, SolutionStatus.empty,   new Date("03 02 2017 16:24")),
-      new Revision(3, SolutionStatus.error,   new Date("03 03 2017 12:01")),
-      new Revision(4, SolutionStatus.failed,  new Date("03 03 2017 22:46")),
+      new Revision(3, SolutionStatus.error,   new Date("03 03 2017 12:01"), 0, 2, 4),
+      new Revision(4, SolutionStatus.failed,  new Date("03 03 2017 22:46"), 5, 2),
       new Revision(5, SolutionStatus.empty,   new Date("03 04 2017 09:51")),
-      new Revision(6, SolutionStatus.success, new Date("03 06 2017 19:30")),
+      new Revision(6, SolutionStatus.success, new Date("03 06 2017 19:30"), 7),
     ];
 
     let sharedSolutions: SharedSolution[] = [
@@ -314,7 +258,6 @@ export class InMemoryDataService implements InMemoryDbService {
   ];
 
     return {
-      articles,
       challenges,
       tests,
       tags,

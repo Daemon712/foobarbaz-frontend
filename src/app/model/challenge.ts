@@ -1,6 +1,7 @@
 export class Challenge {
   id: number;
   name: string;
+  abstract: string;
   description: string;
   status: ChallengeStatus;
   author: string;

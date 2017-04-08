@@ -7,6 +7,7 @@ import {Comment} from "../../../model/comment";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {Revision} from "../../../model/revision";
 import {SharedSolution} from "../../../model/shared-solution";
+import {TestResult} from "../../../model/test-result";
 
 @Component({
   selector: 'app-view-challenge',
@@ -15,18 +16,22 @@ import {SharedSolution} from "../../../model/shared-solution";
 })
 export class ViewChallengeComponent implements OnInit {
 
-  @ViewChild('editor')
-  editor : AceEditorComponent;
+  @ViewChild(AceEditorComponent)
+  solutionEditor : AceEditorComponent;
 
   challenge: Challenge;
   challengeStatus = ChallengeStatus;
   revisions: Revision[];
   sharedSolutions: SharedSolution[];
+  testResults: TestResult[];
   comments: Comment[];
   newComment: string;
 
   options = {
-    fontSize: '18px'
+    printMargin: false,
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    fontSize: '16px',
   };
 
   constructor(
@@ -42,9 +47,14 @@ export class ViewChallengeComponent implements OnInit {
         this.loadComments();
         this.loadRevisions();
         this.loadSolutions();
-        this.editor.setText(challenge.solutionTemplate);
-        this.editor.getEditor().clearSelection();
       });
+  }
+
+  solutionTabReady = false;
+  openSolutionTab(){
+    if (this.solutionTabReady) return;
+    this.solutionTabReady = true;
+    this.solutionEditor.getEditor().clearSelection();
   }
 
   sendComment(){

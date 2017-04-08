@@ -1,6 +1,6 @@
 <div class="jumbotron" *ngIf="challenge">
   <h1 class="display-3">{{challenge.name}}</h1>
-  <p class="lead">{{challenge.description}}</p>
+  <p class="lead">{{challenge.abstract}}</p>
   <div class="lead" *ngIf="challenge.tags">
     <span *ngFor="let tag of challenge.tags"
           class="badge badge-default mr-1">{{tag}}</span>
@@ -12,9 +12,44 @@
 </div>
 <div class="row">
   <div class="col-md-8">
-    <ace-editor #editor class="form-control mb-3" [readOnly]="true"
-                [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-    </ace-editor>
+    <tabset [justified]="true">
+      <tab heading="Описание" class="py-3">
+        <div [hidden]="challenge" class="lead text-center alert alert-info">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+        <div class="card" *ngIf="challenge">
+          <div class="card-block text-justify" [innerHTML]="challenge.description"></div>
+        </div>
+      </tab>
+      <tab heading="Попытки" class="py-3" [disabled]="challenge?.status === challengeStatus.NotStarted" >
+        <div [hidden]="revisions" class="alert alert-info lead text-center">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+        <div class="card">
+          <app-revision-list [revisions]="revisions">
+          </app-revision-list>
+        </div>
+      </tab>
+      <tab heading="Решение" class="py-3" (select)="openSolutionTab()">
+        <div [hidden]="challenge" class="lead text-center alert alert-info">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+        <ace-editor class="form-control" *ngIf="challenge"
+                    [(text)]="challenge.solutionTemplate"
+                    [autoUpdateContent]="true"
+                    [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+        </ace-editor>
+      </tab>
+      <tab heading="Результаты тестов" class="py-3" [disabled]="!testResults">
+        <div class="card">
+          <app-test-results-table [testResults]="testResults">
+          </app-test-results-table>
+        </div>
+      </tab>
+    </tabset>
 
     <tabset type="pills" [justified]="true" *ngIf="challenge">
       <tab customClass="tab-sm tab-success pr-2" class="py-3">
@@ -84,10 +119,10 @@
             <i class="fa fa-check"></i>
           </td>
         </tr>
-        <tr *ngIf="challenge.likes" >
+        <tr >
           <td>Рейтинг</td>
           <td [class.text-primary]="challenge.liked">
-            <span>{{challenge.likes}}</span>
+            <span>{{challenge.likes || 0}}</span>
             <i class="fa fa-thumbs-up"></i>
           </td>
         </tr>
@@ -95,46 +130,17 @@
       </table>
     </div>
 
-    <accordion [hidden]="challenge.status === challengeStatus.NotStarted" class="my-3">
-      <accordion-group #revisionsAccordion>
-        <div accordion-heading>
-          <b>Ваши попытки</b>
-          <i class="pull-right my-1 fa"
-             [class.fa-chevron-down]="revisionsAccordion?.isOpen"
-             [class.fa-chevron-right]="!revisionsAccordion?.isOpen"></i>
-        </div>
-        <div [hidden]="revisions" class="lead text-center">
-          <i class="fa fa-spinner fa-pulse"></i>
-          <span> Загрузка...</span>
-        </div>
-        <app-revision-list [revisions]="revisions"></app-revision-list>
-      </accordion-group>
-    </accordion>
-
-    <div [ngSwitch]="challenge.status" class="my-3">
-      <button *ngSwitchCase="challengeStatus.NotStarted"
-              type="submit" class="btn btn-primary btn-lg" title="Новое решение">
-        <i class="fa fa-play"></i>
-        <span> Решить</span>
-      </button>
-
-      <button *ngSwitchCase="challengeStatus.InProgress"
-              type="submit" class="btn btn-info" title="Продолжить решение">
-        <i class="fa fa-play"></i>
-        <span> Продолжить решение</span>
-      </button>
-
-      <button *ngSwitchCase="challengeStatus.Completed"
-              type="submit" class="btn btn-success" title="Просмотреть решение">
-        <i class="fa fa-check"></i>
-        <span> Просмотреть решение</span>
-      </button>
-
-      <button *ngIf="challenge.status !== challengeStatus.NotStarted"
-              type="submit" class="btn btn-primary my-2" title="Новое решение">
-        <i class="fa fa-play"></i>
-        <span> Новое решение</span>
-      </button>
-    </div>
+    <button type="submit" class="btn btn-primary my-1 w-50" title="Новое решение">
+      <i class="fa fa-play"></i>
+      <span> Протестировать</span>
+    </button>
+    <button type="submit" class="btn btn-secondary my-1 w-50" title="Новое решение">
+      <i class="fa fa-save"></i>
+      <span> Сохранить</span>
+    </button>
+    <button type="submit" class="btn btn-info my-1 w-50" title="Новое решение">
+      <i class="fa fa-share-alt"></i>
+      <span> Поделиться</span>
+    </button>
   </div>
 </div>

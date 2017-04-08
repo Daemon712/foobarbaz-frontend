@@ -42,14 +42,14 @@
       </div>
 
       <div class="form-group">
-        <label for="description">Аннотация</label>
+        <label for="abstract">Аннотация</label>
         <textarea class="form-control"
-                  id="description" name="annotation" #annotation="ngModel" [(ngModel)]="model.description"
+                  id="abstract" name="abstract" #abstract="ngModel" [(ngModel)]="model.abstract"
                   required minlength="50" maxlength="300"></textarea>
-        <div *ngIf="annotation.errors && (annotation.dirty || annotation.touched)"
+        <div *ngIf="abstract.errors && (abstract.dirty || abstract.touched)"
              class="text-danger">
-          <div [hidden]="!annotation.errors['required']">Напишите аннотацию</div>
-          <div [hidden]="!annotation.errors['minlength']">Слишком короткая аннотация</div>
+          <div [hidden]="!abstract.errors['required']">Напишите аннотацию</div>
+          <div [hidden]="!abstract.errors['minlength']">Слишком короткая аннотация</div>
         </div>
       </div>
 
