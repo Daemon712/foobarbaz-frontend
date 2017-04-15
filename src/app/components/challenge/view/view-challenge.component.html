@@ -39,6 +39,24 @@
                 <span>{{challenge.created | date:'d MMM yyyy'}}</span>
               </td>
             </tr>
+            <tr >
+              <td>Рейтинг</td>
+              <td class="text-muted">
+                <i [class.text-warning]="challenge.rating > 0.0" class="fa fa-star"></i>
+                <i [class.text-warning]="challenge.rating > 0.2" class="fa fa-star"></i>
+                <i [class.text-warning]="challenge.rating > 0.4" class="fa fa-star"></i>
+                <i [class.text-warning]="challenge.rating > 0.6" class="fa fa-star"></i>
+                <i [class.text-warning]="challenge.rating > 0.8" class="fa fa-star"></i>
+              </td>
+            </tr>
+            <tr>
+              <td>Сложность</td>
+              <td class="text-primary">
+                <i *ngIf="challenge.difficulty > 0.0" class="fa fa-asterisk"></i>
+                <i *ngIf="challenge.difficulty > 0.33" class="fa fa-asterisk"></i>
+                <i *ngIf="challenge.difficulty > 0.67" class="fa fa-asterisk"></i>
+              </td>
+            </tr>
             <tr>
               <td>Просмотры</td>
               <td>
@@ -51,13 +69,6 @@
               <td [class.text-success]="challenge.status === challengeStatus.Completed">
                 <span>{{challenge.solutions}} </span>
                 <i class="fa fa-check"></i>
-              </td>
-            </tr>
-            <tr >
-              <td>Рейтинг</td>
-              <td [class.text-primary]="challenge.liked">
-                <span>{{challenge.likes || 0}}</span>
-                <i class="fa fa-thumbs-up"></i>
               </td>
             </tr>
             </tbody>
@@ -102,9 +113,14 @@
             </button>
           </div>
         </div>
-        <div class="card" [hidden]="challenge?.status === challengeStatus.NotStarted">
+        <div class="card" >
           <div class="card-header">Ваши попытки</div>
-          <div class="card-block">
+          <div class="card-block" *ngIf="challenge?.status === challengeStatus.NotStarted">
+            <div class="lead text-center">
+              <span>Это будет первая!</span>
+            </div>
+          </div>
+          <div class="card-block" *ngIf="challenge?.status !== challengeStatus.NotStarted">
             <div [hidden]="revisions" class="lead text-center">
               <i class="fa fa-spinner fa-pulse"></i>
               <span> Загрузка...</span>

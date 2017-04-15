@@ -10,8 +10,8 @@ export class Challenge {
   solutionExample: string;
   solutionTest: string;
   tags: string[];
-  likes: number;
-  liked: boolean;
+  rating: number;
+  difficulty: number;
   comments: number;
   views: number;
   solutions: number;

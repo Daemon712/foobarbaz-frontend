@@ -40,6 +40,7 @@ export class CreateChallengeComponent implements OnInit {
   ) {
     this.model.commentAccess = AccessOption.allow;
     this.model.sharedSolutionAccess = AccessOption.solvedOnly;
+    this.model.difficulty = 0.5;
   }
 
   ngOnInit() {

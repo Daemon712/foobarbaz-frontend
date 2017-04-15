@@ -40,6 +40,29 @@
       </div>
 
       <div class="form-group w-50">
+        <label>Сложность</label>
+        <div>
+          <div class="btn-group btn-group-justified">
+            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.difficulty" [btnRadio]="0">
+              <i class="fa fa-asterisk"></i>
+            </label>
+            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.difficulty" [btnRadio]="0.5">
+              <i class="fa fa-asterisk"></i>
+              <i class="fa fa-asterisk"></i>
+            </label>
+            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.difficulty" [btnRadio]="1">
+              <i class="fa fa-asterisk"></i>
+              <i class="fa fa-asterisk"></i>
+              <i class="fa fa-asterisk"></i>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group w-50">
         <label>Комментарии</label>
         <div class="btn-group btn-group-fill">
           <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
@@ -202,7 +225,7 @@
   </tabset>
 
   <div>
-    <button class="btn btn-lg btn-success"
+    <button class="btn btn-lg btn-success mb-3"
             [title]="createChallengeForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
             [disabled]="!createChallengeForm.form.valid || submitted">
       <i class="fa fa-plus"> </i>

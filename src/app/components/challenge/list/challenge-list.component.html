@@ -89,7 +89,8 @@
         <option value="author">По автору</option>
         <option value="views">По просмотрам</option>
         <option value="solutions">По кол-ву решений</option>
-        <option value="likes">По рейтингу</option>
+        <option value="rating">По рейтингу</option>
+        <option value="difficulty">По сложности</option>
         <option value="comments">По комментариям</option>
       </select>
       <div class="btn-group btn-group-sm">
@@ -139,26 +140,22 @@
             </span>
           </div>
         </div>
-        <div class="col-3 text-muted small text-right">
-          <div>
+        <div class="col-3 text-muted text-right my-3">
+          <div title="Рейтинг">
+            <i [class.text-warning]="challenge.rating > 0.0" class="fa fa-star"></i>
+            <i [class.text-warning]="challenge.rating > 0.2" class="fa fa-star"></i>
+            <i [class.text-warning]="challenge.rating > 0.4" class="fa fa-star"></i>
+            <i [class.text-warning]="challenge.rating > 0.6" class="fa fa-star"></i>
+            <i [class.text-warning]="challenge.rating > 0.8" class="fa fa-star"></i>
+          </div>
+          <div class="text-primary" title="Сложность">
+            <i *ngIf="challenge.difficulty > 0.0" class="fa fa-asterisk"></i>
+            <i *ngIf="challenge.difficulty > 0.33" class="fa fa-asterisk"></i>
+            <i *ngIf="challenge.difficulty > 0.67" class="fa fa-asterisk"></i>
+          </div>
+          <div class="small" title="Дата Создания">
             <span> {{challenge.created | date: "dd MMM yyyy"}}</span>
             <i class="fa fa-calendar"></i>
-          </div>
-          <div>
-            <span> {{challenge.views}}</span>
-            <i class="fa fa-eye"></i>
-          </div>
-          <div [hidden]="!challenge.solutions" [class.text-success]="challenge.status === challengeStatus.Completed">
-            <span> {{challenge.solutions}}</span>
-            <i class="fa fa-check"></i>
-          </div>
-          <div [hidden]="!challenge.likes" [class.text-primary]="challenge.liked">
-            <span> {{challenge.likes}}</span>
-            <i class="fa fa-thumbs-up"></i>
-          </div>
-          <div [hidden]="!challenge.comments">
-            <span> {{challenge.comments}}</span>
-            <i class="fa fa-comments"></i>
           </div>
         </div>
       </div>
