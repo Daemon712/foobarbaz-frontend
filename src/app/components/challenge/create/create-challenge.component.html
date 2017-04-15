@@ -3,25 +3,6 @@
   <div class="jumbotron">
     <h1 class="display-3">Создать задачу</h1>
     <p class="lead">На этой странице Вы можете создать новую задачу для нашего сообщества</p>
-    <div>
-      <button class="btn btn-success"
-              [title]="createChallengeForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
-              [disabled]="!createChallengeForm.form.valid || submitted">
-        <i class="fa fa-plus"> </i>
-        <span> Создать задачу</span>
-      </button>
-
-      <button type="button" class="btn btn-primary mx-2"
-              (click)="testSolution()" [disabled]="submitted">
-        <i class="fa fa-play"> </i>
-        <span> Протестировать пример</span>
-      </button>
-
-      <button type="button" class="btn btn-secondary" [disabled]="submitted">
-        <i class="fa fa-save"> </i>
-        <span> Сохранить как черновик</span>
-      </button>
-    </div>
   </div>
 
   <tabset type="tabs" class="form-group" [justified]="true">
@@ -48,7 +29,7 @@
                   required minlength="50" maxlength="300"></textarea>
         <div *ngIf="abstract.errors && (abstract.dirty || abstract.touched)"
              class="text-danger">
-          <div [hidden]="!abstract.errors['required']">Напишите аннотацию</div>
+          <div [hidden]="!abstract.errors['required']">Напишите краткое описание задачи</div>
           <div [hidden]="!abstract.errors['minlength']">Слишком короткая аннотация</div>
         </div>
       </div>
@@ -187,6 +168,13 @@
           </ace-editor>
         </div>
         <div class="col-4">
+
+          <button type="button" class="btn btn-lg btn-block btn-primary mb-3"
+                  (click)="testSolution()" [disabled]="submitted">
+            <i class="fa fa-play"> </i>
+            <span> Протестировать пример</span>
+          </button>
+
           <div class="card">
             <div class="card-header">
               <i class="fa fa-question"></i>
@@ -214,4 +202,13 @@
       <app-test-results-table [testResults]="testResults" class="card"></app-test-results-table>
     </tab>
   </tabset>
+
+  <div>
+    <button class="btn btn-lg btn-success"
+            [title]="createChallengeForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
+            [disabled]="!createChallengeForm.form.valid || submitted">
+      <i class="fa fa-plus"> </i>
+      <span> Создать задачу</span>
+    </button>
+  </div>
 </form>
