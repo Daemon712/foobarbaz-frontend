@@ -1,36 +1,5 @@
-<table class="table mb-0">
-  <thead class="thead-default">
-    <tr>
-      <th class="text-center">Статус</th>
-      <th>Попытка</th>
-      <th width="30%">Тесты</th>
-      <th width="25%">Дата выполнения</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let revision of revisions;">
-      <td class="text-center">
-        <app-solution-status-view [status]="revision.status"></app-solution-status-view>
-      </td>
-      <td>
-        <a href="#">Попытка №{{revision.id}}</a>
-      </td>
-      <td class="align-middle">
-        <div class="progress">
-          <div *ngIf="revision.testResults.success" class="progress-bar bg-success"
-               [style.width]="width(revision.testResults.success, revision)">
-          </div>
-          <div *ngIf="revision.testResults.failed" class="progress-bar bg-warning"
-               [style.width]="width(revision.testResults.failed, revision)">
-          </div>
-          <div *ngIf="revision.testResults.error" class="progress-bar bg-danger"
-               [style.width]="width(revision.testResults.error, revision)">
-          </div>
-        </div>
-      </td>
-      <td>
-        <small class="text-muted">{{revision.date | date: 'd MMM yyyy HH:mm'}}</small>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div *ngFor="let revision of revisions">
+  <app-solution-status-view [status]="revision.status" class="mr-2"></app-solution-status-view>
+  <a [routerLink]="'revision/' + revision.id">Попытка №{{revision.id}}</a>
+  <span class="pull-right text-muted">{{revision.date | date: "dd MMM yy"}}</span>
+</div>

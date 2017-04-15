@@ -5,7 +5,7 @@
     <p class="lead">На этой странице Вы можете создать новую задачу для нашего сообщества</p>
   </div>
 
-  <tabset type="tabs" class="form-group" [justified]="true">
+  <tabset type="tabs">
 
     <tab heading="Параметры" class="py-3">
 
@@ -39,29 +39,27 @@
         <app-tag-picker [(tags)]="model.tags"></app-tag-picker>
       </div>
 
-      <div class="row">
-        <div class="form-group col-6">
-          <label>Комментарии</label>
-          <div class="btn-group btn-group-fill">
-            <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
-            <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
-            <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
-          </div>
+      <div class="form-group w-50">
+        <label>Комментарии</label>
+        <div class="btn-group btn-group-fill">
+          <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+          <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+          <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
         </div>
+      </div>
 
-        <div class="form-group col-6">
-          <label>Публичные решения</label>
-          <div class="btn-group btn-group-fill">
-            <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.allow">Разрешить</label>
-            <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
-            <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.deny">Запретить</label>
-          </div>
+      <div class="form-group w-50">
+        <label>Публичные решения</label>
+        <div class="btn-group btn-group-fill">
+          <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+          <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+          <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.deny">Запретить</label>
         </div>
       </div>
 

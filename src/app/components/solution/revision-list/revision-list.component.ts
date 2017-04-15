@@ -15,9 +15,4 @@ export class RevisionListComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  width(value: number, rev: Revision){
-    const sum = rev.testResults.success + rev.testResults.error + rev.testResults.failed;
-    return sum === 0 ? "0" : (100 * value / sum) + "%";
-  }
 }
