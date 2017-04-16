@@ -1,5 +1,13 @@
-<div *ngFor="let revision of revisions">
-  <app-solution-status-view [status]="revision.status" class="mr-2"></app-solution-status-view>
-  <a [routerLink]="'revision/' + revision.id">Попытка №{{revision.id}}</a>
-  <span class="pull-right text-muted">{{revision.date | date: "dd MMM yy"}}</span>
-</div>
+<ul class="list-group">
+  <li class="list-group-item header">
+    <b>Ваши решения</b>
+  </li>
+  <li class="list-group-item list-group-item-action"
+      *ngFor="let revision of revisions"
+      [class.active]="activeRevisionId === revision.id"
+      (click)="revisionSelected.emit(revision)">
+    <app-solution-status-view [status]="revision.status" class="mr-2"></app-solution-status-view>
+    <span>{{revision.name}}</span>
+    <!--<span class="pull-right text-mutedselectedRevisionsion.date | date: "dd MMM yy"}}</span>-->
+  </li>
+</ul>

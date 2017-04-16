@@ -1,11 +1,6 @@
 <div class="jumbotron" *ngIf="challenge">
   <h1 class="display-3">{{challenge.name}}</h1>
   <p class="lead">{{challenge.abstract}}</p>
-  <div class="lead" *ngIf="challenge.tags">
-    <span *ngFor="let tag of challenge.tags"
-          class="badge badge-default mr-1">{{tag}}</span>
-    <i class="fa fa-tags m-1 text-muted"></i>
-  </div>
 </div>
 <div class="jumbotron" *ngIf="!challenge">
   <h1 class="display-3">Загрузка...</h1>
@@ -18,12 +13,12 @@
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
-        <div class="card" *ngIf="challenge">
+        <div class="card description" *ngIf="challenge">
           <div class="card-block text-justify" [innerHTML]="challenge.description"></div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card mb-3" *ngIf="challenge">
+      <div class="col-md-4" *ngIf="challenge">
+        <div class="card">
           <table class="table mb-0">
             <tbody>
             <tr>
@@ -74,6 +69,11 @@
             </tbody>
           </table>
         </div>
+        <div class="my-3">
+          <span *ngFor="let tag of challenge.tags"
+                class="badge badge-default mr-1">{{tag}}</span>
+          <i class="fa fa-tags m-1 text-muted"></i>
+        </div>
         <button type="button" class="btn btn-warning">
           <i class="fa fa-star"></i>
           <span> Оценить</span>
@@ -88,52 +88,55 @@
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
-        <ace-editor class="form-control" *ngIf="challenge"
-                    [(text)]="challenge.solutionTemplate"
-                    [autoUpdateContent]="true"
+        <ace-editor class="form-control" *ngIf="revision"
+                    [(text)]="revision.solution"
+                    [readOnly]="revision.status !== solutionStatus.created"
                     [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
         </ace-editor>
       </div>
       <div class="col-md-4">
-        <button type="submit" class="btn btn-primary btn-block btn-lg" title="Новое решение">
+        <button type="button" (click)="testSolution()"
+                class="btn btn-primary btn-block btn-lg" title="Сохранить решение и протестировать">
           <i class="fa fa-play"></i>
           <span> Протестировать</span>
         </button>
         <div class="row my-3">
           <div class="col-6">
-            <button type="submit" class="btn btn-secondary btn-block" title="Новое решение">
+            <button type="button" class="btn btn-secondary btn-block" title="Сохранить без тестирования">
               <i class="fa fa-save"></i>
               <span> Сохранить</span>
             </button>
           </div>
           <div class="col-6">
-            <button type="submit" class="btn btn-info btn-block" title="Новое решение">
+            <button type="button" class="btn btn-info btn-block" title="Опубликовать решение">
               <i class="fa fa-share-alt"></i>
               <span> Поделиться</span>
             </button>
           </div>
         </div>
-        <div class="card" >
-          <div class="card-header">Ваши попытки</div>
-          <div class="card-block" *ngIf="challenge?.status === challengeStatus.NotStarted">
-            <div class="lead text-center">
-              <span>Это будет первая!</span>
-            </div>
+        <div *ngIf="challenge?.status === challengeStatus.NotStarted" class="card">
+          <div class="card-block">
+            Вы еще не пытались решить эту задачу
           </div>
-          <div class="card-block" *ngIf="challenge?.status !== challengeStatus.NotStarted">
-            <div [hidden]="revisions" class="lead text-center">
-              <i class="fa fa-spinner fa-pulse"></i>
-              <span> Загрузка...</span>
-            </div>
-            <app-revision-list [revisions]="revisions"></app-revision-list>
+        </div>
+        <div *ngIf="challenge?.status !== challengeStatus.NotStarted">
+          <div [hidden]="revisions" class="lead text-center">
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span> Загрузка...</span>
           </div>
+          <app-revision-list
+            [revisions]="revisions"
+            [activeRevisionId]="revision?.id"
+            (revisionSelected)="openRevision($event)">
+          </app-revision-list>
         </div>
       </div>
     </div>
     </tab>
-  <tab heading="Результаты тестов" class="py-3" [disabled]="!testResults">
+  <tab heading="Результаты тестов" class="py-3" [disabled]="!revision?.testResults"
+       (deselect)="testResultsActive = false" [active]="testResultsActive">
     <div class="card">
-      <app-test-results-table [testResults]="testResults">
+      <app-test-results-table [testResults]="revision?.testResults">
       </app-test-results-table>
     </div>
   </tab>

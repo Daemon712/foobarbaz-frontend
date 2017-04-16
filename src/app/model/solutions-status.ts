@@ -3,4 +3,5 @@ export enum SolutionStatus {
   failed,
   error,
   empty,
+  created,
 }

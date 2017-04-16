@@ -6,6 +6,9 @@
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
+.list-group-item.header{
+  background-color: $card-cap-bg;
+}
 
 /* Forms */
 label.col-form-label {

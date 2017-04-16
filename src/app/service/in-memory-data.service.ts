@@ -202,12 +202,12 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     let revisions: Revision[] = [
-      new Revision(1, SolutionStatus.failed,  new Date("03 02 2017 13:55"), 3, 4),
-      new Revision(2, SolutionStatus.empty,   new Date("03 02 2017 16:24")),
-      new Revision(3, SolutionStatus.error,   new Date("03 03 2017 12:01"), 0, 2, 4),
-      new Revision(4, SolutionStatus.failed,  new Date("03 03 2017 22:46"), 5, 2),
-      new Revision(5, SolutionStatus.empty,   new Date("03 04 2017 09:51")),
-      new Revision(6, SolutionStatus.success, new Date("03 06 2017 19:30"), 7),
+      new Revision(1, 'Решение №1', SolutionStatus.failed,  new Date("03 02 2017 13:55"), defaultSolutionTemplate.replace('//...', 'int x = 1;')),
+      new Revision(2, 'Решение №2', SolutionStatus.empty,   new Date("03 02 2017 16:24"), defaultSolutionTemplate.replace('//...', 'int y = 2;')),
+      new Revision(3, 'Решение №3', SolutionStatus.error,   new Date("03 03 2017 12:01"), defaultSolutionTemplate.replace('//...', 'int a = 3;')),
+      new Revision(4, 'Решение №4', SolutionStatus.failed,  new Date("03 03 2017 22:46"), defaultSolutionTemplate.replace('//...', 'int b = 4;')),
+      new Revision(5, 'Решение №5', SolutionStatus.empty,   new Date("03 04 2017 09:51"), defaultSolutionTemplate.replace('//...', 'int c = 5;')),
+      new Revision(6, 'Решение №6', SolutionStatus.success, new Date("03 06 2017 19:30"), defaultSolutionTemplate.replace('//...', 'int d = 6;')),
     ];
 
     let sharedSolutions: SharedSolution[] = [

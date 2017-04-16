@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Revision} from "../../../model/revision";
 
 @Component({
@@ -9,6 +9,11 @@ export class RevisionListComponent implements OnInit {
 
   @Input()
   revisions: Revision[];
+  @Input()
+  activeRevisionId: number;
+
+  @Output()
+  revisionSelected = new EventEmitter();
 
   constructor(
   ) { }

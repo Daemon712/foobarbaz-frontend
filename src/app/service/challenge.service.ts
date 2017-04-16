@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
 import {Revision} from "../model/revision";
 import {SharedSolution} from "../model/shared-solution";
+import {SolutionStatus} from "../model/solutions-status";
 
 @Injectable()
 export class ChallengeService {
@@ -98,6 +99,26 @@ export class ChallengeService {
     return this.http.get('api/revisions')
       .toPromise()
       .then(response => response.json().data as Revision[])
+      .catch(ChallengeService.handleError);
+  }
+
+  addRevision(challengeId: number, solution: string): Promise<Revision> {
+    let rev = new Revision(10, 'Решение №10', Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed, new Date(), solution);
+    //TODO change url to 'api/challenges/:id/revisions'
+    return this.http.post('api/revisions', rev)
+      .toPromise()
+      .then(response => {
+        let rev = response.json().data as Revision;
+        if (rev) {
+          if (rev.status === SolutionStatus.success){
+            this.alertService.success("Вы успешно решили задачу!");
+          } else {
+            this.alertService.info("Ознакомьтесь с результатами тестов");
+          }
+        }
+        else this.alertService.warning("Не удалось протестировать задачу");
+        return rev;
+      })
       .catch(ChallengeService.handleError);
   }
 

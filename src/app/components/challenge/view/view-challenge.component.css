@@ -1,4 +1,10 @@
 ace-editor {
+  height: 100%;
+  min-height: 360px;
+}
+
+.description {
+  height: 100%;
   min-height: 360px;
 }
 

@@ -7,7 +7,8 @@ import {Comment} from "../../../model/comment";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {Revision} from "../../../model/revision";
 import {SharedSolution} from "../../../model/shared-solution";
-import {TestResult} from "../../../model/test-result";
+import {TestSolutionService} from "../../../service/test-solution.service";
+import {SolutionStatus} from "../../../model/solutions-status";
 
 @Component({
   selector: 'app-view-challenge',
@@ -22,10 +23,15 @@ export class ViewChallengeComponent implements OnInit {
   challenge: Challenge;
   challengeStatus = ChallengeStatus;
   revisions: Revision[];
+  revision: Revision;
+  solutionStatus = SolutionStatus;
+
   sharedSolutions: SharedSolution[];
-  testResults: TestResult[];
   comments: Comment[];
   newComment: string;
+
+  submitted = false;
+  testResultsActive = false;
 
   options = {
     printMargin: false,
@@ -37,6 +43,7 @@ export class ViewChallengeComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
+    private testSolutionService: TestSolutionService,
   ) { }
 
   ngOnInit() {
@@ -44,9 +51,28 @@ export class ViewChallengeComponent implements OnInit {
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
       .subscribe((challenge: Challenge) => {
         this.challenge = challenge;
+        this.revision = new Revision(-1, 'Новое Решение',  SolutionStatus.created, null, challenge.solutionTemplate);
+        this.revisions = [this.revision];
         this.loadComments();
         this.loadRevisions();
         this.loadSolutions();
+      });
+  }
+
+  openRevision(revision: Revision){
+    this.revision = revision;
+  }
+
+  testSolution(){
+    this.submitted = true;
+    this.testSolutionService.testChallenge(this.challenge.id, this.revision.solution)
+      .then(revision => {
+        this.submitted = false;
+        if (revision){
+          this.revisions.push(revision);
+          this.revision = revision;
+          this.testResultsActive = true;
+        }
       });
   }
 
@@ -78,7 +104,7 @@ export class ViewChallengeComponent implements OnInit {
 
   loadRevisions(){
     this.challengeService.getRevisions(this.challenge.id)
-      .then(revisions => this.revisions = revisions)
+      .then(revisions => revisions.forEach(r => this.revisions.push(r)))
   }
 
   loadSolutions(){

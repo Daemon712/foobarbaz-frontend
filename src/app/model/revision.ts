@@ -1,23 +1,19 @@
 import {SolutionStatus} from "./solutions-status";
+import {TestResult} from "./test-result";
 
 export class Revision {
   id: number;
+  name: string;
   status: SolutionStatus;
   date: Date;
-  testResults: {
-    success: number,
-    error: number,
-    failed: number,
-  };
+  solution: string;
+  testResults: TestResult[];
 
-  constructor(id: number, status: SolutionStatus = SolutionStatus.empty, date?: Date, success = 0, failed = 0, error = 0) {
+  constructor(id?: number, name?: string, status: SolutionStatus = SolutionStatus.empty, date = new Date(), solution?: string) {
     this.id = id;
+    this.name = name;
     this.status = status;
     this.date = date;
-    this.testResults = {
-      success: success,
-      failed: failed,
-      error: error
-    };
+    this.solution = solution;
   }
 }
