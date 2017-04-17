@@ -9,6 +9,11 @@
 .list-group-item.header{
   background-color: $card-cap-bg;
 }
+.list-group>.list-group-item.active{
+  background-color: $state-info-bg;
+  border-color: $state-info-border;
+  color: $state-info-text;
+}
 
 /* Forms */
 label.col-form-label {

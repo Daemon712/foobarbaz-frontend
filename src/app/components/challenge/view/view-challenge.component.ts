@@ -9,6 +9,7 @@ import {Revision} from "../../../model/revision";
 import {SharedSolution} from "../../../model/shared-solution";
 import {TestSolutionService} from "../../../service/test-solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
+import {AlertService} from "../../../service/alert.service";
 
 @Component({
   selector: 'app-view-challenge',
@@ -22,7 +23,7 @@ export class ViewChallengeComponent implements OnInit {
 
   challenge: Challenge;
   challengeStatus = ChallengeStatus;
-  revisions: Revision[];
+  revisions: Revision[] = [];
   revision: Revision;
   solutionStatus = SolutionStatus;
 
@@ -44,6 +45,7 @@ export class ViewChallengeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
     private testSolutionService: TestSolutionService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -51,8 +53,7 @@ export class ViewChallengeComponent implements OnInit {
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
       .subscribe((challenge: Challenge) => {
         this.challenge = challenge;
-        this.revision = new Revision(-1, 'Новое Решение',  SolutionStatus.created, null, challenge.solutionTemplate);
-        this.revisions = [this.revision];
+        this.addSolution();
         this.loadComments();
         this.loadRevisions();
         this.loadSolutions();
@@ -65,15 +66,90 @@ export class ViewChallengeComponent implements OnInit {
 
   testSolution(){
     this.submitted = true;
-    this.testSolutionService.testChallenge(this.challenge.id, this.revision.solution)
-      .then(revision => {
-        this.submitted = false;
-        if (revision){
-          this.revisions.push(revision);
-          this.revision = revision;
-          this.testResultsActive = true;
-        }
-      });
+    let thatSolution = this.revision;
+    let promise: Promise<Revision> = this.revision.status === SolutionStatus.created ?
+      this.testSolutionService.testSolution(this.challenge.id, this.revision.newSolution) :
+      this.testSolutionService.testSolution(this.challenge.id, this.revision.newSolution, this.revision.id);
+
+    promise.then(revision => {
+      this.submitted = false;
+      if (revision){
+        Object.assign(thatSolution, revision);
+        this.revision = revision;
+        this.testResultsActive = true;
+      }
+    });
+  }
+
+  addSolution(){
+    if (this.revisions.length >= 10){
+      this.alertService.warning('Для одной задачи можно хранить не больше 10 решений');
+      return;
+    }
+    this.revision = new Revision(
+      -1-this.revisions.length,
+      'Новое Решение',
+      SolutionStatus.created,
+      null,
+      this.challenge.solutionTemplate
+    );
+    this.revisions.push(this.revision);
+  }
+
+  copySolution(){
+    if (this.revisions.length >= 10){
+      this.alertService.warning('Для одной задачи можно хранить не больше 10 решений');
+      return;
+    }
+    let solution = this.revision.newSolution;
+    this.revision = new Revision(
+      -1-this.revisions.length,
+      'Новое Решение',
+      SolutionStatus.created,
+      null,
+      solution
+    );
+    this.revisions.push(this.revision);
+  }
+
+  saveSolution(){
+    this.submitted = true;
+    let thatSolution = this.revision;
+    let promise: Promise<Revision> = this.revision.status === SolutionStatus.created ?
+      this.challengeService.addRevision(this.challenge.id, this.revision.newSolution) :
+      this.challengeService.updateRevision(this.challenge.id, this.revision.id, this.revision.newSolution);
+
+    promise.then(revision => {
+      this.submitted = false;
+      if (revision){
+        Object.assign(thatSolution, revision);
+        this.revision = revision;
+      }
+    });
+  }
+
+  shareSolution(){
+    console.log('share solution:\n' + this.revision.newSolution);
+  }
+
+  revertChanges(){
+    this.revision.newSolution = this.revision.solution;
+  }
+
+  removeSolution(){
+    let index = this.revisions.indexOf(this.revision);
+    if (this.revision.status == SolutionStatus.created){
+      this.revisions.splice(index, 1);
+      if (this.revisions.length == 0) this.addSolution();
+      this.revision = this.revisions[Math.min(index, this.revisions.length - 1)];
+    } else {
+      this.challengeService.deleteRevision(this.challenge.id, this.revision.id)
+        .then(() => {
+          this.revisions.splice(index, 1);
+          if (this.revisions.length == 0) this.addSolution();
+          this.revision = this.revisions[Math.min(index, this.revisions.length - 1)];
+        })
+    }
   }
 
   solutionTabReady = false;
@@ -104,7 +180,12 @@ export class ViewChallengeComponent implements OnInit {
 
   loadRevisions(){
     this.challengeService.getRevisions(this.challenge.id)
-      .then(revisions => revisions.forEach(r => this.revisions.push(r)))
+      .then(revisions => {
+        if (revisions && revisions.length > 0) {
+          this.revisions = revisions;
+          this.revision = revisions[0];
+        }
+      });
   }
 
   loadSolutions(){

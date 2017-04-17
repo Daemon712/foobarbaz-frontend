@@ -61,7 +61,7 @@ export class CreateChallengeComponent implements OnInit {
 
   testSolution(){
     this.submitted = true;
-    this.testSolutionService.testNewChallenge(this.model)
+    this.testSolutionService.testSolutionExample(this.model)
       .then(testResults => {
         this.submitted = false;
         if (testResults){

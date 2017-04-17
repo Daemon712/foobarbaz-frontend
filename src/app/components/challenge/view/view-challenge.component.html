@@ -88,42 +88,57 @@
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
-        <ace-editor class="form-control" *ngIf="revision"
-                    [(text)]="revision.solution"
-                    [readOnly]="revision.status !== solutionStatus.created"
+        <ace-editor class="form-control"
+                    *ngIf="revision"
+                    [(text)]="revision.newSolution"
+                    [readOnly]="submitted"
                     [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
         </ace-editor>
       </div>
       <div class="col-md-4">
-        <button type="button" (click)="testSolution()"
-                class="btn btn-primary btn-block btn-lg" title="Сохранить решение и протестировать">
+        <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
+                [disabled]="!(revision && (revision.solution !== revision.newSolution || revision.status === solutionStatus.empty))"
+                title="Сохранить и протестировать решение"
+                (click)="testSolution()">
           <i class="fa fa-play"></i>
           <span> Протестировать</span>
         </button>
-        <div class="row my-3">
-          <div class="col-6">
-            <button type="button" class="btn btn-secondary btn-block" title="Сохранить без тестирования">
-              <i class="fa fa-save"></i>
-              <span> Сохранить</span>
-            </button>
-          </div>
-          <div class="col-6">
-            <button type="button" class="btn btn-info btn-block" title="Опубликовать решение">
-              <i class="fa fa-share-alt"></i>
-              <span> Поделиться</span>
-            </button>
-          </div>
+        <div class="mb-3 d-flex justify-content-between">
+          <button type="button" class="btn btn-success"
+                  (click)="addSolution()"
+                  title="Добавить новое решение">
+            <i class="fa fa-plus"></i>
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  (click)="copySolution()"
+                  title="Скопировать в новое решение">
+            <i class="fa fa-paste"></i>
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  [disabled]="!(revision && revision.solution !== revision.newSolution)"
+                  title="Сохранить решение без тестирования"
+                  (click)="saveSolution()">
+            <i class="fa fa-save"></i>
+          </button>
+          <button type="button" class="btn btn-info"
+                  [disabled]="!(revision && revision.solution === revision.newSolution && revision.status !== solutionStatus.created)"
+                  title="Поделиться решением"
+                  (click)="shareSolution()">
+            <i class="fa fa-share-alt"></i>
+          </button>
+          <button type="button" class="btn btn-warning"
+                  [disabled]="!(revision && revision.solution !== revision.newSolution)"
+                  title="Сбросить изменения"
+                  (click)="revertChanges()">
+            <i class="fa fa-undo"></i>
+          </button>
+          <button type="button" class="btn btn-danger"
+                  (click)="removeSolution()"
+                  title="Удалить решение">
+            <i class="fa fa-close"></i>
+          </button>
         </div>
-        <div *ngIf="challenge?.status === challengeStatus.NotStarted" class="card">
-          <div class="card-block">
-            Вы еще не пытались решить эту задачу
-          </div>
-        </div>
-        <div *ngIf="challenge?.status !== challengeStatus.NotStarted">
-          <div [hidden]="revisions" class="lead text-center">
-            <i class="fa fa-spinner fa-pulse"></i>
-            <span> Загрузка...</span>
-          </div>
+        <div>
           <app-revision-list
             [revisions]="revisions"
             [activeRevisionId]="revision?.id"

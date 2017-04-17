@@ -7,7 +7,6 @@
       [class.active]="activeRevisionId === revision.id"
       (click)="revisionSelected.emit(revision)">
     <app-solution-status-view [status]="revision.status" class="mr-2"></app-solution-status-view>
-    <span>{{revision.name}}</span>
-    <!--<span class="pull-right text-mutedselectedRevisionsion.date | date: "dd MMM yy"}}</span>-->
+    <span [class.font-italic]="revision.solution != revision.newSolution">{{revision.name}}</span>
   </li>
 </ul>

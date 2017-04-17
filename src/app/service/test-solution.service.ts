@@ -14,22 +14,25 @@ export class TestSolutionService {
     private challengeService: ChallengeService,
   ) { }
 
-  testChallenge(challengeId: number, solution: string): Promise<Revision>{
+  testSolution(challengeId: number, solution: string, prevSolutionId?: number): Promise<Revision>{
     //TODO ONE POST METHOD
     return this.http.get(this.url)
       .toPromise()
       .then(response => {
         let testResults = response.json().data as TestResult[];
-        return this.challengeService.addRevision(challengeId, solution)
-          .then(revision => {
-            revision.testResults = testResults;
-            return revision;
-          });
+        let promise: Promise<Revision> = prevSolutionId ?
+            this.challengeService.updateRevision(challengeId, prevSolutionId, solution) :
+            this.challengeService.addRevision(challengeId, solution);
+
+        return promise.then(revision => {
+          revision.testResults = testResults;
+          return revision;
+        });
       })
       .catch(TestSolutionService.handleError);
   }
 
-  testNewChallenge(challenge: Challenge): Promise<TestResult[]>{
+  testSolutionExample(challenge: Challenge): Promise<TestResult[]>{
     //TODO POST METHOD
     //this.http.post(this.url, challenge)
     return this.http.get(this.url)

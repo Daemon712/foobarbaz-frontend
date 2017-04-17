@@ -103,23 +103,57 @@ export class ChallengeService {
   }
 
   addRevision(challengeId: number, solution: string): Promise<Revision> {
-    let rev = new Revision(10, 'Решение №10', Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed, new Date(), solution);
+    let n = Math.round(6 + Math.random() * 20);
+    let rev = new Revision(
+      n,
+      'Решение №' + n,
+      Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed,
+      new Date(),
+      solution
+    );
     //TODO change url to 'api/challenges/:id/revisions'
     return this.http.post('api/revisions', rev)
       .toPromise()
-      .then(response => {
-        let rev = response.json().data as Revision;
-        if (rev) {
-          if (rev.status === SolutionStatus.success){
-            this.alertService.success("Вы успешно решили задачу!");
-          } else {
-            this.alertService.info("Ознакомьтесь с результатами тестов");
-          }
-        }
-        else this.alertService.warning("Не удалось протестировать задачу");
-        return rev;
-      })
+      .then(response => this.handleSolutionResponse(response))
       .catch(ChallengeService.handleError);
+  }
+
+  updateRevision(challengeId: number, revisionId: number, solution: string): Promise<Revision> {
+    //TODO fill params on server-side
+    let revision = new Revision(
+      revisionId,
+      'Решение №' + revisionId,
+      Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed,
+      new Date(),
+      solution
+    );
+    //TODO change url to 'api/challenges/:id/revisions'
+    return this.http.put(`api/revisions/${revisionId}`, revision)
+      .toPromise()
+      .then(() => this.http.get(`api/revisions/${revisionId}`)
+        .toPromise()
+        .then(response => this.handleSolutionResponse(response)))
+      .catch(ChallengeService.handleError);
+  }
+
+  deleteRevision(challengeId: number, revisionId: number): Promise<void> {
+    //TODO change url to 'api/challenges/:id/revisions'
+    return this.http.delete(`api/revisions/${revisionId}`)
+      .toPromise()
+      .catch(ChallengeService.handleError);
+  }
+
+  private handleSolutionResponse(response){
+    let result = response.json().data as Revision;
+    if (result) {
+      switch (result.status) {
+        case SolutionStatus.empty: this.alertService.info("Решение успешно сохранено"); break;
+        case SolutionStatus.success: this.alertService.success("Задача успешно решена!"); break;
+        default: this.alertService.warning("Решение не прошло все тесты..."); break;
+      }
+    }
+    else this.alertService.danger("Не удалось протестировать задачу");
+    return result;
   }
 
   getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {

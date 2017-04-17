@@ -7,6 +7,7 @@ export class Revision {
   status: SolutionStatus;
   date: Date;
   solution: string;
+  newSolution: string;
   testResults: TestResult[];
 
   constructor(id?: number, name?: string, status: SolutionStatus = SolutionStatus.empty, date = new Date(), solution?: string) {
@@ -15,5 +16,6 @@ export class Revision {
     this.status = status;
     this.date = date;
     this.solution = solution;
+    this.newSolution = solution;
   }
 }

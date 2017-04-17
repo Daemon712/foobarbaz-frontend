@@ -4,6 +4,7 @@ import {Revision} from "../../../model/revision";
 @Component({
   selector: 'app-revision-list',
   templateUrl: 'revision-list.component.html',
+  styleUrls: ['revision-list.component.scss'],
 })
 export class RevisionListComponent implements OnInit {
 
