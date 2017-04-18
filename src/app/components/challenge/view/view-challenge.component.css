@@ -7,7 +7,3 @@ ace-editor {
   height: 100%;
   min-height: 360px;
 }
-
-tr:first-child > td {
-  border-top: 0;
-}

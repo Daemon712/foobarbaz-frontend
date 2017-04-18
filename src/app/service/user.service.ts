@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {User} from "../model/user";
 import {AlertService} from "./alert.service";
+import {UserAccount} from "../model/user-account";
 
 @Injectable()
 export class UserService {
@@ -30,6 +31,16 @@ export class UserService {
       .then(response => {
         this.alertService.success("Вы успешно зарегистрировались");
         return response.json().date as User;
+      })
+      .catch(this.handleError);
+  }
+
+  getUserAccount(username: string): Promise<UserAccount>{
+    return this.http.get(`${this.url}?username=${username}`)
+      .toPromise()
+      .then(response => {
+        let user = response.json().data[0] as User;
+        return user.account;
       })
       .catch(this.handleError);
   }

@@ -25,7 +25,7 @@
       </div>
       <h5>
         <i class="fa fa-user"></i>
-        <span> {{solution.author}}</span>
+        <a [routerLink]="'/users/' + challenge.author"> {{challenge.author}}</a>
       </h5>
       <p>
         <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>

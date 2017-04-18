@@ -5,6 +5,7 @@ import {TestResult, TestStatus} from "../model/test-result";
 import {Revision} from "../model/revision";
 import {SharedSolution} from "../model/shared-solution";
 import {SolutionStatus} from "../model/solutions-status";
+import {UserAccount} from "../model/user-account";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -152,8 +153,10 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     let users = [
-      {username: "admin", password: "1234"},
-      {username: "user",  password: "1"},
+      {username: "admin", password: "1234", account: new UserAccount("admin", new Date('11 7 2016 9:30'))},
+      {username: "user",  password: "1",    account: new UserAccount("user", new Date('11 17 2016 17:30'))},
+      {username: "Петр", password: "1234",  account: new UserAccount("Петр", new Date('12 11 2016 19:30'))},
+      {username: "Игорь", password: "1234", account: new UserAccount("Игорь", new Date('11 21 2016 20:30'))}
     ];
 
     let comments = [

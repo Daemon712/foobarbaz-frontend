@@ -23,7 +23,7 @@
       </div>
       <h5>
         <i class="fa fa-user"></i>
-        <span> {{comment.author}}</span>
+        <a [routerLink]="'/users/' + challenge.author"> {{challenge.author}}</a>
       </h5>
       <p>{{comment.text}}</p>
     </div>

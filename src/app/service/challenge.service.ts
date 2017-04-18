@@ -24,6 +24,13 @@ export class ChallengeService {
         .catch(ChallengeService.handleError);
   }
 
+  getChallengesByAuthor(author: string): Promise<Challenge[]>{
+    return this.http.get(`${this.url}?author=${author}`)
+      .toPromise()
+      .then(response => response.json().data as Challenge[])
+      .catch(ChallengeService.handleError);
+  }
+
   getChallenge(id: number): Promise<Challenge>{
     return this.http.get(`${this.url}/${id}`)
       .toPromise()

@@ -1,0 +1,60 @@
+<div class="jumbotron" *ngIf="userAccount">
+  <h1 class="display-3">{{userAccount.username}}</h1>
+  <p class="display"></p>
+</div>
+<div class="jumbotron" *ngIf="!userAccount">
+  <h1 class="display-3">Загрузка...</h1>
+</div>
+<div class="row" *ngIf="userAccount">
+  <div class="col-3">
+    <img src="http://placehold.it/300x300" class="rounded w-100 mb-3"/>
+    <div class="card">
+      <table class="table mb-0">
+        <tbody>
+        <tr>
+          <td>Рейтинг</td>
+          <td>
+            <i class="fa fa-diamond text-primary"></i>
+            <span>{{userAccount.karma}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Решено задач</td>
+          <td>
+            <i class="fa fa-check text-success"></i>
+            <span>{{userAccount.solved}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Регистрация</td>
+          <td>
+            <span>{{userAccount.created | date:'d MMM yyyy'}}</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-9">
+    <tabset type="tabs">
+      <tab heading="Задачи" class="py-3">
+        <div [hidden]="challenges" class="alert alert-info lead text-center p-3">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+        <div [hidden]="!challenges || challenges.length" class="alert alert-warning lead text-center p-3">
+          <span>Пользователь еще не создал ни одной задачи</span>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let challenge of challenges">
+            <a [routerLink]="'/challenges/' + challenge.id">{{challenge.name}}</a>
+          </li>
+        </ul>
+      </tab>
+      <tab heading="Подборки"></tab>
+      <tab heading="Избранное"></tab>
+      <tab heading="Комментарии"></tab>
+      <tab heading="Опубл. решения"></tab>
+    </tabset>
+  </div>
+</div>

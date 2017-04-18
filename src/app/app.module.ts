@@ -38,10 +38,12 @@ import { SolutionStatusViewComponent } from './components/solution/status-view/s
 import { SharedSolutionListComponent } from './components/solution/shared-solution-list/shared-solution-list.component';
 import { CreateArticleComponent } from './components/article/create/create-article.component';
 import { ArticleViewComponent } from './components/article/view/article-view.component';
+import { UserViewComponent } from './components/user/view/user-view.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
+  { path: 'users/:username',  component: UserViewComponent },
   { path: 'users',  component: UserListComponent },
   { path: 'articles/create',  component: CreateArticleComponent },
   { path: 'articles/:id',  component: ArticleViewComponent },
@@ -62,6 +64,7 @@ const routes: Routes = [
     EqualValidator,
     TagsComponent,
     UserListComponent,
+    UserViewComponent,
     AlertsComponent,
     CreateChallengeComponent,
     AceEditorComponent,
