@@ -1,166 +1,59 @@
-<div class="jumbotron">
-  <h1 class="display-3">Архив задач</h1>
-  <p class="lead">
-    На этой странице Вы можете просмотреть все задачи на нашем портале.
-    <br/>
-    Воспользуйтесь фильтром, чтобы найти себе новые интересные задачи.</p>
+<div [hidden]="challenges" class="alert alert-info lead text-center p-3">
+  <i class="fa fa-spinner fa-pulse"></i>
+  <span> Загрузка...</span>
 </div>
-<div class="row">
-  <div class="col-3">
-    <a class="btn btn-lg btn-success btn-block mb-3" [routerLink]="['/challenges/create']">
-      <i class="fa fa-plus"></i>
-      <span> Добавить задачу</span>
-    </a>
-    <div class="card mb-2">
-      <div class="card-header">
-        <i class="fa fa-search"> </i>
-        <span>Фильтр</span>
-      </div>
-      <div class="card-block">
-        <div class="card-text">
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Название"
-                   [(ngModel)]="newFilter.name">
-          </div>
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Автор"
-                   [(ngModel)]="newFilter.author">
-          </div>
-
-          <div class="form-group mb-1 text-center">
-            <div class="btn-group btn-group-sm" role="group">
-              <label class="btn btn-outline-primary" title="Новые"
-                     [(ngModel)]="newFilter.statusNotStarted" btnCheckbox>
-                <i class="fa fa-play fa-fw"></i>
-              </label>
-              <label class="btn btn-outline-info" title="Начатые"
-                     [(ngModel)]="newFilter.statusInProgress" btnCheckbox>
-                <i class="fa fa-play fa-fw"></i>
-              </label>
-              <label class="btn btn-outline-success" title="Решенные"
-                     [(ngModel)]="newFilter.statusCompleted" btnCheckbox>
-                <i class="fa fa-check fa-fw"></i>
-              </label>
-            </div>
-          </div>
-
-          <!--TODO: date picker-->
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Созданы после"
-                   [(ngModel)]="newFilter.createdAfter">
-          </div>
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Созданы до"
-                   [(ngModel)]="newFilter.createdBefore">
-          </div>
-
-          <div *ngIf="showClearButton()" class="text-center mt-1">
-            <button *ngIf="showClearButton()" class="btn btn-secondary btn-sm"
-                    (click)="clearFilter()">Сбросить</button>
-            <button *ngIf="showApplyButton()" class="btn btn-primary btn-sm"
-                    (click)="applyFilter()">Применить</button>
-          </div>
-        </div>
-      </div>
+<div [hidden]="!challenges || challenges.length" class="alert alert-warning lead text-center p-3">
+  <span> Задач не найдено</span>
+</div>
+<div *ngFor="let challenge of challenges" class="card mb-2">
+  <div class="card-header">
+    <div class="pull-right m-1">
+      <a [routerLink]="'/users/' + challenge.author">{{challenge.author}} </a>
+      <i class="fa fa-user"></i>
     </div>
-    <div class="card mb-2">
-      <div class="card-header">
-        <i class="fa fa-star"> </i>
-        <span>Популярные метки</span>
-      </div>
-      <div class="card-block">
-        <app-tags></app-tags>
-      </div>
-    </div>
+    <h3 class="m-0">
+      <small [ngSwitch]="challenge.status" class="challenge-status mr-3">
+        <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-2"
+              title="Начать решение">
+          <i class="fa fa-play fa-fw"></i>
+        </span>
+        <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-2"
+              title="Продолжить решение">
+          <i class="fa fa-play fa-fw"></i>
+        </span>
+        <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-2"
+              title="Просмотреть решение">
+          <i class="fa fa-check fa-fw"></i>
+        </span>
+      </small>
+      <a [routerLink]="[challenge.id]">{{challenge.name}}</a>
+    </h3>
   </div>
-  <div class="col-9">
-    <div class="pull-left">
-      <pagination class="pagination-sm"
-                  [totalItems]="80" [(ngModel)]="page"
-                  [maxSize]="5" [boundaryLinks]="true"
-                  [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
-                  [firstText]="'&laquo;'" [lastText]="'&raquo;'">
-      </pagination>
-    </div>
-    <div class="pull-right">
-      <select class="custom-select custom-select-sm" [(ngModel)]="sortField" title="sortField">
-        <option value="created">По дате создания</option>
-        <option value="name">По названию</option>
-        <option value="author">По автору</option>
-        <option value="views">По просмотрам</option>
-        <option value="solutions">По кол-ву решений</option>
-        <option value="rating">По рейтингу</option>
-        <option value="difficulty">По сложности</option>
-        <option value="comments">По комментариям</option>
-      </select>
-      <div class="btn-group btn-group-sm">
-        <label class="btn btn-outline-primary mb-0" [(ngModel)]="sortReverse" [btnRadio]="false">
-          <i class="fa fa-sort-amount-asc"></i>
-        </label>
-        <label class="btn btn-outline-primary mb-0" [(ngModel)]="sortReverse" [btnRadio]="true">
-          <i class="fa fa-sort-amount-desc"></i>
-        </label>
+  <div class="card-block pt-2 row">
+    <div class="col-9">
+      <p class="card-text text-justify mt-2">{{challenge.abstract}}</p>
+      <div class="tags-container">
+        <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
+          {{tag}}
+        </span>
       </div>
     </div>
-    <div class="clearfix"></div>
-    <div [hidden]="challenges" class="alert alert-info lead text-center p-3">
-      <i class="fa fa-spinner fa-pulse"></i>
-      <span> Загрузка...</span>
-    </div>
-    <div [hidden]="!challenges || challenges.length" class="alert alert-warning lead text-center p-3">
-      <span> Задач не найдено</span>
-    </div>
-    <div *ngFor="let challenge of challenges" class="card mb-2">
-      <div class="card-header">
-        <div class="pull-right m-1">
-          <a [routerLink]="'/users/' + challenge.author">{{challenge.author}} </a>
-          <i class="fa fa-user"></i>
-        </div>
-        <h3 class="m-0">
-          <small [ngSwitch]="challenge.status" class="challenge-status mr-3">
-            <span *ngSwitchCase="challengeStatus.NotStarted" class="badge badge-primary px-2"
-                  title="Начать решение">
-              <i class="fa fa-play fa-fw"></i>
-            </span>
-            <span *ngSwitchCase="challengeStatus.InProgress" class="badge badge-info px-2"
-                  title="Продолжить решение">
-              <i class="fa fa-play fa-fw"></i>
-            </span>
-            <span *ngSwitchCase="challengeStatus.Completed" class="badge badge-success px-2"
-                  title="Просмотреть решение">
-              <i class="fa fa-check fa-fw"></i>
-            </span>
-          </small>
-          <a [routerLink]="[challenge.id]">{{challenge.name}}</a>
-        </h3>
+    <div class="col-3 text-muted text-right my-3">
+      <div title="Рейтинг">
+        <i [class.text-warning]="challenge.rating > 0.0" class="fa fa-star"></i>
+        <i [class.text-warning]="challenge.rating > 0.2" class="fa fa-star"></i>
+        <i [class.text-warning]="challenge.rating > 0.4" class="fa fa-star"></i>
+        <i [class.text-warning]="challenge.rating > 0.6" class="fa fa-star"></i>
+        <i [class.text-warning]="challenge.rating > 0.8" class="fa fa-star"></i>
       </div>
-      <div class="card-block pt-2 row">
-        <div class="col-9">
-          <p class="card-text text-justify mt-2">{{challenge.abstract}}</p>
-          <div class="tags-container">
-            <span *ngFor="let tag of challenge.tags" class="badge badge-default mr-1">
-              {{tag}}
-            </span>
-          </div>
-        </div>
-        <div class="col-3 text-muted text-right my-3">
-          <div title="Рейтинг">
-            <i [class.text-warning]="challenge.rating > 0.0" class="fa fa-star"></i>
-            <i [class.text-warning]="challenge.rating > 0.2" class="fa fa-star"></i>
-            <i [class.text-warning]="challenge.rating > 0.4" class="fa fa-star"></i>
-            <i [class.text-warning]="challenge.rating > 0.6" class="fa fa-star"></i>
-            <i [class.text-warning]="challenge.rating > 0.8" class="fa fa-star"></i>
-          </div>
-          <div class="text-primary" title="Сложность">
-            <i *ngIf="challenge.difficulty > 0.0" class="fa fa-asterisk"></i>
-            <i *ngIf="challenge.difficulty > 0.33" class="fa fa-asterisk"></i>
-            <i *ngIf="challenge.difficulty > 0.67" class="fa fa-asterisk"></i>
-          </div>
-          <div class="small" title="Дата Создания">
-            <span> {{challenge.created | date: "dd MMM yyyy"}}</span>
-            <i class="fa fa-calendar"></i>
-          </div>
-        </div>
+      <div class="text-primary" title="Сложность">
+        <i *ngIf="challenge.difficulty > 0.0" class="fa fa-asterisk"></i>
+        <i *ngIf="challenge.difficulty > 0.33" class="fa fa-asterisk"></i>
+        <i *ngIf="challenge.difficulty > 0.67" class="fa fa-asterisk"></i>
+      </div>
+      <div class="small" title="Дата Создания">
+        <span> {{challenge.created | date: "dd MMM yyyy"}}</span>
+        <i class="fa fa-calendar"></i>
       </div>
     </div>
   </div>

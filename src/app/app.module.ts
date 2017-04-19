@@ -39,6 +39,7 @@ import { SharedSolutionListComponent } from './components/solution/shared-soluti
 import { CreateArticleComponent } from './components/article/create/create-article.component';
 import { ArticleViewComponent } from './components/article/view/article-view.component';
 import { UserViewComponent } from './components/user/view/user-view.component';
+import { ChallengeListPageComponent } from './components/challenge/list-page/challenge-list-page.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -50,7 +51,7 @@ const routes: Routes = [
   { path: 'articles',  component: ArticleListComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges/:id',  component: ViewChallengeComponent },
-  { path: 'challenges',  component: ChallengeListComponent },
+  { path: 'challenges',  component: ChallengeListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
 
@@ -78,6 +79,7 @@ const routes: Routes = [
     SharedSolutionListComponent,
     CreateArticleComponent,
     ArticleViewComponent,
+    ChallengeListPageComponent,
   ],
   imports: [
     BrowserModule,
