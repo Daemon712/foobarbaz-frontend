@@ -31,6 +31,13 @@ export class ChallengeService {
       .catch(ChallengeService.handleError);
   }
 
+  getBookmarksByUser(username: string): Promise<Challenge[]>{
+    return this.http.get(`${this.url}?bookmark=true`)
+      .toPromise()
+      .then(response => response.json().data as Challenge[])
+      .catch(ChallengeService.handleError);
+  }
+
   getChallenge(id: number): Promise<Challenge>{
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
@@ -51,6 +58,25 @@ export class ChallengeService {
         else this.alertService.warning("Не удалось создать задачу");
         return challenge;
       })
+      .catch(ChallengeService.handleError);
+  }
+
+  updateBookmark(challengeId: number, bookmark: boolean): Promise<Challenge>{
+    //TODO change url to 'api/challenges/:id//bookmark'
+    return this.getChallenge(challengeId)
+      .then(challenge => {
+        challenge.bookmark = bookmark;
+        console.log(challenge);
+        return this.http.post(`${this.url}/${challengeId}`, challenge)
+          .toPromise()
+          .then(response => challenge);
+      });
+  }
+
+  updateUserRating(rating: number, difficulty: number): Promise<Challenge[]>{
+    return this.http.get(`${this.url}?bookmark=true`)
+      .toPromise()
+      .then(response => response.json().data as Challenge[])
       .catch(ChallengeService.handleError);
   }
 

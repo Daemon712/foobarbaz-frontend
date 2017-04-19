@@ -13,6 +13,7 @@ export class UserViewComponent implements OnInit {
 
   userAccount: UserAccount;
   challenges: Challenge[];
+  bookmarks: Challenge[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,5 +29,9 @@ export class UserViewComponent implements OnInit {
     this.activatedRoute.params
       .switchMap((params: Params) => this.challengeService.getChallengesByAuthor(params['username']))
       .subscribe((challenges: Challenge[]) => this.challenges = challenges);
+
+    this.activatedRoute.params
+      .switchMap((params: Params) => this.challengeService.getBookmarksByUser(params['username']))
+      .subscribe((challenges: Challenge[]) => this.bookmarks = challenges);
   }
 }

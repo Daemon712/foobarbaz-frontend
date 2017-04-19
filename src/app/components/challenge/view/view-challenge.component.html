@@ -69,15 +69,29 @@
             </tbody>
           </table>
         </div>
-        <div class="my-3">
+        <div class="row my-3">
+          <div class="col-6">
+            <button type="button"
+                    [class.active]="challenge.bookmark"
+                    (click)="updateBookmark()"
+                    class="btn btn-outline-primary btn-block">
+              <i class="fa fa-bookmark"></i>
+              <span> В закладки</span>
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button"
+                    class="btn btn-outline-warning btn-block">
+              <i class="fa fa-star"></i>
+              <span> Оценить</span>
+            </button>
+          </div>
+        </div>
+        <div>
           <span *ngFor="let tag of challenge.tags"
                 class="badge badge-default mr-1">{{tag}}</span>
           <i class="fa fa-tags m-1 text-muted"></i>
         </div>
-        <button type="button" class="btn btn-warning">
-          <i class="fa fa-star"></i>
-          <span> Оценить</span>
-        </button>
       </div>
     </div>
   </tab>
@@ -148,7 +162,7 @@
       </div>
     </div>
     </tab>
-  <tab heading="Результаты тестов" class="py-3" [disabled]="!revision?.testResults"
+  <tab heading="Результаты тестов" class="py-3" *ngIf="revision?.testResults"
        (deselect)="testResultsActive = false" [active]="testResultsActive">
     <div class="card">
       <app-test-results-table [testResults]="revision?.testResults">
@@ -187,7 +201,7 @@
       <tab customClass="tab-sm tab-info pl-2" class="py-3"
            [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">
         <template tabHeading>
-          <span>Опубликованные Решения </span>
+          <span>Опубл. решения </span>
           <i class="fa fa-share-alt"></i>
           <span> {{sharedSolutions?.length || challenge.sharedSolutions || 0}}</span>
         </template>

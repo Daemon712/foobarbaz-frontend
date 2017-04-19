@@ -18,6 +18,7 @@ export class Challenge {
   sharedSolutions: number;
   commentAccess: AccessOption;
   sharedSolutionAccess: AccessOption;
+  bookmark: boolean;
 }
 
 export enum ChallengeStatus {

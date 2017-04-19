@@ -42,7 +42,10 @@
         </app-challenge-list>
       </tab>
       <tab heading="Подборки"></tab>
-      <tab heading="Избранное"></tab>
+      <tab heading="Закладки" class="py-3">
+        <app-challenge-list [challenges]="bookmarks">
+        </app-challenge-list>
+      </tab>
       <tab heading="Комментарии"></tab>
       <tab heading="Опубл. решения"></tab>
     </tabset>

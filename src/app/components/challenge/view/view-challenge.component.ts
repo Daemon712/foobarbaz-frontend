@@ -60,6 +60,12 @@ export class ViewChallengeComponent implements OnInit {
       });
   }
 
+  updateBookmark(){
+    this.challenge.bookmark = !this.challenge.bookmark;
+    this.challengeService.updateBookmark(this.challenge.id, this.challenge.bookmark)
+      .then((challenge) => this.challenge.bookmark = challenge.bookmark);
+  }
+
   openRevision(revision: Revision){
     this.revision = revision;
   }
