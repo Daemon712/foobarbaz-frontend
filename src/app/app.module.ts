@@ -24,7 +24,7 @@ import { CreateChallengeComponent } from './components/challenge/create/create-c
 import {AceEditorComponent} from "ng2-ace-editor";
 import {
   AccordionModule, AlertModule, PaginationModule, TabsModule, ButtonsModule, TypeaheadModule,
-  ProgressbarModule
+  ProgressbarModule, ModalModule, RatingModule
 } from 'ng2-bootstrap';
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
@@ -92,8 +92,10 @@ const routes: Routes = [
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ButtonsModule.forRoot(),
+    ModalModule.forRoot(),
     PaginationModule.forRoot(),
     ProgressbarModule.forRoot(),
+    RatingModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
     QuillEditorModule,

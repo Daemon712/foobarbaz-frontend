@@ -11,7 +11,9 @@ export class Challenge {
   solutionTest: string;
   tags: string[];
   rating: number;
+  userRating: number;
   difficulty: number;
+  userDifficulty: number;
   comments: number;
   views: number;
   solutions: number;

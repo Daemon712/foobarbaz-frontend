@@ -17,6 +17,9 @@
 tr:first-child > td {
   border-top: 0;
 }
+rating>span:focus {
+  outline: none;
+}
 
 /* Forms */
 label.col-form-label {

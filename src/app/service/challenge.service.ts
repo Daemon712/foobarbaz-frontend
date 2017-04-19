@@ -66,18 +66,23 @@ export class ChallengeService {
     return this.getChallenge(challengeId)
       .then(challenge => {
         challenge.bookmark = bookmark;
-        console.log(challenge);
         return this.http.post(`${this.url}/${challengeId}`, challenge)
           .toPromise()
           .then(response => challenge);
       });
   }
 
-  updateUserRating(rating: number, difficulty: number): Promise<Challenge[]>{
-    return this.http.get(`${this.url}?bookmark=true`)
-      .toPromise()
-      .then(response => response.json().data as Challenge[])
-      .catch(ChallengeService.handleError);
+  updateUserRating(challengeId: number, rating: number, difficulty: number): Promise<Challenge>{
+    //TODO change url to 'api/challenges/:id/rating'
+    console.log(rating, difficulty);
+    return this.getChallenge(challengeId)
+      .then(challenge => {
+        challenge.userRating = rating;
+        challenge.userDifficulty = difficulty;
+        return this.http.post(`${this.url}/${challengeId}`, challenge)
+          .toPromise()
+          .then(response => challenge);
+      });
   }
 
   getComments(challengeId: number): Promise<Comment[]>{

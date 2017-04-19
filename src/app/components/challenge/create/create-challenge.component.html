@@ -44,19 +44,24 @@
         <div>
           <div class="btn-group btn-group-justified">
             <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="0">
-              <i class="fa fa-asterisk"></i>
+                   [(ngModel)]="model.difficulty" [btnRadio]="0.1">
+              1 <i class="fa fa-asterisk"></i>
+            </label>
+            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.difficulty" [btnRadio]="0.3">
+              2 <i class="fa fa-asterisk"></i>
             </label>
             <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
                    [(ngModel)]="model.difficulty" [btnRadio]="0.5">
-              <i class="fa fa-asterisk"></i>
-              <i class="fa fa-asterisk"></i>
+              3 <i class="fa fa-asterisk"></i>
             </label>
             <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="1">
-              <i class="fa fa-asterisk"></i>
-              <i class="fa fa-asterisk"></i>
-              <i class="fa fa-asterisk"></i>
+                   [(ngModel)]="model.difficulty" [btnRadio]="0.7">
+              4 <i class="fa fa-asterisk"></i>
+            </label>
+            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="model.difficulty" [btnRadio]="0.9">
+              5 <i class="fa fa-asterisk"></i>
             </label>
           </div>
         </div>
