@@ -1,7 +1,5 @@
 <ul class="list-group">
-  <li class="list-group-item header">
-    <b>Ваши решения</b>
-  </li>
+  <li class="list-group-item header">Ваши решения</li>
   <li class="list-group-item list-group-item-action"
       *ngFor="let revision of revisions"
       [class.active]="activeRevisionId === revision.id"

@@ -5,7 +5,6 @@ import {TestResult, TestStatus} from "../model/test-result";
 import {Revision} from "../model/revision";
 import {SharedSolution} from "../model/shared-solution";
 import {SolutionStatus} from "../model/solutions-status";
-import {UserAccount} from "../model/user-account";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -176,10 +175,72 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     let users = [
-      {username: "admin", password: "1234", account: new UserAccount("admin", new Date('11 7 2016 9:30'))},
-      {username: "user",  password: "1",    account: new UserAccount("user", new Date('11 17 2016 17:30'))},
-      {username: "Петр",  password: "1234", account: new UserAccount("Петр", new Date('12 11 2016 19:30'))},
-      {username: "Игорь", password: "1234", account: new UserAccount("Игорь", new Date('11 21 2016 20:30'))}
+      {username: "admin", password: "1234", account: {
+        username: "admin",
+        description: "Создатель и действующий администратор сообщества",
+        created: new Date('11 7 2016 9:30'),
+        karma: 9999,
+        challenges: 8,
+        collections: 2,
+        solved: 10,
+        comments: 24,
+        sharedSolutions: 5
+      }},
+      {username: "moderator", password: "1234", account: {
+        username: "moderator",
+        description: "Модератор, который модерирует",
+        created: new Date('12 6 2016 19:30'),
+        karma: 777,
+        challenges: 11,
+        collections: 4,
+        solved: 13,
+        comments: 115,
+        sharedSolutions: 10
+      }},
+      {username: "user", password: "1234", account: {
+        username: "user",
+        description: "Типичный пользователь",
+        created: new Date('1 3 2017 11:45'),
+        karma: 15,
+        challenges: 0,
+        collections: 0,
+        solved: 3,
+        comments: 4,
+        sharedSolutions: 1
+      }},
+      {username: "Игорь", password: "1234", account: {
+        username: "Игорь",
+        description: "Типичный пользователь",
+        created: new Date('1 3 2017 11:45'),
+        karma: 22,
+        challenges: 0,
+        collections: 0,
+        solved: 3,
+        comments: 4,
+        sharedSolutions: 1
+      }},
+      {username: "Анна", password: "1234", account: {
+        username: "Анна",
+        description: "Типичный пользователь",
+        created: new Date('1 3 2017 11:45'),
+        karma: 2,
+        challenges: 0,
+        collections: 0,
+        solved: 1,
+        comments: 1,
+        sharedSolutions: 0
+      }},
+      {username: "Борис", password: "1234", account: {
+        username: "Борис",
+        description: "Олег, где макет?",
+        created: new Date('1 3 2017 11:45'),
+        karma: 8,
+        challenges: 1,
+        collections: 0,
+        solved: 6,
+        comments: 12,
+        sharedSolutions: 0
+      }},
     ];
 
     let comments = [

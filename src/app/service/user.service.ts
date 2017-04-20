@@ -14,13 +14,13 @@ export class UserService {
     private alertService: AlertService
   ) { }
 
-  getUsers(): Promise<User[]>{
+  getUsers(): Promise<UserAccount[]>{
     return this.http.get(this.url)
       .toPromise()
       .then(response => {
         let users = response.json().data as User[];
         users.forEach(user => user.password = null);
-        return users;
+        return users.map(user => user.account);
       })
       .catch(this.handleError);
   }

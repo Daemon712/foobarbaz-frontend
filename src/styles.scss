@@ -8,6 +8,7 @@
 }
 .list-group-item.header{
   background-color: $card-cap-bg;
+  font-weight: bold;
 }
 .list-group>.list-group-item.active{
   background-color: $state-info-bg;

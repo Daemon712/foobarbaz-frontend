@@ -1,5 +1,66 @@
-<ul class="list-group my-2">
-  <li class="list-group-item" *ngFor="let user of users">
-    <a [routerLink]="user.username">{{user.username}}</a>
-  </li>
-</ul>
+<div class="jumbotron">
+  <h1 class="display-3">Пользователи</h1>
+  <p class="lead">
+    На этой странице Вы можете посмотреть всех пользователей нашего сообщества
+  </p>
+</div>
+<div class="row mb-3">
+  <div class="col-9">
+    <ul class="list-group">
+      <li class="list-group-item header justify-content-start">
+        <div class="mx-2" style="width: 100px"></div>
+        <div class="ml-3">Пользователь</div>
+        <div class="ml-auto mr-3">Рейтинг</div>
+      </li>
+      <li class="list-group-item justify-content-start" *ngFor="let user of users">
+        <img src="http://placehold.it/100x100" class="rounded m-2"/>
+        <div class="ml-3">
+          <h3>
+            <a [routerLink]="'/users/'+user.username">{{user.username}}</a>
+          </h3>
+          <p>{{user.description}}</p>
+          <div class="text-muted">
+            <span class="mr-3">
+              <i class="fa fa-calendar"></i>
+              {{user.created | date: "dd MMM yyyy"}}
+            </span>
+            <span *ngIf="user.challenges" class="mr-3">
+              <i class="fa fa-plus"></i>
+              {{user.challenges}}
+            </span>
+            <span *ngIf="user.collections" class="mr-3">
+              <i class="fa fa-list"></i>
+              {{user.collections}}
+            </span>
+            <span *ngIf="user.solved" class="mr-3">
+              <i class="fa fa-check"></i>
+              {{user.solved}}
+            </span>
+            <span *ngIf="user.comments" class="mr-3">
+              <i class="fa fa-comments"></i>
+              {{user.comments}}
+            </span>
+            <span *ngIf="user.sharedSolutions" class="mr-3">
+              <i class="fa fa-share-alt"></i>
+              {{user.sharedSolutions}}
+            </span>
+          </div>
+        </div>
+        <div class="ml-auto p-3 lead">
+          <span> {{user.karma}}</span>
+          <i class="fa fa-diamond text-primary"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Добрый вечер
+      </div>
+      <div class="card-block">
+
+      </div>
+    </div>
+  </div>
+</div>

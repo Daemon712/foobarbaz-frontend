@@ -1,13 +1,15 @@
 export class UserAccount {
   username: string;
+  description: string;
   created: Date;
   karma: number;
   solved: number;
+  challenges: number;
+  collections: number;
+  comments: number;
+  sharedSolutions: number;
 
-  constructor(username: string, created: Date, karma = 0, solved = 0) {
+  constructor(username: string) {
     this.username = username;
-    this.created = created;
-    this.karma = karma;
-    this.solved = solved;
   }
 }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../../model/user";
 import {UserService} from "../../../service/user.service";
+import {UserAccount} from "../../../model/user-account";
 
 @Component({
   selector: 'app-user-list',
   templateUrl: 'user-list.component.html',
 })
 export class UserListComponent implements OnInit {
-  users: User[];
+  users: UserAccount[];
 
   constructor(private userService: UserService) { }
 
