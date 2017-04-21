@@ -178,6 +178,7 @@ export class ChallengeService {
     //TODO change url to 'api/challenges/:id/revisions'
     return this.http.delete(`api/revisions/${revisionId}`)
       .toPromise()
+      .then(() => {})
       .catch(ChallengeService.handleError);
   }
 
