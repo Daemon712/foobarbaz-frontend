@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.26",
+    "version": "1.0.0",
     "name": "foobarbaz"
   },
   "apps": [
@@ -13,6 +13,7 @@
       ],
       "index": "index.html",
       "main": "main.ts",
+      "polyfills": "polyfills.ts",
       "prefix": "app",
       "mobile": false,
       "styles": [
@@ -31,8 +32,10 @@
         "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js"
       ],
+      "tsconfig": "tsconfig.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
@@ -47,11 +50,11 @@
     },
     "spec": {
       "class": false,
-      "component": true,
-      "directive": true,
+      "component": false,
+      "directive": false,
       "module": false,
-      "pipe": true,
-      "service": true
+      "pipe": false,
+      "service": false
     }
   }
 }
