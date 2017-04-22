@@ -10,6 +10,7 @@ import {SharedSolution} from "../../../model/shared-solution";
 import {TestSolutionService} from "../../../service/test-solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
+import {SharedSolutionService} from "../../../service/shared-solution.service";
 
 @Component({
   selector: 'app-view-challenge',
@@ -44,6 +45,7 @@ export class ViewChallengeComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
+    private sharedSolutionService: SharedSolutionService,
     private testSolutionService: TestSolutionService,
     private alertService: AlertService,
   ) { }
@@ -147,7 +149,8 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   shareSolution(comment: string){
-    this.challengeService.addSharedSolution(this.challenge.id, this.revision.id, comment);
+    this.sharedSolutionService.addSharedSolution(this.challenge.id, this.revision.id, comment)
+      .then(() => this.loadSolutions());
   }
 
   revertChanges(){
@@ -207,7 +210,7 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   loadSolutions(){
-    this.challengeService.getSharedSolutions(this.challenge.id)
+    this.sharedSolutionService.getSharedSolutions(this.challenge.id)
       .then(solutions => this.sharedSolutions = solutions);
   }
 }

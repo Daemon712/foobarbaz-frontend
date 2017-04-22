@@ -195,64 +195,6 @@ export class ChallengeService {
     return result;
   }
 
-  getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {
-    //TODO change url to 'api/challenges/:id/sharedSolutions'
-    return this.http.get('api/sharedSolutions?challengeId=' + challengeId)
-      .toPromise()
-      .then(response => response.json().data as SharedSolution[])
-      .catch(ChallengeService.handleError);
-  }
-
-  getSharedSolution(challengeId: number, sharedSolutionId: number): Promise<SharedSolution> {
-    //TODO change url to 'api/challenges/:id/solution/:share_id/'
-    return this.http.get(`api/sharedSolutions?challengeId=${challengeId}&id=${sharedSolutionId}`)
-      .toPromise()
-      .then(response => response.json().data[0] as SharedSolution)
-      .catch(ChallengeService.handleError);
-  }
-
-  likeSharedSolution(challengeId: number, sharedSolutionId: number, like: boolean): Promise<SharedSolution>{
-    //TODO change url to 'api/challenges/:id/solution/:id/like'
-    return this.http.get(`api/sharedSolutions?challengeId=${challengeId}&id=${sharedSolutionId}`)
-      .toPromise()
-      .then(response => {
-        //TODO move the logic to server side
-        let solution = response.json().data[0] as SharedSolution;
-        if (like && !solution.liked){
-          solution.likes++;
-          solution.liked = true;
-        } else if (!like && solution.liked) {
-          solution.likes--;
-          solution.liked = false;
-        }
-        return this.http.post('api/sharedSolutions/' + sharedSolutionId, solution)
-          .toPromise()
-          .then(response => solution)
-      })
-      .catch(ChallengeService.handleError);
-  }
-
-  addSharedSolution(challengeId: number, solutionId: number, comment: string): Promise<SharedSolution>{
-    //TODO change url to 'api/challenges/:id/solution/1/share/'
-    let solution = new SharedSolution();
-    solution.id = 20 + solutionId;
-    solution.date = new Date();
-    solution.comment = comment;
-    solution.author = 'Privet';
-    solution.status = Math.random() > 0.5 ? SolutionStatus.success : SolutionStatus.failed;
-    solution.likes = 0;
-    solution.liked = false;
-
-    return this.http.post('api/sharedSolutions', solution)
-      .toPromise()
-      .then(response => {
-        console.log(response);
-        let newSol = response.json().data as SharedSolution;
-        this.alertService.success(`Вы успешно поделились своим решением: <a href='/challenges/${challengeId}/solutions/${newSol.id}'>${newSol.comment}</a>`);
-        return newSol;
-      });
-  }
-
   private static handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);

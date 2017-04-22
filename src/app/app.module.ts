@@ -43,6 +43,7 @@ import { ChallengeListPageComponent } from './components/challenge/list-page/cha
 import { RateChallengeComponent } from './components/challenge/rate/rate-challenge.component';
 import { ShareSolutionComponent } from './components/shared-solution/share/share-solution.component';
 import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
+import {SharedSolutionService} from "./service/shared-solution.service";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -113,6 +114,7 @@ const routes: Routes = [
     ChallengeService,
     TestSolutionService,
     TagService,
+    SharedSolutionService,
     UserService,
     AlertService,
   ],

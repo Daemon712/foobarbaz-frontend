@@ -4,6 +4,7 @@ import {SharedSolution} from "../../../model/shared-solution";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ChallengeService} from "../../../service/challenge.service";
 import {AceEditorComponent} from "ng2-ace-editor";
+import {SharedSolutionService} from "../../../service/shared-solution.service";
 
 @Component({
   selector: 'app-shared-solution-view',
@@ -28,6 +29,7 @@ export class SharedSolutionViewComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
+    private sharedSolutionService: SharedSolutionService,
   ) { }
 
   ngOnInit() {
@@ -38,7 +40,7 @@ export class SharedSolutionViewComponent implements OnInit {
     });
 
     this.activatedRoute.params
-      .switchMap((params: Params) => this.challengeService.getSharedSolution(+params['id'], +params['share_id']))
+      .switchMap((params: Params) => this.sharedSolutionService.getSharedSolution(+params['id'], +params['share_id']))
       .subscribe((solution: SharedSolution) => {
         this.solution = solution;
         this.solutionView.setText(solution.text);
@@ -49,7 +51,7 @@ export class SharedSolutionViewComponent implements OnInit {
   like(){
     this.solution.liked = !this.solution.liked;
     this.solution.likes += this.solution.liked ? +1 : -1;
-    this.challengeService.likeSharedSolution(this.challenge.id, this.solution.id, this.solution.liked)
+    this.sharedSolutionService.likeSharedSolution(this.challenge.id, this.solution.id, this.solution.liked)
       .then(solution => {
         this.solution.liked = solution.liked;
         this.solution.likes = solution.likes;
