@@ -40,6 +40,7 @@ import { CreateArticleComponent } from './components/article/create/create-artic
 import { ArticleViewComponent } from './components/article/view/article-view.component';
 import { UserViewComponent } from './components/user/view/user-view.component';
 import { ChallengeListPageComponent } from './components/challenge/list-page/challenge-list-page.component';
+import { RateChallengeComponent } from './components/challenge/rate/rate-challenge.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -80,6 +81,7 @@ const routes: Routes = [
     CreateArticleComponent,
     ArticleViewComponent,
     ChallengeListPageComponent,
+    RateChallengeComponent,
   ],
   imports: [
     BrowserModule,

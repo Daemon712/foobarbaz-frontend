@@ -80,13 +80,11 @@
             </button>
           </div>
           <div class="col-6">
-            <button type="button"
-                    [class.active]="challenge.userDifficulty || challenge.userRating"
-                    (click)="ratingModal.show()"
-                    class="btn btn-outline-warning btn-block">
-              <i class="fa fa-star"></i>
-              <span> Оценить</span>
-            </button>
+            <app-rate-challenge
+              [initRating]="challenge.userRating"
+              [initDifficulty]="challenge.userDifficulty"
+              (onSubmit)="updateUserRating($event)">
+            </app-rate-challenge>
           </div>
         </div>
         <div>
@@ -210,50 +208,5 @@
         <app-shared-solution-list [solutions]="sharedSolutions"></app-shared-solution-list>
       </tab>
     </tabset>
-  </div>
-</div>
-
-<div bsModal #ratingModal="bs-modal"
-     class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Ваша оценка</h4>
-        <button type="button" class="close pull-right" aria-label="Close"
-                (click)="closeUserRating()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group row">
-          <label class="col-6">Рейтинг</label>
-          <div class="col-6">
-            <rating [(ngModel)]="userRating.rating" [max]="5"
-                    stateOn="fa fa-lg fa-star text-warning"
-                    stateOff="fa fa-lg fa-star text-muted">
-            </rating>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-6">Сложность</label>
-          <div class="col-6">
-            <rating [(ngModel)]="userRating.difficulty" [max]="5"
-                    stateOn="fa fa-lg fa-asterisk text-primary"
-                    stateOff="fa fa-lg fa-asterisk text-muted">
-            </rating>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button [disabled]="!userRating.rating || !userRating.difficulty"
-                class="btn btn-primary btn-sm"
-                (click)="updateUserRating()">
-          Сохранить оценку
-        </button>
-        <button class="btn btn-secondary btn-sm" (click)="closeUserRating()">
-          Отмена
-        </button>
-      </div>
-    </div>
   </div>
 </div>

@@ -10,7 +10,6 @@ import {SharedSolution} from "../../../model/shared-solution";
 import {TestSolutionService} from "../../../service/test-solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
-import {ModalDirective} from "ng2-bootstrap";
 
 @Component({
   selector: 'app-view-challenge',
@@ -22,9 +21,6 @@ export class ViewChallengeComponent implements OnInit {
   @ViewChild(AceEditorComponent)
   solutionEditor : AceEditorComponent;
 
-  @ViewChild('ratingModal')
-  ratingModal: ModalDirective;
-
   challenge: Challenge;
   challengeStatus = ChallengeStatus;
   revisions: Revision[] = [];
@@ -34,10 +30,6 @@ export class ViewChallengeComponent implements OnInit {
   sharedSolutions: SharedSolution[];
   comments: Comment[];
   newComment: string;
-  userRating = {
-    rating: 0,
-    difficulty: 0,
-  };
 
   submitted = false;
   testResultsActive = false;
@@ -61,10 +53,6 @@ export class ViewChallengeComponent implements OnInit {
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
       .subscribe((challenge: Challenge) => {
         this.challenge = challenge;
-        this.userRating = {
-          rating: this.challenge.userRating,
-          difficulty: this.challenge.userDifficulty,
-        };
         this.addSolution();
         this.loadComments();
         this.loadRevisions();
@@ -78,29 +66,16 @@ export class ViewChallengeComponent implements OnInit {
       .then((challenge) => this.challenge.bookmark = challenge.bookmark);
   }
 
-  updateUserRating(){
+  updateUserRating(userRating: {rating: number, difficulty: number}){
     this.challengeService.updateUserRating(
       this.challenge.id,
-      (this.userRating.rating - 1) / 4,
-      (this.userRating.difficulty - 1) / 4,
+      (userRating.rating - 1) / 4,
+      (userRating.difficulty - 1) / 4,
     )
       .then((challenge) => {
         this.challenge.userRating = challenge.userRating;
         this.challenge.userDifficulty = challenge.userDifficulty;
-        this.userRating = {
-          rating: challenge.userRating,
-          difficulty: challenge.userDifficulty,
-        };
       });
-    this.ratingModal.hide();
-  }
-
-  closeUserRating(){
-    this.userRating = {
-      rating: this.challenge.userRating,
-      difficulty: this.challenge.userDifficulty,
-    };
-    this.ratingModal.hide();
   }
 
   openRevision(revision: Revision){
