@@ -21,14 +21,8 @@
           <label>
             <span>Решение</span>
             <br/>
-            <app-solution-status-view [status]="revision?.status"></app-solution-status-view>
-            <span [ngSwitch]="revision?.status">
-              <span *ngSwitchCase="status.error" class="text-danger">Есть ошибки</span>
-              <span *ngSwitchCase="status.failed" class="text-warning">Тесты не пройдены</span>
-              <span *ngSwitchCase="status.success" class="text-success">Тесты пройдены</span>
-              <span *ngSwitchCase="status.empty" class="text-muted">Не тестировалось</span>
-              <span *ngSwitchDefault></span>
-            </span>
+            <app-solution-status-view [status]="revision?.status" [text]="true">
+            </app-solution-status-view>
           </label>
           <ace-editor #solutionView class="form-control"
                       [autoUpdateContent]="true"

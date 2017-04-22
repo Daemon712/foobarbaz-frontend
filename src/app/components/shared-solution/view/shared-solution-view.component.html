@@ -1,0 +1,144 @@
+<div class="jumbotron">
+  <h1 *ngIf="challenge" class="display-3">
+    <a class="fa fa-chevron-left" [routerLink]="['/challenges/', challenge.id]"></a>
+    {{challenge.name}}
+  </h1>
+  <p *ngIf="solution" class="lead">
+    <span>Решение от пользователя</span>
+    <a [routerLink]="['/users', solution.author]">{{solution.author}}</a>
+  </p>
+  <h1 *ngIf="!challenge" class="display-3">Загрузка...</h1>
+</div>
+<tabset>
+  <tab heading="Решение" class="py-3">
+    <div class="row">
+      <div class="col-md-8">
+        <ace-editor
+             class="form-control"
+             [readOnly]="true"
+             [mode]="'java'"
+             [theme]="'dreamweaver'"
+             [options]="options">
+        </ace-editor>
+      </div>
+      <div class="col-md-4" *ngIf="solution">
+        <blockquote class="blockquote mb-3">
+          {{solution.comment}}
+        </blockquote>
+        <div class="card my-3">
+          <table class="table mb-0">
+            <tr>
+              <td>Автор</td>
+              <td>
+                <i class="fa fa-user"></i>
+                <a [routerLink]="'/users/' + solution.author"> {{solution.author}}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Опубликовано</td>
+              <td>{{solution.date | date: 'd MMM yyyy'}}</td>
+            </tr>
+            <tr>
+              <td>Статус</td>
+              <td>
+                <app-solution-status-view
+                  [status]="solution.status">
+                </app-solution-status-view>
+              </td>
+            </tr>
+            <tr>
+              <td>Рейтинг</td>
+              <td>
+                <i class="fa fa-thumbs-up"></i>
+                <span>{{solution.likes}}</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <button class="btn btn-outline-primary" (click)="like()"
+                [class.active]="solution.liked">
+          <i class="fa fa-thumbs-up"></i>
+          <span>Мне нравится!</span>
+        </button>
+      </div>
+    </div>
+  </tab>
+  <tab heading="Результаты тестов" class="py-3"
+       [disabled]="!solution?.testResults?.length">
+    <div class="card">
+      <app-test-results-table [testResults]="solution?.testResults">
+      </app-test-results-table>
+    </div>
+  </tab>
+  <tab heading="Задача" class="py-3">
+    <div class="row">
+      <div class="col-md-8">
+        <div [hidden]="challenge" class="lead text-center alert alert-info">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+        <div class="card description" *ngIf="challenge">
+          <div class="card-block text-justify" [innerHTML]="challenge.description"></div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="challenge">
+        <div class="card mb-3">
+          <table class="table mb-0">
+            <tbody>
+            <tr>
+              <td>Автор</td>
+              <td>
+                <i class="fa fa-user"></i>
+                <a [routerLink]="'/users/' + challenge.author"> {{challenge.author}}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Дата создания</td>
+              <td>
+                <span>{{challenge.created | date:'d MMM yyyy'}}</span>
+              </td>
+            </tr>
+            <tr >
+              <td>Рейтинг</td>
+              <td>
+                <rating [ngModel]="challenge.rating * 5"
+                        [readonly]="true" [max]="5"
+                        stateOn="fa fa-star text-warning">
+                </rating>
+              </td>
+            </tr>
+            <tr>
+              <td>Сложность</td>
+              <td>
+                <rating [ngModel]="challenge.difficulty * 5"
+                        [readonly]="true" [max]="5"
+                        stateOn="fa fa-asterisk text-primary">
+                </rating>
+              </td>
+            </tr>
+            <tr>
+              <td>Просмотры</td>
+              <td>
+                <span>{{challenge.views}} </span>
+                <i class="fa fa-eye"></i>
+              </td>
+            </tr>
+            <tr>
+              <td>Успешные решения</td>
+              <td [class.text-success]="challenge.status === challengeStatus.Completed">
+                <span>{{challenge.solutions}} </span>
+                <i class="fa fa-check"></i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <span *ngFor="let tag of challenge.tags"
+                class="badge badge-default mr-1">{{tag}}</span>
+          <i class="fa fa-tags m-1 text-muted"></i>
+        </div>
+      </div>
+    </div>
+  </tab>
+</tabset>

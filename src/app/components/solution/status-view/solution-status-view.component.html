@@ -1,27 +1,7 @@
-<span [ngSwitch]="status">
-  <span *ngSwitchCase="revisionStatus.empty"
-        class="badge badge-default"
-        title="Не тестировалось">
-    <i class="fa fa-fw fa-circle-o"></i>
-  </span>
-  <span *ngSwitchCase="revisionStatus.success"
-        class="badge badge-success"
-        title="Все тесты прошли успешно">
-    <i class="fa fa-fw fa-check"></i>
-  </span>
-  <span *ngSwitchCase="revisionStatus.failed"
-        class="badge badge-warning"
-        title="Есть проваленные тесты">
-    <i class="fa fa-fw fa-remove"></i>
-  </span>
-  <span *ngSwitchCase="revisionStatus.error"
-        class="badge badge-danger"
-        title="Есть ошибки">
-    <i class="fa fa-fw fa-remove"></i>
-  </span>
-  <span *ngSwitchCase="revisionStatus.created"
-        class="badge badge-primary"
-        title="Новое решение">
-    <i class="fa fa-fw fa-asterisk"></i>
-  </span>
+<span [class]="'badge badge-' + views[statusEnum[status]].badgeColor"
+      [title]="views[statusEnum[status]].label">
+  <i [class]="'fa fa-fw fa-' + views[statusEnum[status]].badge"></i>
+</span>
+<span *ngIf="text" [class]="'text-' + views[statusEnum[status]].labelColor">
+  {{views[statusEnum[status]].label}}
 </span>

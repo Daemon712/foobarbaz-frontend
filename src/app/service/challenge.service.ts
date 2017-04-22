@@ -197,9 +197,38 @@ export class ChallengeService {
 
   getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {
     //TODO change url to 'api/challenges/:id/sharedSolutions'
-    return this.http.get('api/sharedSolutions')
+    return this.http.get('api/sharedSolutions?challengeId=' + challengeId)
       .toPromise()
       .then(response => response.json().data as SharedSolution[])
+      .catch(ChallengeService.handleError);
+  }
+
+  getSharedSolution(challengeId: number, sharedSolutionId: number): Promise<SharedSolution> {
+    //TODO change url to 'api/challenges/:id/solution/:share_id/'
+    return this.http.get(`api/sharedSolutions?challengeId=${challengeId}&id=${sharedSolutionId}`)
+      .toPromise()
+      .then(response => response.json().data[0] as SharedSolution)
+      .catch(ChallengeService.handleError);
+  }
+
+  likeSharedSolution(challengeId: number, sharedSolutionId: number, like: boolean): Promise<SharedSolution>{
+    //TODO change url to 'api/challenges/:id/solution/:id/like'
+    return this.http.get(`api/sharedSolutions?challengeId=${challengeId}&id=${sharedSolutionId}`)
+      .toPromise()
+      .then(response => {
+        //TODO move the logic to server side
+        let solution = response.json().data[0] as SharedSolution;
+        if (like && !solution.liked){
+          solution.likes++;
+          solution.liked = true;
+        } else if (!like && solution.liked) {
+          solution.likes--;
+          solution.liked = false;
+        }
+        return this.http.post('api/sharedSolutions/' + sharedSolutionId, solution)
+          .toPromise()
+          .then(response => solution)
+      })
       .catch(ChallengeService.handleError);
   }
 

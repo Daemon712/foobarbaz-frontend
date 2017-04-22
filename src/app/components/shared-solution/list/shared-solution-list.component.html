@@ -29,7 +29,7 @@
       </h5>
       <p>
         <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
-        <a [routerLink]="'sharedSolutions/' + solution.id" title="Посмотреть">{{solution.comment}}</a>
+        <a [routerLink]="['/challenges', solution.challengeId, 'shared', solution.id]" title="Посмотреть">{{solution.comment}}</a>
       </p>
     </div>
   </li >

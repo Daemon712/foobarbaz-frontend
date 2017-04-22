@@ -42,6 +42,7 @@ import { UserViewComponent } from './components/user/view/user-view.component';
 import { ChallengeListPageComponent } from './components/challenge/list-page/challenge-list-page.component';
 import { RateChallengeComponent } from './components/challenge/rate/rate-challenge.component';
 import { ShareSolutionComponent } from './components/shared-solution/share/share-solution.component';
+import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'articles/:id',  component: ArticleViewComponent },
   { path: 'articles',  component: ArticleListComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
+  { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ViewChallengeComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
@@ -84,6 +86,7 @@ const routes: Routes = [
     ChallengeListPageComponent,
     RateChallengeComponent,
     ShareSolutionComponent,
+    SharedSolutionViewComponent,
   ],
   imports: [
     BrowserModule,
