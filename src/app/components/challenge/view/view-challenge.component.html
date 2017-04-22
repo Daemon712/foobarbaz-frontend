@@ -162,7 +162,7 @@
       </div>
     </div>
     </tab>
-  <tab heading="Результаты тестов" class="py-3" *ngIf="revision?.testResults"
+  <tab heading="Результаты тестов" class="py-3" [disabled]="!revision?.testResults"
        (deselect)="testResultsActive = false" [active]="testResultsActive">
     <div class="card">
       <app-test-results-table [testResults]="revision?.testResults">
