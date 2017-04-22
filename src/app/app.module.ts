@@ -31,13 +31,9 @@ import { TagPickerComponent } from './components/tags/picker/tag-picker.componen
 import {TestSolutionService} from "./service/test-solution.service";
 import { TestResultsTableComponent } from './components/solution/test-results/test-results-table.component';
 import { CommentsComponent } from './components/comments/comments.component';
-import {ArticleService} from "./service/article.service";
-import { ArticleListComponent } from './components/article/list/article-list.component';
 import { RevisionListComponent } from './components/solution/revision-list/revision-list.component';
 import { SolutionStatusViewComponent } from './components/solution/status-view/solution-status-view.component';
 import { SharedSolutionListComponent } from './components/shared-solution/list/shared-solution-list.component';
-import { CreateArticleComponent } from './components/article/create/create-article.component';
-import { ArticleViewComponent } from './components/article/view/article-view.component';
 import { UserViewComponent } from './components/user/view/user-view.component';
 import { ChallengeListPageComponent } from './components/challenge/list-page/challenge-list-page.component';
 import { RateChallengeComponent } from './components/challenge/rate/rate-challenge.component';
@@ -50,9 +46,6 @@ const routes: Routes = [
   { path: 'sign-up',  component: SignUpComponent },
   { path: 'users/:username',  component: UserViewComponent },
   { path: 'users',  component: UserListComponent },
-  { path: 'articles/create',  component: CreateArticleComponent },
-  { path: 'articles/:id',  component: ArticleViewComponent },
-  { path: 'articles',  component: ArticleListComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ViewChallengeComponent },
@@ -78,12 +71,9 @@ const routes: Routes = [
     TagPickerComponent,
     TestResultsTableComponent,
     CommentsComponent,
-    ArticleListComponent,
     RevisionListComponent,
     SolutionStatusViewComponent,
     SharedSolutionListComponent,
-    CreateArticleComponent,
-    ArticleViewComponent,
     ChallengeListPageComponent,
     RateChallengeComponent,
     ShareSolutionComponent,
@@ -110,7 +100,6 @@ const routes: Routes = [
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },
-    ArticleService,
     ChallengeService,
     TestSolutionService,
     TagService,
