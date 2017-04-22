@@ -35,13 +35,13 @@ import {ArticleService} from "./service/article.service";
 import { ArticleListComponent } from './components/article/list/article-list.component';
 import { RevisionListComponent } from './components/solution/revision-list/revision-list.component';
 import { SolutionStatusViewComponent } from './components/solution/status-view/solution-status-view.component';
-import { SharedSolutionListComponent } from './components/solution/shared-solution-list/shared-solution-list.component';
+import { SharedSolutionListComponent } from './components/shared-solution/list/shared-solution-list.component';
 import { CreateArticleComponent } from './components/article/create/create-article.component';
 import { ArticleViewComponent } from './components/article/view/article-view.component';
 import { UserViewComponent } from './components/user/view/user-view.component';
 import { ChallengeListPageComponent } from './components/challenge/list-page/challenge-list-page.component';
 import { RateChallengeComponent } from './components/challenge/rate/rate-challenge.component';
-import { ShareSolutionComponent } from './components/solution/share/share-solution.component';
+import { ShareSolutionComponent } from './components/shared-solution/share/share-solution.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
