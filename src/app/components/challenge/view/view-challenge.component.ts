@@ -146,8 +146,8 @@ export class ViewChallengeComponent implements OnInit {
     });
   }
 
-  shareSolution(){
-    console.log('share solution:\n' + this.revision.newSolution);
+  shareSolution(comment: string){
+    this.challengeService.addSharedSolution(this.challenge.id, this.revision.id, comment);
   }
 
   revertChanges(){

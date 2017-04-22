@@ -103,15 +103,16 @@
           <span> Загрузка...</span>
         </div>
         <ace-editor class="form-control"
+                    #solutionEditor
                     *ngIf="revision"
                     [(text)]="revision.newSolution"
                     [readOnly]="submitted"
                     [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
         </ace-editor>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" *ngIf="revision">
         <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
-                [disabled]="!(revision && (revision.solution !== revision.newSolution || revision.status === solutionStatus.empty))"
+                [disabled]="revision.solution === revision.newSolution && revision.status !== solutionStatus.empty"
                 title="Сохранить и протестировать решение"
                 (click)="testSolution()">
           <i class="fa fa-play"></i>
@@ -128,20 +129,16 @@
                   title="Скопировать в новое решение">
             <i class="fa fa-paste"></i>
           </button>
+          <app-share-solution [revision]="revision" (onSubmit)="shareSolution($event)">
+          </app-share-solution>
           <button type="button" class="btn btn-secondary"
-                  [disabled]="!(revision && revision.solution !== revision.newSolution)"
+                  [disabled]="revision.solution === revision.newSolution"
                   title="Сохранить решение без тестирования"
                   (click)="saveSolution()">
             <i class="fa fa-save"></i>
           </button>
-          <button type="button" class="btn btn-info"
-                  [disabled]="!(revision && revision.solution === revision.newSolution && revision.status !== solutionStatus.created)"
-                  title="Поделиться решением"
-                  (click)="shareSolution()">
-            <i class="fa fa-share-alt"></i>
-          </button>
           <button type="button" class="btn btn-warning"
-                  [disabled]="!(revision && revision.solution !== revision.newSolution)"
+                  [disabled]="revision.solution === revision.newSolution"
                   title="Сбросить изменения"
                   (click)="revertChanges()">
             <i class="fa fa-undo"></i>
@@ -155,7 +152,7 @@
         <div>
           <app-revision-list
             [revisions]="revisions"
-            [activeRevisionId]="revision?.id"
+            [activeRevisionId]="revision.id"
             (revisionSelected)="openRevision($event)">
           </app-revision-list>
         </div>
@@ -201,7 +198,7 @@
       <tab customClass="tab-sm tab-info pl-2" class="py-3"
            [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">
         <template tabHeading>
-          <span>Опубл. решения </span>
+          <span>Открытые решения </span>
           <i class="fa fa-share-alt"></i>
           <span> {{sharedSolutions?.length || challenge.sharedSolutions || 0}}</span>
         </template>

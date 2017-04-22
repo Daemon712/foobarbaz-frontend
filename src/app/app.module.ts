@@ -41,6 +41,7 @@ import { ArticleViewComponent } from './components/article/view/article-view.com
 import { UserViewComponent } from './components/user/view/user-view.component';
 import { ChallengeListPageComponent } from './components/challenge/list-page/challenge-list-page.component';
 import { RateChallengeComponent } from './components/challenge/rate/rate-challenge.component';
+import { ShareSolutionComponent } from './components/solution/share/share-solution.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -82,6 +83,7 @@ const routes: Routes = [
     ArticleViewComponent,
     ChallengeListPageComponent,
     RateChallengeComponent,
+    ShareSolutionComponent,
   ],
   imports: [
     BrowserModule,

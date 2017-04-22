@@ -203,6 +203,27 @@ export class ChallengeService {
       .catch(ChallengeService.handleError);
   }
 
+  addSharedSolution(challengeId: number, solutionId: number, comment: string): Promise<SharedSolution>{
+    //TODO change url to 'api/challenges/:id/solution/1/share/'
+    let solution = new SharedSolution();
+    solution.id = 20 + solutionId;
+    solution.date = new Date();
+    solution.comment = comment;
+    solution.author = 'Privet';
+    solution.status = Math.random() > 0.5 ? SolutionStatus.success : SolutionStatus.failed;
+    solution.likes = 0;
+    solution.liked = false;
+
+    return this.http.post('api/sharedSolutions', solution)
+      .toPromise()
+      .then(response => {
+        console.log(response);
+        let newSol = response.json().data as SharedSolution;
+        this.alertService.success(`Вы успешно поделились своим решением: <a href='/challenges/${challengeId}/solutions/${newSol.id}'>${newSol.comment}</a>`);
+        return newSol;
+      });
+  }
+
   private static handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);

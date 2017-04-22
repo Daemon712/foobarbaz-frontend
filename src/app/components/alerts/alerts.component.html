@@ -1,9 +1,9 @@
 <div class="holder">
   <div *ngFor="let alert of alerts">
     <alert [type]="alertType[alert.type]"
-           dismissible="true"
-           dismissOnTimeout="8000">
-      {{alert.text}}
+           [dismissible]="true"
+           [dismissOnTimeout]="8000">
+      <span [innerHtml]="alert.text"></span>
     </alert>
   </div>
 </div>

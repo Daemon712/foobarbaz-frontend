@@ -1,0 +1,59 @@
+<button type="button"
+        [disabled]="revision?.status == status.created || revision?.solution != revision?.newSolution"
+        title="Поделиться решением"
+        (click)="open()"
+        class="btn btn-info">
+  <i class="fa fa-share-alt"></i>
+</button>
+<div bsModal #shareModal="bs-modal"
+     class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Поделиться решением</h4>
+        <button type="button" class="close pull-right" aria-label="Close"
+                (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>
+            <span>Решение</span>
+            <br/>
+            <app-solution-status-view [status]="revision?.status"></app-solution-status-view>
+            <span [ngSwitch]="revision?.status">
+              <span *ngSwitchCase="status.error" class="text-danger">Есть ошибки</span>
+              <span *ngSwitchCase="status.failed" class="text-warning">Тесты не пройдены</span>
+              <span *ngSwitchCase="status.success" class="text-success">Тесты пройдены</span>
+              <span *ngSwitchCase="status.empty" class="text-muted">Не тестировалось</span>
+              <span *ngSwitchDefault></span>
+            </span>
+          </label>
+          <ace-editor #solutionView class="form-control"
+                      [autoUpdateContent]="true"
+                      [readOnly]="true"
+                      [mode]="'java'"
+                      [theme]="'dreamweaver'"
+                      [options]="options">
+          </ace-editor>
+        </div>
+        <div class="form-group">
+          <label for="comment">Комментарий</label>
+          <textarea class="form-control" id="comment"
+                    [(ngModel)]="comment" maxlength="150"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button [disabled]="!comment"
+                class="btn btn-primary btn-sm"
+                (click)="submit()">
+          Поделиться
+        </button>
+        <button class="btn btn-secondary btn-sm" (click)="close()">
+          Отмена
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
