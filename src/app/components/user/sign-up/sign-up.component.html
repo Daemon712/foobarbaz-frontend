@@ -41,7 +41,7 @@
       <input class="form-control" type="password"
              id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel"
              [(ngModel)]="model.confirmPassword"
-             required maxlength="24" validateEqual="password">
+             required maxlength="32" validateEqual="password">
     </div>
     <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)"
          class="col-md-4 text-danger col-form-label">

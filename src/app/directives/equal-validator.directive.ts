@@ -9,9 +9,15 @@ import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 export class EqualValidator implements Validator {
   constructor( @Attribute('validateEqual') public validateEqual: string) {}
 
+  listened: AbstractControl[]= [];
+
   validate(control: AbstractControl): { [key: string]: any } {
     let source = control.value;
     let target = control.root.get(this.validateEqual);
-    return (target && source !== target.value) ? { validateEqual: source } : null;
+    if (target && this.listened.indexOf(target) == -1){
+      this.listened.push(target);
+      target.valueChanges.subscribe(() => control.updateValueAndValidity());
+    }
+    return (target && source !== target.value) ? {validateEqual: source} : null;
   }
 }
