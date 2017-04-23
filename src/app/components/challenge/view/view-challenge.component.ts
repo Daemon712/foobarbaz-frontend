@@ -11,6 +11,7 @@ import {TestSolutionService} from "../../../service/test-solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
+import {CommentService} from "../../../service/comment.service";
 
 @Component({
   selector: 'app-view-challenge',
@@ -45,6 +46,7 @@ export class ViewChallengeComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
+    private commentService: CommentService,
     private sharedSolutionService: SharedSolutionService,
     private testSolutionService: TestSolutionService,
     private alertService: AlertService,
@@ -193,13 +195,13 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   sendComment(){
-    this.challengeService.addComment(this.challenge.id, this.newComment)
+    this.commentService.addComment(this.newComment, this.challenge.id)
       .then(comment => this.comments.push(comment));
     this.newComment = null;
   }
 
   commentLiked(comment: Comment){
-    this.challengeService.likeComment(this.challenge.id, comment.id, !comment.liked)
+    this.commentService.likeComment(comment.id, !comment.liked)
       .then(newComment => {
         comment.liked = newComment.liked;
         comment.likes = newComment.likes;
@@ -207,7 +209,7 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   loadComments(){
-    this.challengeService.getComments(this.challenge.id)
+    this.commentService.getComments(this.challenge.id)
       .then(comments => this.comments = comments);
   }
 

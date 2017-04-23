@@ -5,6 +5,8 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {ChallengeService} from "../../../service/challenge.service";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
+import {Comment} from "../../../model/comment";
+import {CommentService} from "../../../service/comment.service";
 
 @Component({
   selector: 'app-shared-solution-view',
@@ -20,6 +22,9 @@ export class SharedSolutionViewComponent implements OnInit {
   solution: SharedSolution;
   challengeStatus = ChallengeStatus;
 
+  newComment: string;
+  comments: Comment[];
+
   options = {
     printMargin: false,
     fontSize: '16px',
@@ -30,6 +35,7 @@ export class SharedSolutionViewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
     private sharedSolutionService: SharedSolutionService,
+    private commentService: CommentService,
   ) { }
 
   ngOnInit() {
@@ -45,6 +51,7 @@ export class SharedSolutionViewComponent implements OnInit {
         this.solution = solution;
         this.solutionView.setText(solution.text);
         this.solutionView.getEditor().clearSelection();
+        this.loadComments();
       });
   }
 
@@ -55,6 +62,27 @@ export class SharedSolutionViewComponent implements OnInit {
       .then(solution => {
         this.solution.liked = solution.liked;
         this.solution.likes = solution.likes;
+      });
+  }
+
+  sendComment(){
+    this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.id)
+      .then(comment => this.comments.push(comment));
+    this.newComment = null;
+  }
+
+  loadComments(){
+    this.commentService.getComments(this.solution.challengeId, this.solution.id)
+      .then(comments => this.comments = comments);
+  }
+
+  commentLiked(comment: Comment){
+    comment.liked = !comment.liked;
+    comment.likes += comment.liked ? +1 : -1;
+    this.commentService.likeComment(comment.id, comment.liked)
+      .then(newComment => {
+        comment.liked = newComment.liked;
+        comment.likes = newComment.likes;
       });
   }
 }

@@ -40,6 +40,7 @@ import { RateChallengeComponent } from './components/challenge/rate/rate-challen
 import { ShareSolutionComponent } from './components/shared-solution/share/share-solution.component';
 import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
 import {SharedSolutionService} from "./service/shared-solution.service";
+import {CommentService} from "./service/comment.service";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -101,6 +102,7 @@ const routes: Routes = [
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },
     ChallengeService,
+    CommentService,
     TestSolutionService,
     TagService,
     SharedSolutionService,

@@ -142,3 +142,34 @@
     </div>
   </tab>
 </tabset>
+
+<div class="row">
+  <div class="col-md-8">
+    <tabset type="pills" [justified]="true" *ngIf="solution">
+      <tab customClass="tab-sm tab-success pr-2" class="py-3">
+        <template tabHeading>
+          <i class="fa fa-plus"></i>
+          <span> Комментировать</span>
+        </template>
+        <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
+        <button type="button" class="btn btn-primary btn-sm"
+                [disabled]="!newComment" (click)="sendComment()">
+          Оставить комментарий
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm"
+                [disabled]="!newComment" (click)="newComment = ''">
+          Отмена
+        </button>
+      </tab>
+      <tab customClass="tab-sm tab-info px-2" class="py-3"
+           [disabled]="!solution.comments && !comments?.length" (select)="loadComments()">
+        <template tabHeading>
+          <span>Комментарии </span>
+          <i class="fa fa-comments"></i>
+          <span> {{comments?.length || solution.comments || 0}}</span>
+        </template>
+        <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
+      </tab>
+    </tabset>
+  </div>
+</div>
