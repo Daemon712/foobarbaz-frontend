@@ -1,0 +1,26 @@
+<div class="jumbotron">
+  <h1 class="display-3">Архив подборок</h1>
+  <p class="lead">
+    Подборка - это небольшой список задач, объединенных по некторому принципу.
+    <br/>
+    На этой странице Вы можете просмотреть все подборки задач на нашем портале.
+    </p>
+</div>
+<div class="row">
+  <div class="col-3">
+    <a class="btn btn-lg btn-success btn-block mb-3" [routerLink]="'/playlists/create'">
+      <i class="fa fa-plus"></i>
+      <span> Добавить подборку</span>
+    </a>
+  </div>
+  <div class="col-9">
+      <div class="card mb-2" *ngFor="let playlist of items">
+        <div class="card-header">
+          <h3><a [routerLink]="['/playlists', playlist.id]">{{playlist.name}}</a></h3>
+        </div>
+        <div class="card-block">
+          <p>{{playlist.abstract}}</p>
+        </div>
+      </div>
+  </div>
+</div>

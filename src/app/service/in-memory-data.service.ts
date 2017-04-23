@@ -133,6 +133,29 @@ export class InMemoryDataService implements InMemoryDbService {
       },
     ];
 
+    let playlists = [
+      {
+        id: 1,
+        name: 'ТОП 5 задач с рекурсией',
+        abstract: 'Чтобы понять рекурсию, надо понять рекурсию',
+      },
+      {
+        id: 2,
+        name: 'Лучшие задачки для новичка',
+        abstract: 'Задачи самые простые, хорошо для тех кто только начал писать программы',
+      },
+      {
+        id: 3,
+        name: 'Сломай себе мозг!',
+        abstract: '96% населения земли не могут решить эти задачи. А ты?',
+      },
+      {
+        id: 4,
+        name: 'Задачи, которые должен решить каждый!',
+        abstract: 'Самые популярные задачи на собеседованиях',
+      }
+    ];
+
     let tests: TestResult[] = [
       new TestResult("testOne",       TestStatus.success),
       new TestResult("testTwo",       TestStatus.success),
@@ -337,6 +360,7 @@ export class InMemoryDataService implements InMemoryDbService {
       comments,
       revisions,
       sharedSolutions,
+      playlists,
     };
   }}
 

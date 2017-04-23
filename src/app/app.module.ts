@@ -41,7 +41,8 @@ import { ShareSolutionComponent } from './components/shared-solution/share/share
 import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
 import {SharedSolutionService} from "./service/shared-solution.service";
 import {CommentService} from "./service/comment.service";
-import { PlaylistListPageComponent } from './playlist-list-page/playlist-list-page.component';
+import { PlaylistListPageComponent } from './components/playlist/list-page/playlist-list-page.component';
+import {PlaylistService} from "./service/playlist.service";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ViewChallengeComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
+  { path: 'playlists',  component: PlaylistListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
 
@@ -105,6 +107,7 @@ const routes: Routes = [
     { provide: LOCALE_ID, useValue: "ru-RU" },
     ChallengeService,
     CommentService,
+    PlaylistService,
     TestSolutionService,
     TagService,
     SharedSolutionService,
