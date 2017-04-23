@@ -98,16 +98,17 @@
   <tab heading="Решение" class="py-3" (select)="openSolutionTab()">
     <div class="row">
       <div class="col-md-8">
-        <div [hidden]="challenge" class="lead text-center alert alert-info">
+        <div [hidden]="revision" class="lead text-center alert alert-info">
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
         <ace-editor class="form-control"
                     #solutionEditor
-                    *ngIf="revision"
-                    [(text)]="revision.newSolution"
+                    (text)="revision.newSolution"
                     [readOnly]="submitted"
-                    [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+                    [mode]="'java'"
+                    [theme]="'dreamweaver'"
+                    [options]="options">
         </ace-editor>
       </div>
       <div class="col-md-4" *ngIf="revision">
@@ -127,7 +128,7 @@
           <button type="button" class="btn btn-secondary"
                   (click)="copySolution()"
                   title="Скопировать в новое решение">
-            <i class="fa fa-paste"></i>
+            <i class="fa fa-clone"></i>
           </button>
           <app-share-solution [revision]="revision" (onSubmit)="shareSolution($event)">
           </app-share-solution>

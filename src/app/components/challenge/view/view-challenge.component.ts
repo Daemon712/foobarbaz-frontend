@@ -62,6 +62,12 @@ export class ViewChallengeComponent implements OnInit {
       });
   }
 
+  setRevision(revision: Revision){
+    this.revision = revision;
+    this.solutionEditor.setText(this.revision.solution);
+    this.solutionEditor.getEditor().clearSelection();
+  }
+
   updateBookmark(){
     this.challenge.bookmark = !this.challenge.bookmark;
     this.challengeService.updateBookmark(this.challenge.id, this.challenge.bookmark)
@@ -81,7 +87,7 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   openRevision(revision: Revision){
-    this.revision = revision;
+    this.setRevision(revision);
   }
 
   testSolution(){
@@ -95,7 +101,7 @@ export class ViewChallengeComponent implements OnInit {
       this.submitted = false;
       if (revision){
         Object.assign(thatSolution, revision);
-        this.revision = revision;
+        this.setRevision(revision);
         this.testResultsActive = true;
       }
     });
@@ -143,7 +149,7 @@ export class ViewChallengeComponent implements OnInit {
       this.submitted = false;
       if (revision){
         Object.assign(thatSolution, revision);
-        this.revision = revision;
+        this.setRevision(revision);
       }
     });
   }
@@ -162,13 +168,13 @@ export class ViewChallengeComponent implements OnInit {
     if (this.revision.status == SolutionStatus.created){
       this.revisions.splice(index, 1);
       if (this.revisions.length == 0) this.addSolution();
-      this.revision = this.revisions[Math.min(index, this.revisions.length - 1)];
+      this.setRevision(this.revisions[Math.min(index, this.revisions.length - 1)]);
     } else {
       this.challengeService.deleteRevision(this.challenge.id, this.revision.id)
         .then(() => {
           this.revisions.splice(index, 1);
           if (this.revisions.length == 0) this.addSolution();
-          this.revision = this.revisions[Math.min(index, this.revisions.length - 1)];
+          this.setRevision(this.revisions[Math.min(index, this.revisions.length - 1)]);
         })
     }
   }
@@ -204,7 +210,7 @@ export class ViewChallengeComponent implements OnInit {
       .then(revisions => {
         if (revisions && revisions.length > 0) {
           this.revisions = revisions;
-          this.revision = revisions[0];
+          this.setRevision(revisions[0]);
         }
       });
   }
