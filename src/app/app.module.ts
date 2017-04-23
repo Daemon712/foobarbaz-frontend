@@ -41,6 +41,7 @@ import { ShareSolutionComponent } from './components/shared-solution/share/share
 import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
 import {SharedSolutionService} from "./service/shared-solution.service";
 import {CommentService} from "./service/comment.service";
+import { PlaylistListPageComponent } from './playlist-list-page/playlist-list-page.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -79,6 +80,7 @@ const routes: Routes = [
     RateChallengeComponent,
     ShareSolutionComponent,
     SharedSolutionViewComponent,
+    PlaylistListPageComponent,
   ],
   imports: [
     BrowserModule,

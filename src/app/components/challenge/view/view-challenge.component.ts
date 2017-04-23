@@ -191,6 +191,7 @@ export class ViewChallengeComponent implements OnInit {
   openSolutionTab(){
     if (this.solutionTabReady) return;
     this.solutionTabReady = true;
+    this.solutionEditor.getEditor().selectAll();
     this.solutionEditor.getEditor().clearSelection();
   }
 
@@ -218,7 +219,7 @@ export class ViewChallengeComponent implements OnInit {
       .then(revisions => {
         if (revisions && revisions.length > 0) {
           this.revisions = revisions;
-          this.setRevision(revisions[0]);
+          this.setRevision(revisions[revisions.length - 1]);
         }
       });
   }
