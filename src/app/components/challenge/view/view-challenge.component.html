@@ -103,8 +103,8 @@
           <span> Загрузка...</span>
         </div>
         <ace-editor class="form-control"
+                    (textChanged)="updateText()"
                     #solutionEditor
-                    (text)="revision.newSolution"
                     [readOnly]="submitted"
                     [mode]="'java'"
                     [theme]="'dreamweaver'"

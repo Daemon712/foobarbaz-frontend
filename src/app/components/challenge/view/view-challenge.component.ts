@@ -63,9 +63,15 @@ export class ViewChallengeComponent implements OnInit {
   }
 
   setRevision(revision: Revision){
+    this.updateText();
     this.revision = revision;
-    this.solutionEditor.setText(this.revision.solution);
+    this.solutionEditor.setText(this.revision.newSolution);
+    this.solutionEditor.updateText();
     this.solutionEditor.getEditor().clearSelection();
+  }
+
+  updateText(){
+    this.revision.newSolution = this.solutionEditor.text;
   }
 
   updateBookmark(){
