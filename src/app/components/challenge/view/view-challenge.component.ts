@@ -128,6 +128,9 @@ export class ViewChallengeComponent implements OnInit {
       this.challenge.solutionTemplate
     );
     this.revisions.push(this.revision);
+    this.solutionEditor.setText(this.revision.newSolution);
+    this.solutionEditor.updateText();
+    this.solutionEditor.getEditor().clearSelection();
   }
 
   copySolution(){
@@ -169,6 +172,7 @@ export class ViewChallengeComponent implements OnInit {
 
   revertChanges(){
     this.revision.newSolution = this.revision.solution;
+    this.setRevision(this.revision);
   }
 
   removeSolution(){

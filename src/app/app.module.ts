@@ -43,6 +43,7 @@ import {SharedSolutionService} from "./service/shared-solution.service";
 import {CommentService} from "./service/comment.service";
 import { PlaylistListPageComponent } from './components/playlist/list-page/playlist-list-page.component';
 import {PlaylistService} from "./service/playlist.service";
+import { CreatePlaylistComponent } from './components/playlist/create/create-playlist.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ViewChallengeComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
+  { path: 'playlists/create',  component: CreatePlaylistComponent },
   { path: 'playlists',  component: PlaylistListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
@@ -83,6 +85,7 @@ const routes: Routes = [
     ShareSolutionComponent,
     SharedSolutionViewComponent,
     PlaylistListPageComponent,
+    CreatePlaylistComponent,
   ],
   imports: [
     BrowserModule,
