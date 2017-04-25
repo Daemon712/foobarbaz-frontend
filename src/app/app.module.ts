@@ -24,7 +24,7 @@ import { CreateChallengeComponent } from './components/challenge/create/create-c
 import {AceEditorComponent} from "ng2-ace-editor";
 import {
   AccordionModule, AlertModule, PaginationModule, TabsModule, ButtonsModule, TypeaheadModule,
-  ProgressbarModule, ModalModule, RatingModule
+  ProgressbarModule, ModalModule, RatingModule, SortableModule
 } from 'ng2-bootstrap';
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
@@ -44,6 +44,7 @@ import {CommentService} from "./service/comment.service";
 import { PlaylistListPageComponent } from './components/playlist/list-page/playlist-list-page.component';
 import {PlaylistService} from "./service/playlist.service";
 import { CreatePlaylistComponent } from './components/playlist/create/create-playlist.component';
+import { ChallengePickerComponent } from './components/challenge/picker/challenge-picker.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -86,6 +87,7 @@ const routes: Routes = [
     SharedSolutionViewComponent,
     PlaylistListPageComponent,
     CreatePlaylistComponent,
+    ChallengePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +104,7 @@ const routes: Routes = [
     PaginationModule.forRoot(),
     ProgressbarModule.forRoot(),
     RatingModule.forRoot(),
+    SortableModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
     QuillEditorModule,

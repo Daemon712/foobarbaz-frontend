@@ -20,6 +20,15 @@
         </div>
         <div class="card-block">
           <p>{{playlist.description}}</p>
+          <span *ngFor="let c of playlist.challenges | slice:0:3; let i = index">
+            <span *ngIf="i > 0">, </span>
+            <a [routerLink]="['/challenges',c.id]">{{c.name}}</a>
+          </span>
+          <span *ngIf="playlist.challenges.length == 4">
+            <span>, </span>
+            <a [routerLink]="['/challenges', playlist.challenges[3].id]">{{playlist.challenges[3].name}}</a>
+          </span>
+          <span *ngIf="playlist.challenges.length > 4"> и {{playlist.challenges.length - 3}} других...</span>
         </div>
       </div>
   </div>

@@ -29,6 +29,13 @@ export class ChallengeService {
       .catch(ChallengeService.handleError);
   }
 
+  getChallengesByName(name: string): Promise<Challenge[]>{
+    return this.http.get(`${this.url}?name=${name}`)
+      .toPromise()
+      .then(response => response.json().data as Challenge[])
+      .catch(ChallengeService.handleError);
+  }
+
   getBookmarksByUser(username: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}?bookmark=true`)
       .toPromise()
