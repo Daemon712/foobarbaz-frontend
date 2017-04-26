@@ -19,7 +19,14 @@ export class PlaylistService {
       .then(response => response.json().data as Playlist[]);
   }
 
+  getPlaylistsByAuthor(author: string){
+    return this.http.get(`${this.url}?author=${author}`)
+      .toPromise()
+      .then(response => response.json().data as Playlist[]);
+  }
+
   addPlaylist(playlist: Playlist): Promise<Playlist>{
+    playlist.author = 'user';
     return this.http.post(this.url, playlist)
       .toPromise()
       .then(response => {

@@ -45,6 +45,7 @@ import { PlaylistListPageComponent } from './components/playlist/list-page/playl
 import {PlaylistService} from "./service/playlist.service";
 import { CreatePlaylistComponent } from './components/playlist/create/create-playlist.component';
 import { ChallengePickerComponent } from './components/challenge/picker/challenge-picker.component';
+import { PlaylistListComponent } from './components/playlist/list/playlist-list.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -88,6 +89,7 @@ const routes: Routes = [
     PlaylistListPageComponent,
     CreatePlaylistComponent,
     ChallengePickerComponent,
+    PlaylistListComponent,
   ],
   imports: [
     BrowserModule,

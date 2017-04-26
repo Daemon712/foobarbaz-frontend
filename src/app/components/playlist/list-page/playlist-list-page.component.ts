@@ -5,7 +5,6 @@ import {PlaylistService} from "../../../service/playlist.service";
 @Component({
   selector: 'app-playlist-list-page',
   templateUrl: './playlist-list-page.component.html',
-  styleUrls: ['./playlist-list-page.component.scss']
 })
 export class PlaylistListPageComponent implements OnInit {
 

@@ -137,6 +137,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 1,
         name: 'ТОП 5 задач с рекурсией',
         description: 'Чтобы понять рекурсию, надо понять рекурсию',
+        author: 'admin',
         challenges: [
           {
             id: 1,
@@ -160,6 +161,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 2,
         name: 'Лучшие задачки для новичка',
         description: 'Задачи самые простые, хорошо для тех кто только начал писать программы',
+        author: 'admin',
         challenges: [
           {
             id: 1,
@@ -187,6 +189,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 3,
         name: 'Сломай себе мозг!',
         description: '96% населения земли не могут решить эти задачи. А ты?',
+        author: 'Игорь',
         challenges: [
           {
             id: 1,
@@ -206,6 +209,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 4,
         name: 'Задачи, которые должен решить каждый!',
         description: 'Самые популярные задачи на собеседованиях',
+        author: 'Борис',
         challenges: [
           {
             id: 1,

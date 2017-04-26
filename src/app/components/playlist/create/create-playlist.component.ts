@@ -6,7 +6,6 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-create-playlist',
   templateUrl: './create-playlist.component.html',
-  styleUrls: ['./create-playlist.component.scss']
 })
 export class CreatePlaylistComponent implements OnInit {
 

@@ -41,7 +41,10 @@
         <app-challenge-list [challenges]="challenges">
         </app-challenge-list>
       </tab>
-      <tab heading="Подборки"></tab>
+      <tab heading="Подборки" class="py-3">
+        <app-playlist-list [items]="playlists">
+        </app-playlist-list>
+      </tab>
       <tab heading="Закладки" class="py-3">
         <app-challenge-list [challenges]="bookmarks">
         </app-challenge-list>

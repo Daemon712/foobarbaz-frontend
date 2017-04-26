@@ -4,4 +4,5 @@ export class Playlist {
   name: string;
   description: string;
   challenges: Challenge[];
+  author: string;
 }
