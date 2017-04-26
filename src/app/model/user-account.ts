@@ -5,7 +5,7 @@ export class UserAccount {
   karma: number;
   solved: number;
   challenges: number;
-  collections: number;
+  playlists: number;
   comments: number;
   sharedSolutions: number;
 

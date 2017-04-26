@@ -1,6 +1,6 @@
 <div class="jumbotron" *ngIf="userAccount">
   <h1 class="display-3">{{userAccount.username}}</h1>
-  <p class="display"></p>
+  <p class="lead">{{userAccount.description}}</p>
 </div>
 <div class="jumbotron" *ngIf="!userAccount">
   <h1 class="display-3">Загрузка...</h1>
@@ -8,7 +8,7 @@
 <div class="row" *ngIf="userAccount">
   <div class="col-3">
     <img src="http://placehold.it/300x300" class="rounded w-100 mb-3"/>
-    <div class="card">
+    <div class="card mb-3">
       <table class="table mb-0">
         <tbody>
         <tr>
@@ -34,23 +34,33 @@
         </tbody>
       </table>
     </div>
+    <button class="btn btn-secondary btn-block mb-1">
+      <i class="fa fa-image"></i>
+      <span>Загрузить фото</span>
+    </button>
+    <button class="btn btn-secondary btn-block">
+      <i class="fa fa-lock"></i>
+      <span>Сменить пароль</span>
+    </button>
   </div>
   <div class="col-9">
     <tabset type="tabs">
-      <tab heading="Задачи" class="py-3">
+      <tab heading="Задачи: {{challenges ? challenges.length : userAccount.challenges}}" class="py-3">
         <app-challenge-list [challenges]="challenges">
         </app-challenge-list>
       </tab>
-      <tab heading="Подборки" class="py-3">
+      <tab heading="Подборки: {{playlists ? playlists.length : userAccount.playlists}}" class="py-3">
         <app-playlist-list [items]="playlists">
         </app-playlist-list>
       </tab>
-      <tab heading="Закладки" class="py-3">
+      <tab heading="Закладки: {{bookmarks ? bookmarks?.length : 0}}" class="py-3">
         <app-challenge-list [challenges]="bookmarks">
         </app-challenge-list>
       </tab>
-      <tab heading="Комментарии"></tab>
-      <tab heading="Решения"></tab>
+      <tab heading="Комментарии: {{userAccount.comments}}" class="py-3">
+      </tab>
+      <tab heading="Решения: {{userAccount.sharedSolutions}}" class="py-3">
+      </tab>
     </tabset>
   </div>
 </div>

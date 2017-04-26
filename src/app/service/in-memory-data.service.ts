@@ -253,7 +253,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('11 7 2016 9:30'),
         karma: 9999,
         challenges: 8,
-        collections: 2,
+        playlists: 2,
         solved: 10,
         comments: 24,
         sharedSolutions: 5
@@ -264,7 +264,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('12 6 2016 19:30'),
         karma: 777,
         challenges: 11,
-        collections: 4,
+        playlists: 4,
         solved: 13,
         comments: 115,
         sharedSolutions: 10
@@ -275,7 +275,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('1 3 2017 11:45'),
         karma: 15,
         challenges: 0,
-        collections: 0,
+        playlists: 0,
         solved: 3,
         comments: 4,
         sharedSolutions: 1
@@ -286,7 +286,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('1 3 2017 11:45'),
         karma: 22,
         challenges: 0,
-        collections: 0,
+        playlists: 0,
         solved: 3,
         comments: 4,
         sharedSolutions: 1
@@ -297,7 +297,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('1 3 2017 11:45'),
         karma: 2,
         challenges: 0,
-        collections: 0,
+        playlists: 0,
         solved: 1,
         comments: 1,
         sharedSolutions: 0
@@ -308,7 +308,7 @@ export class InMemoryDataService implements InMemoryDbService {
         created: new Date('1 3 2017 11:45'),
         karma: 8,
         challenges: 1,
-        collections: 0,
+        playlists: 0,
         solved: 6,
         comments: 12,
         sharedSolutions: 0
