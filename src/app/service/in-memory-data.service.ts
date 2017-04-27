@@ -3,7 +3,6 @@ import {ChallengeStatus} from "../model/challenge";
 import {Tag} from "../model/tag";
 import {TestResult, TestStatus} from "../model/test-result";
 import {Solution} from "../model/solution";
-import {SharedSolution} from "../model/shared-solution";
 import {SolutionStatus} from "../model/solutions-status";
 
 export class InMemoryDataService implements InMemoryDbService {
@@ -162,6 +161,7 @@ export class InMemoryDataService implements InMemoryDbService {
       c.rating = this.randomNumber(1, 9)/10;
       c.difficulty = this.randomNumber(1, 9)/10;
       c.comments = this.randomNumber(0, 12, c.name);
+      c.sharedSolutions = this.randomNumber(0, 8, c.name);
       c.views = this.randomNumber(50, 300, c.name);
       c.completedSolutions = this.randomNumber(0, 20, c.name);
       c.status = this.randomItem([
@@ -262,73 +262,43 @@ export class InMemoryDataService implements InMemoryDbService {
       new Tag("Ввод-вывод", 2),
     ];
 
-    let sharedSolutions: SharedSolution[] = [
+    let sharedSolutions: any[] = [
       {
-        id: 1,
-        challengeId: 1,
-        author: 'Анна',
-        comment: 'Сделала! Все тесты проходят!',
-        text: defaultSolutionTemplate.replace('//...', 'x += 4;'),
+        comment: 'Сделано! Все тесты проходят!',
         status: SolutionStatus.success,
-        date: new Date("03 02 2017 13:55"),
-        testResults: tests,
-        comments: 2,
-        likes: 4,
-        liked: false,
       },
       {
-        id: 2,
-        challengeId: 1,
-        author: 'Сергей',
         comment: 'Ошибка? Где? Не понимаю... Подскажите плиз',
-        text: defaultSolutionTemplate.replace('//...', 'x--;'),
         status: SolutionStatus.error,
-        date: new Date("03 03 2017 16:24"),
-        testResults: tests,
-        comments: 8,
-        likes: 0,
-        liked: false,
       },
       {
-        id: 3,
-        challengeId: 2,
-        author: 'Игорь',
         comment: 'Сделал решение всего в 2 строчки. Зацените!',
-        text: defaultSolutionTemplate.replace('//...', 'x *= 2;'),
         status: SolutionStatus.success,
-        date: new Date("03 03 2017 12:03"),
-        testResults: tests,
-        comments: 0,
-        likes: 9,
-        liked: true,
       },
       {
-        id: 4,
-        challengeId: 2,
-        author: 'Маша',
         comment: 'Думаю, мое решение самое эффективное. Можно еще оптимизировать?',
-        text: defaultSolutionTemplate.replace('//...', 'x = 10;'),
         status: SolutionStatus.success,
-        date: new Date("03 04 2017 19:30"),
-        testResults: tests,
-        comments: 2,
-        likes: 6,
-        liked: false,
       },
       {
-        id: 5,
-        challengeId: 2,
-        author: 'Олег',
         comment: 'Как пройти последний тест?? Помогите! Я уже голову сломал!',
-        text: defaultSolutionTemplate.replace('//...', 'x++;'),
         status: SolutionStatus.failed,
-        date: new Date("03 04 2017 22:14"),
-        testResults: tests,
-        comments: 12,
-        likes: 0,
-        liked: false,
       },
-  ];
+    ];
+
+    for (let i = 0; i < sharedSolutions.length; i++){
+      let ss = sharedSolutions[i];
+      ss.id = i+1;
+      ss.challengeId = this.randomItem(challenges, ss.comment).id;
+      ss.author = this.randomItem(users, ss.comment).username;
+      ss.text = defaultSolutionTemplate;
+      ss.date = this.randomDate(ss.comment);
+      ss.testResults = tests;
+      ss.comments = this.randomNumber(0, 8, ss.comment);
+      ss.likes = this.randomNumber(0, 16, ss.comment);
+      ss.liked = this.randomItem([true, false, false], ss.comment);
+    }
+
+    console.log(sharedSolutions.map(ss => ss.challengeId));
 
     let comments = [
       { text: 'Отличная задача! Решил с удовольствием'},
@@ -342,15 +312,18 @@ export class InMemoryDataService implements InMemoryDbService {
       { text: 'Похоже на спаггети)'},
       { text: 'Добрый вечер'},
     ];
+    comments.forEach(c => comments.push(Object.assign({}, c)));
 
     for (let i = 0; i< comments.length; i++){
       let c: any = comments[i];
       c.id = i + 1;
+      c.text += this.randomItem(['!','','.'], ''+i);
       c.challengeId = this.randomItem(challenges, c.text).id;
       if (Math.random() > 0.5) c.sharedSolId = this.randomItem(sharedSolutions, c.text).id;
       c.author = this.randomItem(users, c.text).username;
       c.date = this.randomDate(c.text);
       c.likes = this.randomNumber(0, 15, c.text);
+      c.liked = this.randomItem([true, false, false], c.text);
     }
 
     return {
@@ -364,7 +337,8 @@ export class InMemoryDataService implements InMemoryDbService {
     };
   }
 
-  randomItem(items: any[], seed: string): any{
+  randomItem(items: any[], seed?: string): any{
+    if (!seed) return items[Math.floor(Math.random())];
     let h = this.hash(seed);
     return items[h % items.length];
   }
