@@ -11,9 +11,15 @@
       <i class="fa fa-plus"></i>
       <span> Добавить задачу</span>
     </a>
-    <div class="card mb-2">
+    <div class="input-group mb-3">
+      <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+      </span>
+      <input type="text" class="form-control" placeholder="Поиск">
+    </div>
+    <div class="card mb-3">
       <div class="card-header">
-        <i class="fa fa-search"> </i>
+        <i class="fa fa-filter"> </i>
         <span>Фильтр</span>
       </div>
       <div class="card-block">
@@ -27,7 +33,7 @@
                    [(ngModel)]="newFilter.author">
           </div>
 
-          <div class="form-group mb-1 text-center">
+          <div class="form-group mb-0 text-center">
             <div class="btn-group btn-group-sm" role="group">
               <label class="btn btn-outline-primary" title="Новые"
                      [(ngModel)]="newFilter.statusNotStarted" btnCheckbox>
@@ -42,16 +48,6 @@
                 <i class="fa fa-check fa-fw"></i>
               </label>
             </div>
-          </div>
-
-          <!--TODO: date picker-->
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Созданы после"
-                   [(ngModel)]="newFilter.createdAfter">
-          </div>
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Созданы до"
-                   [(ngModel)]="newFilter.createdBefore">
           </div>
 
           <div *ngIf="showClearButton()" class="text-center mt-1">

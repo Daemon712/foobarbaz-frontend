@@ -88,6 +88,17 @@ accordion .card-title {
   }
 }
 
+/*Pagination */
+//Justified
+.pagination-justified {
+  width: 100%;
+  display: flex;
+  .page-item {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
 /* Text Editor */
 quill-editor.form-control {
   padding: 0 !important;

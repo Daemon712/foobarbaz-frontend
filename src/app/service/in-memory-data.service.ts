@@ -24,13 +24,13 @@ export class InMemoryDataService implements InMemoryDbService {
     users.forEach((u: any) => {
       u.password = '1234';
       u.account.username = u.username;
-      u.account.created = InMemoryDataService.randomDate(u.username);
-      u.account.karma = Math.floor(Math.random() * 300);
-      u.account.challenges = Math.floor(Math.random() * 10);
-      u.account.playlists = Math.floor(Math.random() * 5);
-      u.account.solved = Math.floor(Math.random() * 30);
-      u.account.comments = Math.floor(Math.random() * 50);
-      u.account.sharedSolutions = Math.floor(Math.random() * 20);
+      u.account.created = this.randomDate(u.username);
+      u.account.karma = this.randomNumber(0, 500, u.username);
+      u.account.challenges = this.randomNumber(0, 6, u.username);
+      u.account.playlists = this.randomNumber(0, 2, u.username);
+      u.account.solved = this.randomNumber(0, 15, u.username);
+      u.account.comments = this.randomNumber(0, 10, u.username);
+      u.account.sharedSolutions = this.randomNumber(0, 8, u.username);
     });
 
     let tests: TestResult[] = [
@@ -158,30 +158,30 @@ export class InMemoryDataService implements InMemoryDbService {
       c.id = i + 1;
       c.solutionTemplate = defaultSolutionTemplate;
       c.description = defaultDescription;
-      c.created = InMemoryDataService.randomDate(c.name);
-      c.rating = Math.random();
-      c.difficulty = Math.random();
-      c.comments = Math.floor(Math.random() * 60);
-      c.views = Math.floor(Math.random() * 300);
-      c.completedSolutions = Math.floor(Math.random() * 20);
-      c.status = InMemoryDataService.randomItem([
+      c.created = this.randomDate(c.name);
+      c.rating = this.randomNumber(1, 9)/10;
+      c.difficulty = this.randomNumber(1, 9)/10;
+      c.comments = this.randomNumber(0, 12, c.name);
+      c.views = this.randomNumber(50, 300, c.name);
+      c.completedSolutions = this.randomNumber(0, 20, c.name);
+      c.status = this.randomItem([
         ChallengeStatus.Completed, ChallengeStatus.InProgress, ChallengeStatus.InProgress,
         ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted,
         ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted], c.name);
-      c.author = InMemoryDataService.randomItem(users, c.name).username;
+      c.author = this.randomItem(users, c.name).username;
       c.solutions = [];
       if (c.status != ChallengeStatus.NotStarted){
-        for (let j = 1; j < 1 + Math.random() * 5; j++){
+        for (let j = 1; j < this.randomNumber(1, 6, c.name); j++){
           let s = new Solution();
-          c.solutions.push(s);
           s.id = j;
           s.name = 'Решение №' + j;
-          s.status = InMemoryDataService.randomItem([SolutionStatus.failed, SolutionStatus.empty, SolutionStatus.error], c.name);
-          s.date = InMemoryDataService.randomDate(c.name);
+          s.status = this.randomItem([SolutionStatus.failed, SolutionStatus.empty, SolutionStatus.error], c.name);
+          s.date = this.randomDate(c.name);
           s.solution = defaultSolutionTemplate
-            .replace('= 0', '= ' + InMemoryDataService.randomItem(['array.length', 'array[0] + array[1]', '2 * array.length'], c.name))
-            .replace('//...', 'x = ' + InMemoryDataService.randomItem(['x * x', 'x + x', '10 + x * 2'], c.name) + ';');
+            .replace('= 0', '= ' + this.randomItem(['array.length', 'array[0] + array[1]', '2 * array.length'], c.name))
+            .replace('//...', 'x = ' + this.randomItem(['x * x', 'x + x', '10 + x * 2'], c.name) + ';');
           s.testResults = tests.map(tr => Object.assign({}, tr));
+          c.solutions.push(s);
         }
       }
       if (c.status == ChallengeStatus.Completed) {
@@ -189,13 +189,12 @@ export class InMemoryDataService implements InMemoryDbService {
         s.id = c.solutions.length + 1;
         s.name = 'Решение №' + s.id;
         s.status = SolutionStatus.success;
-        s.date = InMemoryDataService.randomDate(s.name);
+        s.date = this.randomDate(s.name);
         s.solution = defaultSolutionTemplate;
         s.testResults = tests.filter(tr => tr.status != TestStatus.success).map(tr => Object.assign({}, tr));
         s.testResults.forEach(tr => {tr.status = TestStatus.success;tr.message = ''});
         c.solutions.push(s);
       }
-      c.solutionSequence = c.solutions.length;
     }
 
     let playlists = [
@@ -248,8 +247,8 @@ export class InMemoryDataService implements InMemoryDbService {
     for (let i = 0; i < playlists.length; i++){
       let p: any = playlists[i];
       p.id = i + 1;
-      p.created = InMemoryDataService.randomDate(p.name);
-      p.author = InMemoryDataService.randomItem(users, p.name).username;
+      p.created = this.randomDate(p.name);
+      p.author = this.randomItem(users, p.name).username;
     }
 
     let tags: Tag[] = [
@@ -346,12 +345,14 @@ export class InMemoryDataService implements InMemoryDbService {
     for (let i = 0; i< comments.length; i++){
       let c: any = comments[i];
       c.id = i + 1;
-      c.challengeId = InMemoryDataService.randomItem(challenges, c.text).id;
-      c.sharedSolId = Math.random() > 0.5 ? null : InMemoryDataService.randomItem(sharedSolutions, c.text).id;
-      c.author = InMemoryDataService.randomItem(users, c.text).username;
-      c.created = InMemoryDataService.randomDate(c.text);
-      c.likes = Math.floor(Math.random() * 30);
+      c.challengeId = this.randomItem(challenges, c.text).id;
+      if (Math.random() > 0.5) c.sharedSolId = this.randomItem(sharedSolutions, c.text).id;
+      c.author = this.randomItem(users, c.text).username;
+      c.date = this.randomDate(c.text);
+      c.likes = this.randomNumber(0, 15, c.text);
     }
+
+    console.log(comments);
 
     return {
       challenges,
@@ -364,21 +365,33 @@ export class InMemoryDataService implements InMemoryDbService {
     };
   }
 
-  static randomItem(items: any[], seed: string): any{
-    let h = InMemoryDataService.hash(seed);
+  randomItem(items: any[], seed: string): any{
+    let h = this.hash(seed);
     return items[h % items.length];
   }
 
-  static randomDate(seed: string): Date{
-    let h = InMemoryDataService.hash(seed);
+  randomDate(seed: string): Date{
+    let h = this.hash(seed);
     return new Date(2017, 1 + h % 6, 1 + h % 28);
   }
 
-  static hash(value: string): number{
+  randomNumber(min: number, max: number, seed?: string): number{
+    if (!seed) return min + Math.random() * (max-min);
+
+    let h = this.hash(seed);
+    return min + h % (max-min);
+  }
+
+  hashCache = {};
+  hash(value: string): number{
+    if (this.hashCache[value])
+      return this.hashCache[value];
+
     let h = 0;
     for (let i = 0; i < value.length; i++) {
       h = 31 * h + value.charCodeAt(i);
     }
+    this.hashCache[value] = h;
     return h;
   }
 }

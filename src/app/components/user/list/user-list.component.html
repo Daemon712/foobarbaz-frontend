@@ -10,7 +10,14 @@
       <li class="list-group-item header justify-content-start">
         <div class="mx-2" style="width: 100px"></div>
         <div class="ml-3">Пользователь</div>
-        <div class="ml-auto mr-3">Рейтинг</div>
+        <div class="ml-auto mr-3">
+          <i class="fa fa-sort-amount-desc"></i>
+          <span>Рейтинг</span>
+        </div>
+      </li>
+      <li class="list-group-item list-group-item-info lead p-3" *ngIf="!users">
+        <i class="fa fa-spinner fa-pulse ml-3"></i>
+        <span> Загрузка...</span>
       </li>
       <li class="list-group-item justify-content-start" *ngFor="let user of users">
         <img src="http://placehold.it/100x100" class="rounded m-2"/>
@@ -54,12 +61,52 @@
     </ul>
   </div>
   <div class="col-3">
-    <div class="card">
+    <div class="input-group mb-3">
+    <span class="input-group-addon">
+      <i class="fa fa-search"></i>
+    </span>
+      <input type="text" class="form-control" placeholder="Поиск">
+    </div>
+    <pagination class="pagination-justified"
+                [totalItems]="80" [(ngModel)]="page"
+                [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
+                [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
+                [firstText]="'&laquo;'" [lastText]="'&raquo;'">
+    </pagination>
+    <div class="card mb-3">
       <div class="card-header">
-        Добрый вечер
+        <i class="fa fa-plus"></i>
+        <span>Лучший автор </span>
       </div>
       <div class="card-block">
-
+        <h5>
+          <i class="fa fa-user"></i>
+          <a href="#">Рандом</a>
+        </h5>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fa fa-check"></i>
+        <span>Лучший решатель</span>
+      </div>
+      <div class="card-block">
+        <h5>
+          <i class="fa fa-user"></i>
+          <a href="#">Рандом</a>
+        </h5>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fa fa-comment"></i>
+        <span>Лучший комментатор</span>
+      </div>
+      <div class="card-block">
+        <h5>
+          <i class="fa fa-user"></i>
+          <a href="#">Рандом</a>
+        </h5>
       </div>
     </div>
   </div>

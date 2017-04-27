@@ -12,6 +12,28 @@
       <i class="fa fa-plus"></i>
       <span> Добавить подборку</span>
     </a>
+    <div class="input-group mb-3">
+      <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+      </span>
+      <input type="text" class="form-control" placeholder="Поиск">
+    </div>
+    <pagination class="pagination-justified"
+                [totalItems]="80" [(ngModel)]="page"
+                [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
+                [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
+                [firstText]="'&laquo;'" [lastText]="'&raquo;'">
+    </pagination>
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-gift"></i>
+        <span>Случайная подборка</span>
+      </div>
+      <div class="card-block">
+        <h5><a href="#">Stub</a></h5>
+        <div>Stub Stub Stub Stub Stub </div>
+      </div>
+    </div>
   </div>
   <div class="col-9">
       <app-playlist-list [items]="items"></app-playlist-list>

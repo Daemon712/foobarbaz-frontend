@@ -1,3 +1,10 @@
+<div [hidden]="items" class="alert alert-info lead text-center p-3">
+  <i class="fa fa-spinner fa-pulse"></i>
+  <span> Загрузка...</span>
+</div>
+<div [hidden]="!items || items.length" class="alert alert-warning lead text-center p-3">
+  <span> Подборок не найдено</span>
+</div>
 <div class="card mb-2" *ngFor="let playlist of items">
   <div class="card-header">
     <div class="pull-right m-1">
