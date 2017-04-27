@@ -8,6 +8,31 @@ import {SolutionStatus} from "../model/solutions-status";
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
+    let users = [
+      {username: "admin", account: {description: "Создатель и действующий администратор сообщества"}},
+      {username: "moderator", account: {description: "Модератор, который модерирует"}},
+      {username: "user", account: {description: "Типичный пользователь"}},
+      {username: "Игорь", account: {description: "Выпьем за любовь?"}},
+      {username: "Анна", account: {description: "Описание Описание Описание"}},
+      {username: "Борис", account: {description: "Олег, где макет?"}},
+      {username: "Марина", account: {description: "Доброе утро"}},
+      {username: "Сергей", account: {description: "Добрый вечер"}},
+      {username: "Николай", account: {description: "Ла ла ли ла лай"}},
+      {username: "Владимир", account: {description: "..."}},
+    ];
+
+    users.forEach((u: any) => {
+      u.password = '1234';
+      u.account.username = u.username;
+      u.account.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      u.account.karma = Math.floor(Math.random() * 300);
+      u.account.challenges = Math.floor(Math.random() * 10);
+      u.account.playlists = Math.floor(Math.random() * 5);
+      u.account.solved = Math.floor(Math.random() * 30);
+      u.account.comments = Math.floor(Math.random() * 50);
+      u.account.sharedSolutions = Math.floor(Math.random() * 20);
+    });
+
     let defaultDescription = '<h2>Заголовок</h2>Равным образом новая модель играет важную роль в ' +
       'формировании соответствующий условий активизации. Повседневная практика показывает, ' +
       'что постоянный количественный рост и сфера нашей активности обеспечивает широкому кругу ' +
@@ -33,199 +58,163 @@ export class InMemoryDataService implements InMemoryDbService {
 
     let challenges = [
       {
-        id: 1,
         name: 'Палиндромы',
         abstract: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
-        description: defaultDescription,
-        status: ChallengeStatus.NotStarted,
-        author: 'Игорь',
-        created: new Date('03 01 2017'),
         tags: ["Циклы", "Строки"],
-        rating: 0.4,
-        difficulty: 0.6,
-        comments: 12,
-        views: 52,
-        solutions: 12,
-        sharedSolutions: 3,
-        solutionTemplate: defaultSolutionTemplate,
       },
       {
-        id: 2,
         name: 'Факториал',
         abstract: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
-        description: defaultDescription,
-        status: ChallengeStatus.InProgress,
-        author: 'Марина',
-        created: new Date('02 25 2017'),
         tags: ["Рекурсия", "Математика"],
-        rating: 0.2,
-        difficulty: 0.9,
-        comments: 4,
-        views: 85,
-        solutions: 32,
-        sharedSolutions: 9,
-        solutionTemplate: defaultSolutionTemplate,
       },
       {
-        id: 3,
         name: 'Сумма элементов',
         abstract: 'На вход подается массив целых чисел. Посчитайте сумму элеметов массива',
-        description: defaultDescription,
-        status: ChallengeStatus.Completed,
-        author: 'Михаил',
-        created: new Date('02 11 2017'),
         tags: ["Массивы", "Циклы"],
-        rating: 0.8,
-        difficulty: 0.4,
-        views: 110,
-        solutions: 56,
-        sharedSolutions: 12,
-        solutionTemplate: defaultSolutionTemplate,
       },
       {
-        id: 4,
-        name: 'Палиндромы',
-        abstract: 'На вход подается строка. Нужно определить, является ли строка палиндромом',
-        description: defaultDescription,
-        status: ChallengeStatus.NotStarted,
-        author: 'Сергей',
-        created: new Date('02 06 2017'),
-        tags: ["Циклы", "Строки"],
-        rating: 0.5,
-        difficulty: 0.2,
-        comments: 26,
-        views: 32,
-        solutions: 8,
-        sharedSolutions: 2,
-        solutionTemplate: defaultSolutionTemplate,
+        name: 'Hello world',
+        abstract: 'Все просто! Выведите на экран фразу "Hello world!"',
+        tags: ["Строки"],
       },
       {
-        id: 5,
-        name: 'Факториал',
-        abstract: 'На вход подается целое число n. Метод должен вычислить и вернуть !n',
-        description: defaultDescription,
-        status: ChallengeStatus.NotStarted,
-        author: 'Анна',
-        created: new Date('02 09 2017'),
+        name: 'Возведение в степень',
+        abstract: 'Есть два целых число a и b. Программа должна вычеслить a в степени b',
         tags: ["Рекурсия", "Математика"],
-        rating: 0.9,
-        difficulty: 0.2,
-        views: 45,
-        solutions: 5,
-        solutionTemplate: defaultSolutionTemplate,
       },
       {
-        id: 6,
-        name: 'Сумма элементов',
-        abstract: 'На вход подается массив целых чисел. Посчитайте сумму элеметов массива',
-        description: defaultDescription,
-        status: ChallengeStatus.InProgress,
-        author: 'Аркадий',
-        created: new Date('02 11 2017'),
-        tags: ["Массивы","Циклы"],
-        rating: 0.1,
-        difficulty: 0.1,
-        comments: 12,
-        views: 30,
-        solutions: 7,
-        solutionTemplate: defaultSolutionTemplate,
+        name: 'Сумма элементов дерева',
+        abstract: 'Вам дано дерево. Каждый элемент дерева содержит число, посчитайте сумму всех этих чисел',
+        tags: ["Дерево","Рекурсия"],
+      },
+      {
+        name: 'Число Фибоначчи',
+        abstract: 'На вход программе подается число N, верните N-ое число в последовательности чисел Фибоначчи',
+        tags: ["Математика","Рекурсия","Последовательность"],
+      },
+      {
+        name: 'Наименьшее из 3 чисел',
+        abstract: 'Вам дано 3 числа: a, b, c. Верните наибольшее из них',
+        tags: ["Числа"],
+      },
+      {
+        name: 'Четность числа',
+        abstract: 'Есть число. Верните true, если оно четное. Иначе верните false',
+        tags: ["Числа"],
+      },
+      {
+        name: 'Убрать гласные из строки',
+        abstract: 'Вам дана строка состоящая из букв латинского алфавита, цифр и заков препинания. Верните кописю строки без гласных букв (a, e, u, i, o)',
+        tags: ["Строки"],
+      },
+      {
+        name: 'Количество четных элементов',
+        abstract: 'На вход программе подается массив целых чисел. Посчитайте количество четных чисел в массиве',
+        tags: ["Массивы","Числа"],
+      },
+      {
+        name: 'Бесконечный поезд',
+        abstract: 'Представьте себе замкнутую по окружности железную дорогу. По ней едет поезд. Вы оказались в одном случайном вагоне и ваша задача — подсчитать их общее количество.',
+        tags: ["Логика","Головоломка"],
+      },
+      {
+        name: 'Сбрасываем яйцо с небоскреба',
+        abstract: 'Дано M-этажное здание. Если яйцо сбросить с высоты этажа N или больше, оно разобьется. У вас есть два яйца. Найдите N за минимальное количество бросков.',
+        tags: ["Логика","Головоломка"],
+      },
+      {
+        name: 'Задача о 8 ферзях (обобщенная)',
+        abstract: 'Расставить максимальное количество взаимно не бьющих друг друга ферзей на прямоугольном поле со сторонами A и B',
+        tags: ["Массивы","Шахматы"],
+      },
+      {
+        name: 'Ханойская башня',
+        abstract: 'Есть 3 стержня. На первом стержне надета пирамидка из N дисков. Диски можно перекладывать на другой стержень, но на диск нельзя класть другой диск большео размера. Переложите пирамидку на 3 стержень',
+        tags: ["Логика","Головоломка"],
+      },
+      {
+        name: 'Проверка на анаграмму',
+        abstract: 'Программе подается на вход 2 строки: str1 и str2. Верните true, если str1 является анаграммой str2',
+        tags: ["Строки"],
+      },
+      {
+        name: 'Самое большое произведение',
+        abstract: 'Дан массив целых чисел. Необходимо найти наибольшее произведение из 3 чисел этого массива',
+        tags: ["Логика","Числа"],
       },
     ];
 
+    for (let i = 0; i < challenges.length; i++){
+      let c: any = challenges[i];
+      c.id = i + 1;
+      c.solutionTemplate = defaultSolutionTemplate;
+      c.description = defaultDescription;
+      c.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      c.rating = Math.random();
+      c.difficulty = Math.random();
+      c.comments = Math.floor(Math.random() * 100);
+      c.views = Math.floor(Math.random() * 200);
+      c.solutions = Math.floor(Math.random() * 20);
+      c.status = InMemoryDataService.randomItem([
+        ChallengeStatus.Completed, ChallengeStatus.InProgress, ChallengeStatus.InProgress,
+        ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted,
+        ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted]);
+      c.author = InMemoryDataService.randomItem(users).username;
+    }
+
     let playlists = [
       {
-        id: 1,
         name: 'ТОП 5 задач с рекурсией',
         description: 'Чтобы понять рекурсию, надо понять рекурсию',
-        author: 'admin',
         challenges: [
-          {
-            id: 1,
-            name: 'Факториал'
-          },
-          {
-            id: 2,
-            name: 'Возведение в степень'
-          },
-          {
-            id: 3,
-            name: 'Сумма элементов дерева'
-          },
-          {
-            id: 4,
-            name: 'Число Фибоначчи'
-          },
+          challenges[1],
+          challenges[4],
+          challenges[5],
+          challenges[6],
         ]
       },
       {
-        id: 2,
         name: 'Лучшие задачки для новичка',
         description: 'Задачи самые простые, хорошо для тех кто только начал писать программы',
-        author: 'admin',
         challenges: [
-          {
-            id: 1,
-            name: 'Hello World!'
-          },
-          {
-            id: 2,
-            name: 'Наименьшее из 3 чисел'
-          },
-          {
-            id: 3,
-            name: 'Четность числа'
-          },
-          {
-            id: 4,
-            name: 'Убрать гласные из строки'
-          },
-          {
-            id: 5,
-            name: 'Количество четных элементов'
-          },
+          challenges[3],
+          challenges[7],
+          challenges[8],
+          challenges[9],
+          challenges[10],
         ]
       },
       {
-        id: 3,
         name: 'Сломай себе мозг!',
         description: '96% населения земли не могут решить эти задачи. А ты?',
-        author: 'Игорь',
         challenges: [
-          {
-            id: 1,
-            name: 'Бесконечный поезд'
-          },
-          {
-            id: 2,
-            name: 'Сбрасываем яйцо с небоскреба'
-          },
-          {
-            id: 3,
-            name: 'Расстановка 8 ферзей'
-          },
+          challenges[11],
+          challenges[12],
+          challenges[13],
         ]
       },
       {
-        id: 4,
         name: 'Задачи, которые должен решить каждый!',
         description: 'Самые популярные задачи на собеседованиях',
-        author: 'Борис',
         challenges: [
-          {
-            id: 1,
-            name: 'Ханойская башня'
-          },
-          {
-            id: 2,
-            name: 'Проверка на анаграмму'
-          },
-          {
-            id: 3,
-            name: 'Самое большое произведение'
-          },
+          challenges[14],
+          challenges[15],
+          challenges[16],
         ]
+      },
+      {
+        name: 'просто все задачи',
+        description: 'потому что могу',
+        challenges: challenges
       }
     ];
+
+    for (let i = 0; i < playlists.length; i++){
+      let p: any = playlists[i];
+      p.id = i + 1;
+      p.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      p.author = InMemoryDataService.randomItem(users).username;
+    }
 
     let tests: TestResult[] = [
       new TestResult("testOne",       TestStatus.success),
@@ -244,168 +233,6 @@ export class InMemoryDataService implements InMemoryDbService {
       new Tag("Математика", 6),
       new Tag("Бинарные операции", 4),
       new Tag("Ввод-вывод", 2),
-    ];
-
-    let users = [
-      {username: "admin", password: "1234", account: {
-        username: "admin",
-        description: "Создатель и действующий администратор сообщества",
-        created: new Date('11 7 2016 9:30'),
-        karma: 9999,
-        challenges: 8,
-        playlists: 2,
-        solved: 10,
-        comments: 24,
-        sharedSolutions: 5
-      }},
-      {username: "moderator", password: "1234", account: {
-        username: "moderator",
-        description: "Модератор, который модерирует",
-        created: new Date('12 6 2016 19:30'),
-        karma: 777,
-        challenges: 11,
-        playlists: 4,
-        solved: 13,
-        comments: 115,
-        sharedSolutions: 10
-      }},
-      {username: "user", password: "1234", account: {
-        username: "user",
-        description: "Типичный пользователь",
-        created: new Date('1 3 2017 11:45'),
-        karma: 15,
-        challenges: 0,
-        playlists: 0,
-        solved: 3,
-        comments: 4,
-        sharedSolutions: 1
-      }},
-      {username: "Игорь", password: "1234", account: {
-        username: "Игорь",
-        description: "Типичный пользователь",
-        created: new Date('1 3 2017 11:45'),
-        karma: 22,
-        challenges: 0,
-        playlists: 0,
-        solved: 3,
-        comments: 4,
-        sharedSolutions: 1
-      }},
-      {username: "Анна", password: "1234", account: {
-        username: "Анна",
-        description: "Типичный пользователь",
-        created: new Date('1 3 2017 11:45'),
-        karma: 2,
-        challenges: 0,
-        playlists: 0,
-        solved: 1,
-        comments: 1,
-        sharedSolutions: 0
-      }},
-      {username: "Борис", password: "1234", account: {
-        username: "Борис",
-        description: "Олег, где макет?",
-        created: new Date('1 3 2017 11:45'),
-        karma: 8,
-        challenges: 1,
-        playlists: 0,
-        solved: 6,
-        comments: 12,
-        sharedSolutions: 0
-      }},
-    ];
-
-    let comments = [
-      {
-        id: 1,
-        challengeId: 1,
-        author: 'Петр',
-        text: 'Отличная задача! Решил с удовольствием',
-        likes: 3,
-        date: new Date('02 11 2017 19:30'),
-      },
-      {
-        id: 2,
-        challengeId: 1,
-        author: 'Оксана',
-        text: 'Сложно. Два дня думала(',
-        likes: 1,
-        liked: true,
-        date: new Date('02 12 2017 09:51'),
-      },
-      {
-        id: 3,
-        challengeId: 2,
-        sharedSolId: null,
-        author: 'Михаил',
-        text: 'Так и не смог решить...',
-        likes: 0,
-        date: new Date('02 12 2017 22:46'),
-      },
-      {
-        id: 4,
-        challengeId: 2,
-        sharedSolId: null,
-        author: 'Татьяна',
-        text: 'Сначала не поняла, потом додумалась и решила за 2 минуты :)',
-        likes: 0,
-        date: new Date('02 13 2017 12:01'),
-      },
-      {
-        id: 5,
-        challengeId: 1,
-        author: 'Диана',
-        text: 'Слишком просто.',
-        likes: 8,
-        liked: true,
-        date: new Date('02 14 2017 16:24'),
-      },
-      {
-        id: 6,
-        challengeId: 1,
-        author: 'Алексей',
-        text: 'В школе такую на паскале решал)',
-        likes: 6,
-        liked: true,
-        date: new Date('02 11 2017 13:55'),
-      },
-      {
-        id: 7,
-        challengeId: 1,
-        sharedSolId: 1,
-        author: 'Диана',
-        text: 'Интересное решение...',
-        likes: 0,
-        date: new Date('02 14 2017 16:24'),
-      },
-      {
-        id: 8,
-        challengeId: 1,
-        sharedSolId: 1,
-        author: 'Алексей',
-        text: 'Вместо LinkedList лучше использовать ArrayList',
-        likes: 4,
-        liked: true,
-        date: new Date('02 11 2017 13:55'),
-      },
-      {
-        id: 9,
-        challengeId: 1,
-        sharedSolId: 2,
-        author: 'Сергей',
-        text: 'Похоже на спаггети)',
-        likes: 3,
-        date: new Date('02 14 2017 16:24'),
-      },
-      {
-        id: 10,
-        challengeId: 2,
-        sharedSolId: 2,
-        author: 'Игорь',
-        text: 'Добрый вечер',
-        likes: 0,
-        date: new Date('02 11 2017 13:55'),
-      },
     ];
 
     let revisions: Revision[] = [
@@ -485,6 +312,29 @@ export class InMemoryDataService implements InMemoryDbService {
       },
   ];
 
+    let comments = [
+      { text: 'Отличная задача! Решил с удовольствием'},
+      { text: 'Сложно. Два дня думала('},
+      { text: 'Так и не смог решить...'},
+      { text: 'Сначала не поняла, потом додумалась и решила за 2 минуты :)'},
+      { text: 'Слишком просто.'},
+      { text: 'В школе такую на паскале решал)'},
+      { text: 'Интересное решение...'},
+      { text: 'Вместо LinkedList лучше использовать ArrayList'},
+      { text: 'Похоже на спаггети)'},
+      { text: 'Добрый вечер'},
+    ];
+
+    for (let i = 0; i< comments.length; i++){
+      let c: any = comments[i];
+      c.id = i + 1;
+      c.challengeId = InMemoryDataService.randomItem(challenges).id;
+      c.sharedSolId = Math.random() > 0.3 ? null : InMemoryDataService.randomItem(sharedSolutions).id;
+      c.author = InMemoryDataService.randomItem(users).username;
+      c.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      c.likes = Math.floor(Math.random() * 30);
+    }
+
     return {
       challenges,
       tests,
@@ -495,5 +345,10 @@ export class InMemoryDataService implements InMemoryDbService {
       sharedSolutions,
       playlists,
     };
-  }}
+  }
+
+  static randomItem(items: any[]): any{
+    return items[Math.floor(Math.random() * items.length)]
+  }
+}
 

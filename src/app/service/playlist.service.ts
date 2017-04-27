@@ -6,7 +6,7 @@ import {AlertService} from "./alert.service";
 @Injectable()
 export class PlaylistService {
 
-  url = '/api/playlists/';
+  url = '/api/playlists';
 
   constructor(
     private http: Http,
@@ -23,6 +23,14 @@ export class PlaylistService {
     return this.http.get(`${this.url}?author=${author}`)
       .toPromise()
       .then(response => response.json().data as Playlist[]);
+  }
+
+  getPlaylist(id: number): Promise<Playlist>{
+    return this.http.get(`${this.url}/${id}`)
+      .toPromise()
+      .then(response => {
+        return response.json().data as Playlist;
+      });
   }
 
   addPlaylist(playlist: Playlist): Promise<Playlist>{
