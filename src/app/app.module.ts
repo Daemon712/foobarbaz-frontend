@@ -31,7 +31,7 @@ import { TagPickerComponent } from './components/tags/picker/tag-picker.componen
 import {TestSolutionService} from "./service/test-solution.service";
 import { TestResultsTableComponent } from './components/solution/test-results/test-results-table.component';
 import { CommentsComponent } from './components/comments/comments.component';
-import { RevisionListComponent } from './components/solution/revision-list/revision-list.component';
+import { SolutionListComponent } from './components/solution/revision-list/revision-list.component';
 import { SolutionStatusViewComponent } from './components/solution/status-view/solution-status-view.component';
 import { SharedSolutionListComponent } from './components/shared-solution/list/shared-solution-list.component';
 import { UserViewComponent } from './components/user/view/user-view.component';
@@ -47,6 +47,7 @@ import { CreatePlaylistComponent } from './components/playlist/create/create-pla
 import { ChallengePickerComponent } from './components/challenge/picker/challenge-picker.component';
 import { PlaylistListComponent } from './components/playlist/list/playlist-list.component';
 import { PlaylistViewComponent } from './components/playlist/view/playlist-view.component';
+import { ChallengeViewPageComponent } from './components/challenge/view-page/challenge-view-page.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -55,7 +56,7 @@ const routes: Routes = [
   { path: 'users',  component: UserListComponent },
   { path: 'challenges/create',  component: CreateChallengeComponent },
   { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
-  { path: 'challenges/:id',  component: ViewChallengeComponent },
+  { path: 'challenges/:id',  component: ChallengeViewPageComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
   { path: 'playlists/:id',  component: PlaylistViewComponent },
   { path: 'playlists/create',  component: CreatePlaylistComponent },
@@ -81,7 +82,7 @@ const routes: Routes = [
     TagPickerComponent,
     TestResultsTableComponent,
     CommentsComponent,
-    RevisionListComponent,
+    SolutionListComponent,
     SolutionStatusViewComponent,
     SharedSolutionListComponent,
     ChallengeListPageComponent,
@@ -93,6 +94,7 @@ const routes: Routes = [
     ChallengePickerComponent,
     PlaylistListComponent,
     PlaylistViewComponent,
+    ChallengeViewPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ import {Challenge} from "../model/challenge";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
-import {Revision} from "../model/revision";
+import {Solution} from "../model/solution";
 import {SolutionStatus} from "../model/solutions-status";
 
 @Injectable()
@@ -90,58 +90,49 @@ export class ChallengeService {
       });
   }
 
-  getRevisions(challengeId: number): Promise<Revision[]> {
-    //TODO change url to 'api/challenges/:id/revisions'
-    return this.http.get('api/revisions')
-      .toPromise()
-      .then(response => response.json().data as Revision[])
-      .catch(ChallengeService.handleError);
+  addSolution(challengeId: number, solution: Solution): Promise<Solution> {
+    let sol = new Solution();
+    Object.assign(sol, solution);
+    sol.id = 10 + Math.floor(10 * Math.random());
+    sol.name = 'Решение №' + sol.id;
+    sol.status = Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed;
+    sol.date = new Date();
+    sol.solution = sol.newSolution;
+    return this.getChallenge(challengeId)
+      .then(challenge => {
+        challenge.solutions.push(sol);
+        return this.http.post(`${this.url}/${challengeId}`, challenge)
+          .toPromise()
+          .then(() => this.handleSolutionResponse(sol));
+      });
   }
 
-  addRevision(challengeId: number, solution: string): Promise<Revision> {
-    let n = Math.round(6 + Math.random() * 20);
-    let rev = new Revision(
-      n,
-      'Решение №' + n,
-      Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed,
-      new Date(),
-      solution
-    );
-    //TODO change url to 'api/challenges/:id/revisions'
-    return this.http.post('api/revisions', rev)
-      .toPromise()
-      .then(response => this.handleSolutionResponse(response))
-      .catch(ChallengeService.handleError);
+  updateSolution(challengeId: number, solution: Solution): Promise<Solution> {
+    let sol = new Solution();
+    Object.assign(sol, solution);
+    sol.status = Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed;
+    sol.date = new Date();
+    sol.solution = sol.newSolution;
+    return this.getChallenge(challengeId)
+      .then(challenge => {
+        Object.assign(challenge.solutions.find(s => s.id == sol.id), sol);
+        return this.http.post(`${this.url}/${challengeId}`, challenge)
+          .toPromise()
+          .then(() => this.handleSolutionResponse(sol));
+      });
   }
 
-  updateRevision(challengeId: number, revisionId: number, solution: string): Promise<Revision> {
-    //TODO fill params on server-side
-    let revision = new Revision(
-      revisionId,
-      'Решение №' + revisionId,
-      Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed,
-      new Date(),
-      solution
-    );
-    //TODO change url to 'api/challenges/:id/revisions'
-    return this.http.put(`api/revisions/${revisionId}`, revision)
-      .toPromise()
-      .then(() => this.http.get(`api/revisions/${revisionId}`)
-        .toPromise()
-        .then(response => this.handleSolutionResponse(response)))
-      .catch(ChallengeService.handleError);
+  deleteSolution(challengeId: number, solutionId: number): Promise<void> {
+    return this.getChallenge(challengeId)
+      .then(challenge => {
+        challenge.solutions = challenge.solutions.filter(s => s.id != solutionId);
+        return this.http.post(`${this.url}/${challengeId}`, challenge)
+          .toPromise()
+          .then(() => {});
+      });
   }
 
-  deleteRevision(challengeId: number, revisionId: number): Promise<void> {
-    //TODO change url to 'api/challenges/:id/revisions'
-    return this.http.delete(`api/revisions/${revisionId}`)
-      .toPromise()
-      .then(() => {})
-      .catch(ChallengeService.handleError);
-  }
-
-  private handleSolutionResponse(response){
-    let result = response.json().data as Revision;
+  private handleSolutionResponse(result: Solution){
     if (result) {
       switch (result.status) {
         case SolutionStatus.empty: this.alertService.info("Решение успешно сохранено"); break;

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ModalDirective} from "ng2-bootstrap";
-import {Revision} from "../../../model/revision";
+import {Solution} from "../../../model/solution";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AceEditorComponent} from "ng2-ace-editor";
 
@@ -12,7 +12,7 @@ import {AceEditorComponent} from "ng2-ace-editor";
 export class ShareSolutionComponent implements OnInit {
 
   @Input()
-  revision: Revision;
+  revision: Solution;
 
   @Output()
   onSubmit = new EventEmitter<string>();

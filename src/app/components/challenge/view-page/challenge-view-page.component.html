@@ -1,0 +1,47 @@
+<div class="jumbotron" *ngIf="challenge">
+  <h1 class="display-3">{{challenge.name}}</h1>
+  <p class="lead">{{challenge.abstract}}</p>
+</div>
+<div class="jumbotron" *ngIf="!challenge">
+  <h1 class="display-3">Загрузка...</h1>
+</div>
+<app-view-challenge [challenge]="challenge"></app-view-challenge>
+<div class="row">
+  <div class="col-md-8">
+    <tabset type="pills" [justified]="true" *ngIf="challenge">
+      <tab customClass="tab-sm tab-success pr-2" class="py-3">
+        <template tabHeading>
+          <i class="fa fa-plus"></i>
+          <span> Комментировать</span>
+        </template>
+        <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
+        <button type="button" class="btn btn-primary btn-sm"
+                [disabled]="!newComment" (click)="sendComment()">
+          Оставить комментарий
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm"
+                [disabled]="!newComment" (click)="newComment = ''">
+          Отмена
+        </button>
+      </tab>
+      <tab customClass="tab-sm tab-info px-2" class="py-3"
+           [disabled]="!challenge.comments && !comments?.length" (select)="loadComments()">
+        <template tabHeading>
+          <span>Комментарии </span>
+          <i class="fa fa-comments"></i>
+          <span> {{comments?.length || challenge.comments || 0}}</span>
+        </template>
+        <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
+      </tab>
+      <tab customClass="tab-sm tab-info pl-2" class="py-3"
+           [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">
+        <template tabHeading>
+          <span>Открытые решения </span>
+          <i class="fa fa-share-alt"></i>
+          <span> {{sharedSolutions?.length || challenge.sharedSolutions || 0}}</span>
+        </template>
+        <app-shared-solution-list [solutions]="sharedSolutions"></app-shared-solution-list>
+      </tab>
+    </tabset>
+  </div>
+</div>

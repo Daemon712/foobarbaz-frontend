@@ -2,7 +2,7 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {ChallengeStatus} from "../model/challenge";
 import {Tag} from "../model/tag";
 import {TestResult, TestStatus} from "../model/test-result";
-import {Revision} from "../model/revision";
+import {Solution} from "../model/solution";
 import {SharedSolution} from "../model/shared-solution";
 import {SolutionStatus} from "../model/solutions-status";
 
@@ -24,7 +24,7 @@ export class InMemoryDataService implements InMemoryDbService {
     users.forEach((u: any) => {
       u.password = '1234';
       u.account.username = u.username;
-      u.account.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      u.account.created = InMemoryDataService.randomDate(u.username);
       u.account.karma = Math.floor(Math.random() * 300);
       u.account.challenges = Math.floor(Math.random() * 10);
       u.account.playlists = Math.floor(Math.random() * 5);
@@ -32,6 +32,15 @@ export class InMemoryDataService implements InMemoryDbService {
       u.account.comments = Math.floor(Math.random() * 50);
       u.account.sharedSolutions = Math.floor(Math.random() * 20);
     });
+
+    let tests: TestResult[] = [
+      new TestResult("testOne",       TestStatus.success),
+      new TestResult("testTwo",       TestStatus.success),
+      new TestResult("testThree",     TestStatus.success),
+      new TestResult("testZero",      TestStatus.failed,  "Ожидалось: 1, Результат: 0"),
+      new TestResult("testInfinity",  TestStatus.ignored),
+      new TestResult("testNegative",  TestStatus.error,   "ArithmeticException"),
+    ];
 
     let defaultDescription = '<h2>Заголовок</h2>Равным образом новая модель играет важную роль в ' +
       'формировании соответствующий условий активизации. Повседневная практика показывает, ' +
@@ -123,7 +132,7 @@ export class InMemoryDataService implements InMemoryDbService {
         tags: ["Логика","Головоломка"],
       },
       {
-        name: 'Задача о 8 ферзях (обобщенная)',
+        name: 'Задача о ферзях',
         abstract: 'Расставить максимальное количество взаимно не бьющих друг друга ферзей на прямоугольном поле со сторонами A и B',
         tags: ["Массивы","Шахматы"],
       },
@@ -144,22 +153,49 @@ export class InMemoryDataService implements InMemoryDbService {
       },
     ];
 
-    for (let i = 0; i < challenges.length; i++){
+    for (let i = 0; i < challenges.length; i++) {
       let c: any = challenges[i];
       c.id = i + 1;
       c.solutionTemplate = defaultSolutionTemplate;
       c.description = defaultDescription;
-      c.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      c.created = InMemoryDataService.randomDate(c.name);
       c.rating = Math.random();
       c.difficulty = Math.random();
-      c.comments = Math.floor(Math.random() * 100);
-      c.views = Math.floor(Math.random() * 200);
-      c.solutions = Math.floor(Math.random() * 20);
+      c.comments = Math.floor(Math.random() * 60);
+      c.views = Math.floor(Math.random() * 300);
+      c.completedSolutions = Math.floor(Math.random() * 20);
       c.status = InMemoryDataService.randomItem([
         ChallengeStatus.Completed, ChallengeStatus.InProgress, ChallengeStatus.InProgress,
         ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted,
-        ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted]);
-      c.author = InMemoryDataService.randomItem(users).username;
+        ChallengeStatus.NotStarted, ChallengeStatus.NotStarted, ChallengeStatus.NotStarted], c.name);
+      c.author = InMemoryDataService.randomItem(users, c.name).username;
+      c.solutions = [];
+      if (c.status != ChallengeStatus.NotStarted){
+        for (let j = 1; j < 1 + Math.random() * 5; j++){
+          let s = new Solution();
+          c.solutions.push(s);
+          s.id = j;
+          s.name = 'Решение №' + j;
+          s.status = InMemoryDataService.randomItem([SolutionStatus.failed, SolutionStatus.empty, SolutionStatus.error], c.name);
+          s.date = InMemoryDataService.randomDate(c.name);
+          s.solution = defaultSolutionTemplate
+            .replace('= 0', '= ' + InMemoryDataService.randomItem(['array.length', 'array[0] + array[1]', '2 * array.length'], c.name))
+            .replace('//...', 'x = ' + InMemoryDataService.randomItem(['x * x', 'x + x', '10 + x * 2'], c.name) + ';');
+          s.testResults = tests.map(tr => Object.assign({}, tr));
+        }
+      }
+      if (c.status == ChallengeStatus.Completed) {
+        let s = new Solution();
+        s.id = c.solutions.length + 1;
+        s.name = 'Решение №' + s.id;
+        s.status = SolutionStatus.success;
+        s.date = InMemoryDataService.randomDate(s.name);
+        s.solution = defaultSolutionTemplate;
+        s.testResults = tests.filter(tr => tr.status != TestStatus.success).map(tr => Object.assign({}, tr));
+        s.testResults.forEach(tr => {tr.status = TestStatus.success;tr.message = ''});
+        c.solutions.push(s);
+      }
+      c.solutionSequence = c.solutions.length;
     }
 
     let playlists = [
@@ -212,18 +248,9 @@ export class InMemoryDataService implements InMemoryDbService {
     for (let i = 0; i < playlists.length; i++){
       let p: any = playlists[i];
       p.id = i + 1;
-      p.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
-      p.author = InMemoryDataService.randomItem(users).username;
+      p.created = InMemoryDataService.randomDate(p.name);
+      p.author = InMemoryDataService.randomItem(users, p.name).username;
     }
-
-    let tests: TestResult[] = [
-      new TestResult("testOne",       TestStatus.success),
-      new TestResult("testTwo",       TestStatus.success),
-      new TestResult("testThree",     TestStatus.success),
-      new TestResult("testZero",      TestStatus.failed,  "Ожидалось: 1, Результат: 0"),
-      new TestResult("testInfinity",  TestStatus.ignored),
-      new TestResult("testNegative",  TestStatus.error,   "ArithmeticException"),
-    ];
 
     let tags: Tag[] = [
       new Tag("Массивы", 3),
@@ -233,15 +260,6 @@ export class InMemoryDataService implements InMemoryDbService {
       new Tag("Математика", 6),
       new Tag("Бинарные операции", 4),
       new Tag("Ввод-вывод", 2),
-    ];
-
-    let revisions: Revision[] = [
-      new Revision(1, 'Решение №1', SolutionStatus.failed,  new Date("03 02 2017 13:55"), defaultSolutionTemplate.replace('//...', 'int x = 1;')),
-      new Revision(2, 'Решение №2', SolutionStatus.empty,   new Date("03 02 2017 16:24"), defaultSolutionTemplate.replace('//...', 'int y = 2;')),
-      new Revision(3, 'Решение №3', SolutionStatus.error,   new Date("03 03 2017 12:01"), defaultSolutionTemplate.replace('//...', 'int a = 3;')),
-      new Revision(4, 'Решение №4', SolutionStatus.failed,  new Date("03 03 2017 22:46"), defaultSolutionTemplate.replace('//...', 'int b = 4;')),
-      new Revision(5, 'Решение №5', SolutionStatus.empty,   new Date("03 04 2017 09:51"), defaultSolutionTemplate.replace('//...', 'int c = 5;')),
-      new Revision(6, 'Решение №6', SolutionStatus.success, new Date("03 06 2017 19:30"), defaultSolutionTemplate.replace('//...', 'int d = 6;')),
     ];
 
     let sharedSolutions: SharedSolution[] = [
@@ -328,10 +346,10 @@ export class InMemoryDataService implements InMemoryDbService {
     for (let i = 0; i< comments.length; i++){
       let c: any = comments[i];
       c.id = i + 1;
-      c.challengeId = InMemoryDataService.randomItem(challenges).id;
-      c.sharedSolId = Math.random() > 0.3 ? null : InMemoryDataService.randomItem(sharedSolutions).id;
-      c.author = InMemoryDataService.randomItem(users).username;
-      c.created = new Date(2017, 1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 28));
+      c.challengeId = InMemoryDataService.randomItem(challenges, c.text).id;
+      c.sharedSolId = Math.random() > 0.5 ? null : InMemoryDataService.randomItem(sharedSolutions, c.text).id;
+      c.author = InMemoryDataService.randomItem(users, c.text).username;
+      c.created = InMemoryDataService.randomDate(c.text);
       c.likes = Math.floor(Math.random() * 30);
     }
 
@@ -341,14 +359,27 @@ export class InMemoryDataService implements InMemoryDbService {
       tags,
       users,
       comments,
-      revisions,
       sharedSolutions,
       playlists,
     };
   }
 
-  static randomItem(items: any[]): any{
-    return items[Math.floor(Math.random() * items.length)]
+  static randomItem(items: any[], seed: string): any{
+    let h = InMemoryDataService.hash(seed);
+    return items[h % items.length];
+  }
+
+  static randomDate(seed: string): Date{
+    let h = InMemoryDataService.hash(seed);
+    return new Date(2017, 1 + h % 6, 1 + h % 28);
+  }
+
+  static hash(value: string): number{
+    let h = 0;
+    for (let i = 0; i < value.length; i++) {
+      h = 31 * h + value.charCodeAt(i);
+    }
+    return h;
   }
 }
 

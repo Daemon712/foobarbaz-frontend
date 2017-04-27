@@ -1,24 +1,19 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Revision} from "../../../model/revision";
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Solution} from "../../../model/solution";
 
 @Component({
   selector: 'app-revision-list',
   templateUrl: 'revision-list.component.html',
   styleUrls: ['revision-list.component.scss'],
 })
-export class RevisionListComponent implements OnInit {
+export class SolutionListComponent {
 
   @Input()
-  revisions: Revision[];
+  solutions: Solution[];
+
   @Input()
-  activeRevisionId: number;
+  active: Solution;
 
   @Output()
-  revisionSelected = new EventEmitter();
-
-  constructor(
-  ) { }
-
-  ngOnInit() {
-  }
+  onSelect = new EventEmitter();
 }

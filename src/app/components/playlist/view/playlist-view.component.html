@@ -5,7 +5,7 @@
 <div class="jumbotron" *ngIf="!playlist">
   <h1 class="display-3">Загрузка...</h1>
 </div>
-<div *ngIf="playlist" class="btn-group btn-group-sm btn-group-justified input-group-sm">
+<div *ngIf="playlist" class="btn-group btn-group-sm btn-group-justified input-group-sm mb-3">
   <span class="input-group-btn">
     <button class="btn btn-secondary" type="button"
             [disabled]="page == 0"
@@ -30,5 +30,5 @@
   </span>
 </div>
 <div *ngIf="current">
-  <h1>{{current.name}}</h1>
+  <app-view-challenge [challenge]="current"></app-view-challenge>
 </div>

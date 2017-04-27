@@ -3,7 +3,7 @@ import {Challenge} from "../model/challenge";
 import {Http} from "@angular/http";
 import {TestResult} from "../model/test-result";
 import {ChallengeService} from "./challenge.service";
-import {Revision} from "../model/revision";
+import {Solution} from "../model/solution";
 
 @Injectable()
 export class TestSolutionService {
@@ -14,15 +14,15 @@ export class TestSolutionService {
     private challengeService: ChallengeService,
   ) { }
 
-  testSolution(challengeId: number, solution: string, prevSolutionId?: number): Promise<Revision>{
+  testSolution(challengeId: number, solution: Solution): Promise<Solution>{
     //TODO ONE POST METHOD
     return this.http.get(this.url)
       .toPromise()
       .then(response => {
         let testResults = response.json().data as TestResult[];
-        let promise: Promise<Revision> = prevSolutionId ?
-            this.challengeService.updateRevision(challengeId, prevSolutionId, solution) :
-            this.challengeService.addRevision(challengeId, solution);
+        let promise: Promise<Solution> = solution.id ?
+          this.challengeService.updateSolution(challengeId, solution):
+          this.challengeService.addSolution(challengeId, solution);
 
         return promise.then(revision => {
           revision.testResults = testResults;

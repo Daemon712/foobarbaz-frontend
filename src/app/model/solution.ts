@@ -1,7 +1,7 @@
 import {SolutionStatus} from "./solutions-status";
 import {TestResult} from "./test-result";
 
-export class Revision {
+export class Solution {
   id: number;
   name: string;
   status: SolutionStatus;

@@ -1,3 +1,4 @@
+import {Solution} from "./solution";
 export class Challenge {
   id: number;
   name: string;
@@ -16,11 +17,12 @@ export class Challenge {
   userDifficulty: number;
   comments: number;
   views: number;
-  solutions: number;
+  completedSolutions: number;
   sharedSolutions: number;
   commentAccess: AccessOption;
   sharedSolutionAccess: AccessOption;
   bookmark: boolean;
+  solutions: Solution[];
 }
 
 export enum ChallengeStatus {

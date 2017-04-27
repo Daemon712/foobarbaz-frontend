@@ -1,10 +1,3 @@
-<div class="jumbotron" *ngIf="challenge">
-  <h1 class="display-3">{{challenge.name}}</h1>
-  <p class="lead">{{challenge.abstract}}</p>
-</div>
-<div class="jumbotron" *ngIf="!challenge">
-  <h1 class="display-3">Загрузка...</h1>
-</div>
 <tabset>
   <tab heading="Описание" class="py-3">
     <div class="row">
@@ -62,7 +55,7 @@
             <tr>
               <td>Успешные решения</td>
               <td [class.text-success]="challenge.status === challengeStatus.Completed">
-                <span>{{challenge.solutions}} </span>
+                <span>{{challenge.completedSolutions}} </span>
                 <i class="fa fa-check"></i>
               </td>
             </tr>
@@ -98,10 +91,6 @@
   <tab heading="Решение" class="py-3" (select)="openSolutionTab()">
     <div class="row">
       <div class="col-md-8">
-        <div [hidden]="revision" class="lead text-center alert alert-info">
-          <i class="fa fa-spinner fa-pulse"></i>
-          <span> Загрузка...</span>
-        </div>
         <ace-editor class="form-control"
                     (textChanged)="updateText()"
                     #solutionEditor
@@ -111,9 +100,9 @@
                     [options]="options">
         </ace-editor>
       </div>
-      <div class="col-md-4" *ngIf="revision">
+      <div class="col-md-4" *ngIf="solution">
         <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
-                [disabled]="revision.solution === revision.newSolution && revision.status !== solutionStatus.empty"
+                [disabled]="solution.solution === solution.newSolution && solution.status !== solutionStatus.empty"
                 title="Сохранить и протестировать решение"
                 (click)="testSolution()">
           <i class="fa fa-play"></i>
@@ -130,16 +119,16 @@
                   title="Скопировать в новое решение">
             <i class="fa fa-clone"></i>
           </button>
-          <app-share-solution [revision]="revision" (onSubmit)="shareSolution($event)">
+          <app-share-solution [revision]="solution" (onSubmit)="shareSolution($event)">
           </app-share-solution>
           <button type="button" class="btn btn-secondary"
-                  [disabled]="revision.solution === revision.newSolution"
+                  [disabled]="solution.solution === solution.newSolution"
                   title="Сохранить решение без тестирования"
                   (click)="saveSolution()">
             <i class="fa fa-save"></i>
           </button>
           <button type="button" class="btn btn-warning"
-                  [disabled]="revision.solution === revision.newSolution"
+                  [disabled]="solution.solution === solution.newSolution"
                   title="Сбросить изменения"
                   (click)="revertChanges()">
             <i class="fa fa-undo"></i>
@@ -152,59 +141,19 @@
         </div>
         <div>
           <app-revision-list
-            [revisions]="revisions"
-            [activeRevisionId]="revision.id"
-            (revisionSelected)="openRevision($event)">
+            [solutions]="challenge.solutions"
+            [active]="solution"
+            (onSelect)="setSolution($event)">
           </app-revision-list>
         </div>
       </div>
     </div>
     </tab>
-  <tab heading="Результаты тестов" class="py-3" [disabled]="!revision?.testResults"
+  <tab heading="Результаты тестов" class="py-3" [disabled]="!solution?.testResults"
        (deselect)="testResultsActive = false" [active]="testResultsActive">
     <div class="card">
-      <app-test-results-table [testResults]="revision?.testResults">
+      <app-test-results-table [testResults]="solution?.testResults">
       </app-test-results-table>
     </div>
   </tab>
 </tabset>
-
-<div class="row">
-  <div class="col-md-8">
-    <tabset type="pills" [justified]="true" *ngIf="challenge">
-      <tab customClass="tab-sm tab-success pr-2" class="py-3">
-        <template tabHeading>
-          <i class="fa fa-plus"></i>
-          <span> Комментировать</span>
-        </template>
-        <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
-        <button type="button" class="btn btn-primary btn-sm"
-                [disabled]="!newComment" (click)="sendComment()">
-          Оставить комментарий
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm"
-                [disabled]="!newComment" (click)="newComment = ''">
-          Отмена
-        </button>
-      </tab>
-      <tab customClass="tab-sm tab-info px-2" class="py-3"
-           [disabled]="!challenge.comments && !comments?.length" (select)="loadComments()">
-        <template tabHeading>
-          <span>Комментарии </span>
-          <i class="fa fa-comments"></i>
-          <span> {{comments?.length || challenge.comments || 0}}</span>
-        </template>
-        <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
-      </tab>
-      <tab customClass="tab-sm tab-info pl-2" class="py-3"
-           [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">
-        <template tabHeading>
-          <span>Открытые решения </span>
-          <i class="fa fa-share-alt"></i>
-          <span> {{sharedSolutions?.length || challenge.sharedSolutions || 0}}</span>
-        </template>
-        <app-shared-solution-list [solutions]="sharedSolutions"></app-shared-solution-list>
-      </tab>
-    </tabset>
-  </div>
-</div>
