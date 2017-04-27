@@ -171,16 +171,18 @@ export class InMemoryDataService implements InMemoryDbService {
       c.author = this.randomItem(users, c.name).username;
       c.solutions = [];
       if (c.status != ChallengeStatus.NotStarted){
-        for (let j = 1; j < this.randomNumber(1, 6, c.name); j++){
+        for (let j = 1; j < this.randomNumber(2, 8, c.name); j++){
           let s = new Solution();
           s.id = j;
+          let seed = '' + (1 + 11 * c.id) * (1 + 7 * s.id);
           s.name = 'Решение №' + j;
-          s.status = this.randomItem([SolutionStatus.failed, SolutionStatus.empty, SolutionStatus.error], c.name);
-          s.date = this.randomDate(c.name);
+          s.status = this.randomItem([SolutionStatus.failed, SolutionStatus.empty, SolutionStatus.error], seed);
           s.solution = defaultSolutionTemplate
-            .replace('= 0', '= ' + this.randomItem(['array.length', 'array[0] + array[1]', '2 * array.length'], c.name))
-            .replace('//...', 'x = ' + this.randomItem(['x * x', 'x + x', '10 + x * 2'], c.name) + ';');
-          s.testResults = tests.map(tr => Object.assign({}, tr));
+            .replace('= 0', '= ' + this.randomItem(['array.length', 'array[0] + array[1]', '2 * array.length'], seed))
+            .replace('//...', 'x = ' + this.randomItem(['x * x', 'x + x', '10 + x * 2'], seed) + ';');
+          if (s.status != SolutionStatus.empty){
+            s.testResults = tests.map(tr => Object.assign({}, tr));
+          }
           c.solutions.push(s);
         }
       }
@@ -189,9 +191,8 @@ export class InMemoryDataService implements InMemoryDbService {
         s.id = c.solutions.length + 1;
         s.name = 'Решение №' + s.id;
         s.status = SolutionStatus.success;
-        s.date = this.randomDate(s.name);
         s.solution = defaultSolutionTemplate;
-        s.testResults = tests.filter(tr => tr.status != TestStatus.success).map(tr => Object.assign({}, tr));
+        s.testResults = tests.map(tr => Object.assign({}, tr));
         s.testResults.forEach(tr => {tr.status = TestStatus.success;tr.message = ''});
         c.solutions.push(s);
       }
@@ -351,8 +352,6 @@ export class InMemoryDataService implements InMemoryDbService {
       c.date = this.randomDate(c.text);
       c.likes = this.randomNumber(0, 15, c.text);
     }
-
-    console.log(comments);
 
     return {
       challenges,

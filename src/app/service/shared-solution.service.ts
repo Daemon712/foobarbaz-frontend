@@ -63,7 +63,6 @@ export class SharedSolutionService {
     return this.http.post('api/sharedSolutions', solution)
       .toPromise()
       .then(response => {
-        console.log(response);
         let newSol = response.json().data as SharedSolution;
         this.alertService.success(`Вы успешно поделились своим решением: <a href='/challenges/${challengeId}/solutions/${newSol.id}'>${newSol.comment}</a>`);
         return newSol;

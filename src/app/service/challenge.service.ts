@@ -79,7 +79,6 @@ export class ChallengeService {
 
   updateUserRating(challengeId: number, rating: number, difficulty: number): Promise<Challenge>{
     //TODO change url to 'api/challenges/:id/rating'
-    console.log(rating, difficulty);
     return this.getChallenge(challengeId)
       .then(challenge => {
         challenge.userRating = rating;

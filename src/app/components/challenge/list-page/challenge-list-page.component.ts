@@ -36,7 +36,6 @@ export class ChallengeListPageComponent implements OnInit {
   }
 
   applyFilter(){
-    console.log(this.newFilter);
     this.activeFilter = Object.assign({}, this.newFilter);
   }
 
