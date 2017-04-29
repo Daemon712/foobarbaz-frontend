@@ -17,7 +17,7 @@ export class SignUpComponent {
 
   onSubmit() {
     this.submitted = true;
-    this.userService.addUser(this.model)
+    this.userService.signUp(this.model)
       .then((user) => {
           if (user == null) {
             this.submitted = false;

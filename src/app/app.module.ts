@@ -1,13 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, LOCALE_ID} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule, JsonpModule} from '@angular/http';
+import {Http, HttpModule, JsonpModule, RequestOptions, XHRBackend} from '@angular/http';
 import { QuillEditorModule } from 'ng2-quill-editor';
 
 import { AppComponent } from './app.component';
 import { ChallengeListComponent } from './components/challenge/list/challenge-list.component';
-import {InMemoryDataService} from "./service/in-memory-data.service";
-import {InMemoryWebApiModule} from "angular-in-memory-web-api";
 import {RouterModule, Routes} from "@angular/router";
 import {ChallengeService} from "./service/challenge.service";
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -48,6 +46,7 @@ import { ChallengePickerComponent } from './components/challenge/picker/challeng
 import { PlaylistListComponent } from './components/playlist/list/playlist-list.component';
 import { PlaylistViewComponent } from './components/playlist/view/playlist-view.component';
 import { ChallengeViewPageComponent } from './components/challenge/view-page/challenge-view-page.component';
+import {HttpService} from "./service/http.service";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -102,7 +101,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     JsonpModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
     RouterModule.forRoot(routes),
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
@@ -126,6 +124,11 @@ const routes: Routes = [
     SharedSolutionService,
     UserService,
     AlertService,
+    {
+      provide: Http,
+      useFactory: (backend: XHRBackend, options: RequestOptions) => new HttpService(backend, options),
+      deps: [XHRBackend, RequestOptions],
+    }
   ],
   bootstrap: [AppComponent]
 })

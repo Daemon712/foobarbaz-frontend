@@ -18,19 +18,30 @@ export class UserService {
     return this.http.get(this.url)
       .toPromise()
       .then(response => {
-        let users = response.json().data as User[];
-        users.forEach(user => user.password = null);
-        return users.map(user => user.account);
+        let users = response.json();
+        return users.map(user => { return {
+          username: user.username
+        }});
       })
       .catch(this.handleError);
   }
 
-  addUser(user: User): Promise<User> {
-    return this.http.post(this.url, user)
+  signUp(user: User): Promise<User> {
+    return this.http.post(this.url, {
+      username: user.username,
+      password: user.password
+    })
       .toPromise()
       .then(response => {
-        this.alertService.success("Вы успешно зарегистрировались");
-        return response.json().date as User;
+        if (response.status == 201){
+          this.alertService.success("Вы успешно зарегистрировались");
+          let user = new User();
+          user.username = response.json().username;
+          return user;
+        } else {
+          if (response.text() === 'username already in use')
+            this.alertService.warning('Имя пользователя уже занято');
+        }
       })
       .catch(this.handleError);
   }
@@ -46,16 +57,21 @@ export class UserService {
   }
 
   authenticate(user: User): Promise<User> {
-    return this.http.get(`${this.url}?username=${user.username}&password=${user.password}`)
+    return this.auth(btoa(`${user.username}:${user.password}`))
+  }
+
+  private auth(token: string): Promise<User> {
+    localStorage.setItem('auth_token', token);
+    return this.http.get(`${this.url}/current`)
       .toPromise()
       .then(response => {
-        let user = response.json().data[0] as User;
-
-        if (user == null){
+        if (response.status === 401){
           this.alertService.warning("Неверное имя пользователя или пароль");
+          localStorage.setItem('auth_token', null);
           return null;
         }
-
+        let user = new User();
+        user.username = response.json().username;
         this.alertService.info(`Здравствуйте, ${user.username}!`);
         this.listeners.forEach(listener => listener(user));
         return user;
@@ -64,6 +80,7 @@ export class UserService {
   }
 
   logout() {
+    localStorage.setItem('auth_token', null);
     this.listeners.forEach(l => l(null));
   }
 
