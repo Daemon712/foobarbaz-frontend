@@ -156,6 +156,7 @@ export class ViewChallengeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['challenge'].currentValue){
+      if (!this.challenge.solutions) this.challenge.solutions = [];
       if (this.challenge.solutions.length){
         this.challenge.solutions.forEach(s => s.newSolution = s.solution);
         this.setSolution(this.challenge.solutions[this.challenge.solutions.length-1])

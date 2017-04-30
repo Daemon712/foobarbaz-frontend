@@ -1,4 +1,4 @@
-import {FactoryProvider, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Request, Response, Headers, RequestOptions, RequestOptionsArgs, XHRBackend} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 
@@ -33,10 +33,4 @@ export class HttpService extends Http{
       Promise.resolve(res) :
       Observable.throw(res);
   }
-}
-
-export class HttpProvider implements FactoryProvider {
-  provide = Http;
-  useFactory = (backend: XHRBackend, options: RequestOptions) => new HttpService(backend, options);
-  deps = [XHRBackend, RequestOptions];
 }

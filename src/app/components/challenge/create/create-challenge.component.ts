@@ -50,11 +50,11 @@ export class CreateChallengeComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.challengeService.createChallenge(this.model)
-      .then(challenge => {
-        if (!challenge) {
+      .then(challengeId => {
+        if (!challengeId) {
           this.submitted = false;
         } else {
-          this.router.navigate([`challenges/${challenge.id}`]);
+          this.router.navigate([`challenges/${challengeId}`]);
         }
       });
   }

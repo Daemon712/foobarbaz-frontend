@@ -96,7 +96,9 @@
     <tab heading="Описание" class="py-3">
       <div class="row">
         <div class="col-8">
-          <quill-editor class="form-control required">
+          <quill-editor [(ngModel)]="model.description"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control required">
           </quill-editor>
         </div>
         <div class="col-4">

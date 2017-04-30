@@ -31,8 +31,8 @@ export class ChallengeViewPageComponent implements OnInit {
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
       .subscribe((challenge: Challenge) => {
         this.challenge = challenge;
-        this.loadComments();
-        this.loadSolutions();
+        // this.loadComments();
+        // this.loadSolutions();
       });
   }
 

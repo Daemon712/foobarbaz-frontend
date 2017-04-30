@@ -29,7 +29,6 @@ export class UserService {
   }
 
   signUp(user: User): Promise<User> {
-    console.log(user.account);
     return this.http.post(this.url, {
       username: user.username,
       password: user.password,

@@ -18,7 +18,17 @@ export class ChallengeService {
   getChallenges(): Promise<Challenge[]>{
     return this.http.get(this.url)
         .toPromise()
-        .then(response => response.json().data as Challenge[])
+        .then(response => {
+          let list = response.json() as any[];
+          return list.map(item => { return {
+            id: item.id,
+            name: item.name,
+            abstract: item.shortDescription,
+            status: item.status,
+            author: item.author.username,
+            created: item.created,
+          }})
+        })
         .catch(ChallengeService.handleError);
   }
 
@@ -46,22 +56,41 @@ export class ChallengeService {
   getChallenge(id: number): Promise<Challenge>{
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
-      .then(response => response.json().data as Challenge)
+      .then(response => {
+        let data = response.json() as any;
+        return {
+          id: data.id,
+          name: data.name,
+          abstract: data.shortDescription,
+          description: data.fullDescription,
+          status: data.status,
+          author: data.author.username,
+          created: data.created,
+          solutionTemplate: data.template,
+        }
+      })
       .catch(ChallengeService.handleError);
   }
 
-  createChallenge(challenge: Challenge): Promise<Challenge>{
-    //TODO PARAMETERS SHOULD BE FILLED ON SERVER
-    challenge.created = new Date();
-    challenge.author = "Привет";
-
-    return this.http.post(this.url, challenge)
+  createChallenge(challenge: Challenge): Promise<number>{
+    return this.http.post(this.url, {
+      name: challenge.name,
+      shortDescription: challenge.abstract,
+      fullDescription: challenge.description,
+      template: challenge.solutionTemplate,
+      unitTest: challenge.solutionTest
+    })
       .toPromise()
       .then(response => {
-        let challenge = response.json().data as Challenge;
-        if (challenge) this.alertService.success("Вы успешно создали задачу");
-        else this.alertService.warning("Не удалось создать задачу");
-        return challenge;
+        console.log(response);
+        if (response.status == 201) {
+          this.alertService.success("Вы успешно создали задачу");
+          return Number.parseInt(response.text());
+        }
+        else {
+          this.alertService.warning("Не удалось создать задачу");
+          return null;
+        }
       })
       .catch(ChallengeService.handleError);
   }
