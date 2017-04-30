@@ -19,17 +19,22 @@ export class UserService {
       .toPromise()
       .then(response => {
         let users = response.json();
+        console.log(users);
         return users.map(user => { return {
-          username: user.username
+          username: user.username,
+          created: user.registrationDate,
+          description: user.description,
         }});
       })
       .catch(this.handleError);
   }
 
   signUp(user: User): Promise<User> {
+    console.log(user.account);
     return this.http.post(this.url, {
       username: user.username,
-      password: user.password
+      password: user.password,
+      description: user.account.description,
     })
       .toPromise()
       .then(response => {

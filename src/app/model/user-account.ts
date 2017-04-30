@@ -9,7 +9,7 @@ export class UserAccount {
   comments: number;
   sharedSolutions: number;
 
-  constructor(username: string) {
+  constructor(username?: string) {
     this.username = username;
   }
 }
