@@ -19,7 +19,6 @@ export class UserService {
       .toPromise()
       .then(response => {
         let users = response.json();
-        console.log(users);
         return users.map(user => { return {
           username: user.username,
           created: user.registrationDate,
@@ -52,11 +51,15 @@ export class UserService {
   }
 
   getUserAccount(username: string): Promise<UserAccount>{
-    return this.http.get(`${this.url}?username=${username}`)
+    return this.http.get(`${this.url}/${username}`)
       .toPromise()
       .then(response => {
-        let user = response.json().data[0] as User;
-        return user.account;
+        let account = response.json();
+        return {
+          username: account.username,
+          description: account.description,
+          created: account.registrationDate,
+        }
       })
       .catch(this.handleError);
   }

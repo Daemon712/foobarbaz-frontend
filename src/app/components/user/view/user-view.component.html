@@ -15,14 +15,14 @@
           <td>Рейтинг</td>
           <td>
             <i class="fa fa-diamond text-primary"></i>
-            <span>{{userAccount.karma}}</span>
+            <span>{{userAccount.karma || 0}}</span>
           </td>
         </tr>
         <tr>
           <td>Решено задач</td>
           <td>
             <i class="fa fa-check text-success"></i>
-            <span>{{userAccount.solved}}</span>
+            <span>{{userAccount.solved || 0}}</span>
           </td>
         </tr>
         <tr>
@@ -45,11 +45,11 @@
   </div>
   <div class="col-9">
     <tabset type="tabs">
-      <tab heading="Задачи: {{challenges ? challenges.length : userAccount.challenges}}" class="py-3">
+      <tab heading="Задачи: {{challenges ? challenges.length : userAccount.challenges || 0}}" class="py-3">
         <app-challenge-list [challenges]="challenges">
         </app-challenge-list>
       </tab>
-      <tab heading="Подборки: {{playlists ? playlists.length : userAccount.playlists}}" class="py-3">
+      <tab heading="Подборки: {{playlists ? playlists.length : userAccount.playlists || 0}}" class="py-3">
         <app-playlist-list [items]="playlists">
         </app-playlist-list>
       </tab>
@@ -57,9 +57,9 @@
         <app-challenge-list [challenges]="bookmarks">
         </app-challenge-list>
       </tab>
-      <tab heading="Комментарии: {{userAccount.comments}}" class="py-3">
+      <tab heading="Комментарии: {{userAccount.comments || 0}}" class="py-3">
       </tab>
-      <tab heading="Решения: {{userAccount.sharedSolutions}}" class="py-3">
+      <tab heading="Решения: {{userAccount.sharedSolutions || 0}}" class="py-3">
       </tab>
     </tabset>
   </div>
