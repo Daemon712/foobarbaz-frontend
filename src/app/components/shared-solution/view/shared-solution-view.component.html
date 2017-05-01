@@ -101,7 +101,7 @@
             <tr >
               <td>Рейтинг</td>
               <td>
-                <rating [ngModel]="challenge.rating * 5"
+                <rating [ngModel]="challenge.rating"
                         [readonly]="true" [max]="5"
                         stateOn="fa fa-star text-warning">
                 </rating>
@@ -110,7 +110,7 @@
             <tr>
               <td>Сложность</td>
               <td>
-                <rating [ngModel]="challenge.difficulty * 5"
+                <rating [ngModel]="challenge.difficulty"
                         [readonly]="true" [max]="5"
                         stateOn="fa fa-asterisk text-primary">
                 </rating>

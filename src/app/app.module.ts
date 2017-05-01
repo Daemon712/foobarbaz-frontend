@@ -57,8 +57,8 @@ const routes: Routes = [
   { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ChallengeViewPageComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
-  { path: 'playlists/:id',  component: PlaylistViewComponent },
   { path: 'playlists/create',  component: CreatePlaylistComponent },
+  { path: 'playlists/:id',  component: PlaylistViewComponent },
   { path: 'playlists',  component: PlaylistListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];

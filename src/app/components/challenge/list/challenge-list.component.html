@@ -41,13 +41,13 @@
       </div>
       <div class="text-right" style="width: 220px">
         <div title="Рейтинг">
-          <rating [ngModel]="math.round(challenge.rating * 5)"
+          <rating [ngModel]="challenge.rating"
                   [readonly]="true" [max]="5"
                   stateOn="fa fa-star text-warning">
           </rating>
         </div>
         <div  title="Сложность">
-          <rating [ngModel]="math.round(challenge.difficulty * 5)"
+          <rating [ngModel]="challenge.difficulty"
                   [readonly]="true" [max]="5"
                   stateOn="fa fa-asterisk text-primary">
           </rating>

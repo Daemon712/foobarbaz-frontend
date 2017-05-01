@@ -6,10 +6,6 @@ import {Observable} from "rxjs/Observable";
 export class HttpService extends Http{
 
   constructor (backend: XHRBackend, options: RequestOptions) {
-    let token = localStorage.getItem('auth_token');
-    if (token != 'null') {
-      options.headers.set('Authorization', `Basic ${token}`);
-    }
     super(backend, options);
   }
 

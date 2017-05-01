@@ -27,30 +27,32 @@ export class ChallengeService {
             status: item.status,
             author: item.author.username,
             created: item.created,
+            rating: item.rating,
+            difficulty: item.difficulty,
           }})
         })
-        .catch(ChallengeService.handleError);
+        .catch((e) => this.handleError(e));
   }
 
   getChallengesByAuthor(author: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}?author=${author}`)
       .toPromise()
       .then(response => response.json().data as Challenge[])
-      .catch(ChallengeService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   getChallengesByName(name: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}?name=${name}`)
       .toPromise()
       .then(response => response.json().data as Challenge[])
-      .catch(ChallengeService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   getBookmarksByUser(username: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}?bookmark=true`)
       .toPromise()
       .then(response => response.json().data as Challenge[])
-      .catch(ChallengeService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   getChallenge(id: number): Promise<Challenge>{
@@ -62,14 +64,20 @@ export class ChallengeService {
           id: data.id,
           name: data.name,
           abstract: data.shortDescription,
-          description: data.fullDescription,
+          description: data.details.fullDescription,
           status: data.status,
           author: data.author.username,
           created: data.created,
-          solutionTemplate: data.template,
+          rating: data.rating,
+          difficulty: data.difficulty,
+          views: data.details.views,
+          completedSolutions: data.details.solutions,
+          solutionTemplate: data.details.template,
+          userRating: data.details.userDetails.rating,
+          userDifficulty: data.details.userDetails.difficulty,
         }
       })
-      .catch(ChallengeService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   createChallenge(challenge: Challenge): Promise<number>{
@@ -77,8 +85,10 @@ export class ChallengeService {
       name: challenge.name,
       shortDescription: challenge.abstract,
       fullDescription: challenge.description,
+      difficulty: challenge.difficulty,
       template: challenge.solutionTemplate,
-      unitTest: challenge.solutionTest
+      unitTest: challenge.solutionTest,
+      sample: challenge.solutionExample,
     })
       .toPromise()
       .then(response => {
@@ -92,7 +102,7 @@ export class ChallengeService {
           return null;
         }
       })
-      .catch(ChallengeService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   updateBookmark(challengeId: number, bookmark: boolean): Promise<Challenge>{
@@ -172,8 +182,9 @@ export class ChallengeService {
     return result;
   }
 
-  private static handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
+  private handleError(error: any): Promise<any> {
+    this.alertService.danger('Ошибка на стороне сервера');
+    console.error(error);
     return Promise.reject(error.message || error);
   }
 }

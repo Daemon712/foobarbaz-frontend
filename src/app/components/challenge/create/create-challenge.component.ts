@@ -37,11 +37,7 @@ export class CreateChallengeComponent implements OnInit {
     private challengeService: ChallengeService,
     private testSolutionService: TestSolutionService,
     private router: Router,
-  ) {
-    this.model.commentAccess = AccessOption.allow;
-    this.model.sharedSolutionAccess = AccessOption.solvedOnly;
-    this.model.difficulty = 0.5;
-  }
+  ) { }
 
   ngOnInit() {
     this.initDefaultValues();
@@ -56,7 +52,8 @@ export class CreateChallengeComponent implements OnInit {
         } else {
           this.router.navigate([`challenges/${challengeId}`]);
         }
-      });
+      })
+      .catch(() => this.submitted = false);
   }
 
   testSolution(){
@@ -116,6 +113,16 @@ export class CreateChallengeComponent implements OnInit {
       "\t\tint result = foo.bar();\n" +
       "\t\tAssert.assertEquals(1, result);\n" +
       "\t}\n" +
-      "}"
+      "}";
+
+    this.model.commentAccess = AccessOption.allow;
+    this.model.sharedSolutionAccess = AccessOption.solvedOnly;
+    this.model.rating = 3;
+    this.model.difficulty = 3;
+    this.model.abstract = '[FOR TEST ONLY] описание на 50 символов 0123456789';
+    this.model.description =
+      '[FOR TEST ONLY] описание на 100 символов 0123456789' +
+      '01234567890123456789 12345678901234567890123456789'+
+      '012345678901234567890123456789 1234567890123456789'
   };
 }
