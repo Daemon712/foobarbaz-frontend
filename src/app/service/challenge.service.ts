@@ -58,8 +58,7 @@ export class ChallengeService {
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
       .then(response => {
-        let data = response.json() as any;
-        console.log(data);
+        let data = response.json();
         return {
           id: data.id,
           name: data.name,
@@ -93,7 +92,6 @@ export class ChallengeService {
     })
       .toPromise()
       .then(response => {
-        console.log(response);
         if (response.status == 201) {
           this.alertService.success("Вы успешно создали задачу");
           return Number.parseInt(response.text());

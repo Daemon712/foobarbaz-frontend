@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Http} from "@angular/http";
 import {User} from "../model/user";
 import {AlertService} from "./alert.service";
 import {UserAccount} from "../model/user-account";
 
 @Injectable()
-export class UserService {
+export class UserService implements OnInit{
   private url = 'api/users';
   private listeners: ((User) => void)[] = [];
 
@@ -13,6 +13,12 @@ export class UserService {
     private http: Http,
     private alertService: AlertService
   ) { }
+
+
+  ngOnInit(): void {
+    let token = localStorage.getItem('auth_token');
+    if (token) this.auth(token);
+  }
 
   getUsers(): Promise<UserAccount[]>{
     return this.http.get(this.url)
@@ -58,6 +64,7 @@ export class UserService {
           username: account.username,
           description: account.description,
           created: account.registrationDate,
+          solved: account.solutions,
         }
       })
       .catch(this.handleError);

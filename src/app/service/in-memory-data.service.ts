@@ -298,8 +298,6 @@ export class InMemoryDataService implements InMemoryDbService {
       ss.liked = this.randomItem([true, false, false], ss.comment);
     }
 
-    console.log(sharedSolutions.map(ss => ss.challengeId));
-
     let comments = [
       { text: 'Отличная задача! Решил с удовольствием'},
       { text: 'Сложно. Два дня думала('},
