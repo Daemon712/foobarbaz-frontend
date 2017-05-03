@@ -47,17 +47,26 @@ import { PlaylistListComponent } from './components/playlist/list/playlist-list.
 import { PlaylistViewComponent } from './components/playlist/view/playlist-view.component';
 import { ChallengeViewPageComponent } from './components/challenge/view-page/challenge-view-page.component';
 import {HttpServiceFactory} from "./service/http.service";
+import {CanActivateAuthorized} from "./security/can-activate-authorized";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
   { path: 'sign-up',  component: SignUpComponent },
   { path: 'users/:username',  component: UserViewComponent },
   { path: 'users',  component: UserListComponent },
-  { path: 'challenges/create',  component: CreateChallengeComponent },
+  {
+    path: 'challenges/create',
+    component: CreateChallengeComponent,
+    canActivate: [CanActivateAuthorized],
+  },
   { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ChallengeViewPageComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
-  { path: 'playlists/create',  component: CreatePlaylistComponent },
+  {
+    path: 'playlists/create',
+    component: CreatePlaylistComponent ,
+    canActivate: [CanActivateAuthorized],
+  },
   { path: 'playlists/:id',  component: PlaylistViewComponent },
   { path: 'playlists',  component: PlaylistListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
@@ -124,6 +133,7 @@ const routes: Routes = [
     SharedSolutionService,
     UserService,
     AlertService,
+    CanActivateAuthorized,
     {
       provide: Http,
       useFactory: HttpServiceFactory,
