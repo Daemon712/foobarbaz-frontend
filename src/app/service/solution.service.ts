@@ -45,30 +45,34 @@ export class SolutionService {
   }
 
   public static parseSolution(s: any): Solution {
-    let res: Solution = {
+    return {
       id: s.pk.solutionNum,
       name: 'Решение №' + s.pk.solutionNum,
       status: s.status,
       solution: s.implementation,
       newSolution: s.implementation,
-      testResults: [],
+      testResults: SolutionService.parseTestResults(s.testResults),
     };
-    if (s.testResults) s.testResults.forEach(tr => {
-      res.testResults.push({
-        testName: tr.testName,
-        status: tr.status,
-        message: tr.message,
-      });
-    });
-    return res;
+  }
+
+  private static parseTestResults(testResults: any[]): TestResult[]{
+    return !testResults ? [] :
+      testResults.map(tr => {
+        return {
+          testName: tr.testName,
+          status: tr.status,
+          message: tr.message,
+        }
+      })
   }
 
   testSolutionExample(challenge: Challenge): Promise<TestResult[]>{
-    //TODO POST METHOD
-    //this.http.post(this.url, challenge)
-    return this.http.get(this.url)
+    return this.http.post(this.url + 'test', {
+      unitTest: challenge.solutionTest,
+      sample: challenge.solutionExample,
+    })
       .toPromise()
-      .then(response => response.json().data as TestResult[])
+      .then(response => SolutionService.parseTestResults(response.json()))
       .catch(SolutionService.handleError);
   }
 
