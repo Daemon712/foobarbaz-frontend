@@ -11,8 +11,8 @@ export class TestResult {
 }
 
 export enum TestStatus {
+  ignored,
   success,
   failed,
   error,
-  ignored,
 }

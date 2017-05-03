@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AccessOption, Challenge} from "../../../model/challenge";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {ChallengeService} from "../../../service/challenge.service";
-import {TestSolutionService} from "../../../service/test-solution.service";
+import {SolutionService} from "../../../service/solution.service";
 import {TestResult} from "../../../model/test-result";
 import {Router} from "@angular/router";
 
@@ -35,7 +35,7 @@ export class CreateChallengeComponent implements OnInit {
 
   constructor(
     private challengeService: ChallengeService,
-    private testSolutionService: TestSolutionService,
+    private testSolutionService: SolutionService,
     private router: Router,
   ) { }
 

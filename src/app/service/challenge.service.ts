@@ -3,8 +3,7 @@ import {Challenge} from "../model/challenge";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
-import {Solution} from "../model/solution";
-import {SolutionStatus} from "../model/solutions-status";
+import {SolutionService} from "./solution.service";
 
 @Injectable()
 export class ChallengeService {
@@ -60,6 +59,7 @@ export class ChallengeService {
       .toPromise()
       .then(response => {
         let data = response.json() as any;
+        console.log(data);
         return {
           id: data.id,
           name: data.name,
@@ -73,8 +73,9 @@ export class ChallengeService {
           views: data.details.views,
           completedSolutions: data.details.solutions,
           solutionTemplate: data.details.template,
-          userRating: data.details.userDetails.rating,
-          userDifficulty: data.details.userDetails.difficulty,
+          userRating: data.details.userDetails ? data.details.userDetails.rating : null,
+          userDifficulty: data.details.userDetails ? data.details.userDetails.difficulty : null,
+          solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : null,
         }
       })
       .catch((e) => this.handleError(e));
@@ -126,60 +127,6 @@ export class ChallengeService {
           .toPromise()
           .then(response => challenge);
       });
-  }
-
-  addSolution(challengeId: number, solution: Solution): Promise<Solution> {
-    let sol = new Solution();
-    Object.assign(sol, solution);
-    sol.id = 10 + Math.floor(10 * Math.random());
-    sol.name = 'Решение №' + sol.id;
-    sol.status = Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed;
-    sol.date = new Date();
-    sol.solution = sol.newSolution;
-    return this.getChallenge(challengeId)
-      .then(challenge => {
-        challenge.solutions.push(sol);
-        return this.http.post(`${this.url}/${challengeId}`, challenge)
-          .toPromise()
-          .then(() => this.handleSolutionResponse(sol));
-      });
-  }
-
-  updateSolution(challengeId: number, solution: Solution): Promise<Solution> {
-    let sol = new Solution();
-    Object.assign(sol, solution);
-    sol.status = Math.random() < 0.5 ? SolutionStatus.success : SolutionStatus.failed;
-    sol.date = new Date();
-    sol.solution = sol.newSolution;
-    return this.getChallenge(challengeId)
-      .then(challenge => {
-        Object.assign(challenge.solutions.find(s => s.id == sol.id), sol);
-        return this.http.post(`${this.url}/${challengeId}`, challenge)
-          .toPromise()
-          .then(() => this.handleSolutionResponse(sol));
-      });
-  }
-
-  deleteSolution(challengeId: number, solutionId: number): Promise<void> {
-    return this.getChallenge(challengeId)
-      .then(challenge => {
-        challenge.solutions = challenge.solutions.filter(s => s.id != solutionId);
-        return this.http.post(`${this.url}/${challengeId}`, challenge)
-          .toPromise()
-          .then(() => {});
-      });
-  }
-
-  private handleSolutionResponse(result: Solution){
-    if (result) {
-      switch (result.status) {
-        case SolutionStatus.empty: this.alertService.info("Решение успешно сохранено"); break;
-        case SolutionStatus.success: this.alertService.success("Задача успешно решена!"); break;
-        default: this.alertService.warning("Решение не прошло все тесты..."); break;
-      }
-    }
-    else this.alertService.danger("Не удалось протестировать задачу");
-    return result;
   }
 
   private handleError(error: any): Promise<any> {

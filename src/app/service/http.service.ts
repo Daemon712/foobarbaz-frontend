@@ -30,3 +30,8 @@ export class HttpService extends Http{
       Observable.throw(res);
   }
 }
+
+
+export function HttpServiceFactory(backend: XHRBackend, options: RequestOptions){
+  return new HttpService(backend, options);
+}

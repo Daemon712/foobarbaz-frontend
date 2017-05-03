@@ -26,7 +26,7 @@ import {
 } from 'ng2-bootstrap';
 import { ViewChallengeComponent } from './components/challenge/view/view-challenge.component';
 import { TagPickerComponent } from './components/tags/picker/tag-picker.component';
-import {TestSolutionService} from "./service/test-solution.service";
+import {SolutionService} from "./service/solution.service";
 import { TestResultsTableComponent } from './components/solution/test-results/test-results-table.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { SolutionListComponent } from './components/solution/revision-list/revision-list.component';
@@ -46,7 +46,7 @@ import { ChallengePickerComponent } from './components/challenge/picker/challeng
 import { PlaylistListComponent } from './components/playlist/list/playlist-list.component';
 import { PlaylistViewComponent } from './components/playlist/view/playlist-view.component';
 import { ChallengeViewPageComponent } from './components/challenge/view-page/challenge-view-page.component';
-import { HttpService } from "./service/http.service";
+import {HttpServiceFactory} from "./service/http.service";
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -119,14 +119,14 @@ const routes: Routes = [
     ChallengeService,
     CommentService,
     PlaylistService,
-    TestSolutionService,
+    SolutionService,
     TagService,
     SharedSolutionService,
     UserService,
     AlertService,
     {
       provide: Http,
-      useFactory: (backend: XHRBackend, options: RequestOptions) => new HttpService(backend, options),
+      useFactory: HttpServiceFactory,
       deps:[XHRBackend, RequestOptions],
     },
   ],

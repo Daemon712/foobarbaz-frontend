@@ -4,7 +4,7 @@ import {ChallengeService} from "../../../service/challenge.service";
 import 'rxjs/add/operator/switchMap';
 import {AceEditorComponent} from "ng2-ace-editor";
 import {Solution} from "../../../model/solution";
-import {TestSolutionService} from "../../../service/test-solution.service";
+import {SolutionService} from "../../../service/solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
@@ -38,7 +38,7 @@ export class ViewChallengeComponent implements OnChanges {
   constructor(
     private challengeService: ChallengeService,
     private sharedSolutionService: SharedSolutionService,
-    private testSolutionService: TestSolutionService,
+    private solutionService: SolutionService,
     private alertService: AlertService,
   ) { }
 
@@ -75,7 +75,7 @@ export class ViewChallengeComponent implements OnChanges {
   testSolution(){
     this.submitted = true;
     let thatSolution = this.solution;
-    this.testSolutionService.testSolution(this.challenge.id, this.solution)
+    this.solutionService.testSolution(this.challenge.id, this.solution)
       .then(solution => {
         this.submitted = false;
         Object.assign(thatSolution, solution);
@@ -98,7 +98,7 @@ export class ViewChallengeComponent implements OnChanges {
       this.alertService.warning('Для одной задачи можно хранить не больше 10 решений');
       return;
     }
-    this.solution = new Solution(null, 'Новое Решение', SolutionStatus.created, null, solution);
+    this.solution = new Solution(null, 'Новое Решение', SolutionStatus.created, solution);
     this.challenge.solutions.push(this.solution);
     this.solutionEditor.setText(this.solution.newSolution);
     this.solutionEditor.updateText();
@@ -108,17 +108,14 @@ export class ViewChallengeComponent implements OnChanges {
   saveSolution(){
     this.submitted = true;
     let thatSolution = this.solution;
-    let promise: Promise<Solution> = this.solution.status === SolutionStatus.created ?
-      this.challengeService.addSolution(this.challenge.id, this.solution) :
-      this.challengeService.updateSolution(this.challenge.id, this.solution);
-
-    promise.then(solution => {
-      this.submitted = false;
-      if (solution){
-        Object.assign(thatSolution, solution);
-        this.setSolution(solution);
-      }
-    });
+    this.solutionService.saveSolution(this.challenge.id, this.solution)
+      .then(solution => {
+        this.submitted = false;
+        if (solution){
+          Object.assign(thatSolution, solution);
+          this.setSolution(solution);
+        }
+      });
   }
 
   shareSolution(comment: string){
@@ -137,7 +134,7 @@ export class ViewChallengeComponent implements OnChanges {
       if (this.challenge.solutions.length == 0) this.addSolution();
       this.setSolution(this.challenge.solutions[Math.min(index, this.challenge.solutions.length - 1)]);
     } else {
-      this.challengeService.deleteSolution(this.challenge.id, this.solution.id)
+      this.solutionService.deleteSolution(this.challenge.id, this.solution.id)
         .then(() => {
           this.challenge.solutions.splice(index, 1);
           if (this.challenge.solutions.length == 0) this.addSolution();
@@ -156,9 +153,7 @@ export class ViewChallengeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['challenge'].currentValue){
-      if (!this.challenge.solutions) this.challenge.solutions = [];
       if (this.challenge.solutions.length){
-        this.challenge.solutions.forEach(s => s.newSolution = s.solution);
         this.setSolution(this.challenge.solutions[this.challenge.solutions.length-1])
       } else {
         this.addSolution();
