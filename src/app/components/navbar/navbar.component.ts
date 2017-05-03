@@ -16,11 +16,11 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.addListener(newUser => this.user = newUser);
+    this.userService.userObservable.subscribe(user => this.user = user);
   }
 
   logout() {
     this.userService.logout();
-    this.router.navigate(["/"]);
+    this.router.navigate(["/login"]);
   }
 }

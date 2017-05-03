@@ -1,18 +1,31 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {User} from "../model/user";
 import {AlertService} from "./alert.service";
 import {UserAccount} from "../model/user-account";
+import {Subject} from "rxjs/Subject";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class UserService {
   private url = 'api/users';
-  private listeners: ((User) => void)[] = [];
+  private _user: User;
+  private userSubject : Subject<User> = new Subject<User>();
+  userObservable : Observable<any> = this.userSubject.asObservable();
 
   constructor(
     private http: Http,
     private alertService: AlertService
   ) { }
+
+  get user() {
+    return this._user;
+  }
+
+  set user(value: User) {
+    this._user = value;
+    this.userSubject.next(value);
+  }
 
   getUsers(): Promise<UserAccount[]>{
     return this.http.get(this.url)
@@ -67,7 +80,11 @@ export class UserService {
   authenticate(user: User): Promise<User> {
     return this.auth(btoa(`${user.username}:${user.password}`))
       .then(user => {
-        this.alertService.info(`Здравствуйте, ${user.username}!`);
+        if (user == null){
+          this.alertService.warning("Неверное имя пользователя или пароль");
+        } else {
+          this.alertService.info(`Здравствуйте, <b>${user.username}</b>!`);
+        }
         return user;
       });
   }
@@ -78,25 +95,18 @@ export class UserService {
       .toPromise()
       .then(response => {
         if (response.status === 401){
-          this.alertService.warning("Неверное имя пользователя или пароль");
           localStorage.setItem('auth_token', null);
           return null;
         }
-        let user = new User();
-        user.username = response.json().username;
-        this.listeners.forEach(listener => listener(user));
-        return user;
+        this.user = new User(response.json().username);
+        return this.user;
       })
       .catch(this.handleError);
   }
 
   logout() {
     localStorage.setItem('auth_token', null);
-    this.listeners.forEach(l => l(null));
-  }
-
-  addListener(listner: (User) => void){
-    this.listeners.push(listner);
+    this.user = null;
   }
 
   private handleError(error: any): Promise<any> {
