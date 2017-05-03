@@ -55,7 +55,7 @@ export class SolutionService {
     };
   }
 
-  private static parseTestResults(testResults: any[]): TestResult[]{
+  public static parseTestResults(testResults: any[]): TestResult[]{
     return !testResults ? [] :
       testResults.map(tr => {
         return {

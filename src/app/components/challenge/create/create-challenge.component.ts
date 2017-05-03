@@ -46,11 +46,17 @@ export class CreateChallengeComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.challengeService.createChallenge(this.model)
-      .then(challengeId => {
-        if (!challengeId) {
+      .then(response => {
+        console.log(response);
+        console.log(typeof response);
+        if (typeof response === 'number') {
+          this.router.navigate([`challenges/${response}`]);
+        } else if (response instanceof Array) {
           this.submitted = false;
+          this.testResults = response as TestResult[];
+          this.testResultsActive = true;
         } else {
-          this.router.navigate([`challenges/${challengeId}`]);
+          console.log(response)
         }
       })
       .catch(() => this.submitted = false);

@@ -30,14 +30,7 @@ export class UserService {
   getUsers(): Promise<UserAccount[]>{
     return this.http.get(this.url)
       .toPromise()
-      .then(response => {
-        let users = response.json();
-        return users.map(user => { return {
-          username: user.username,
-          created: user.registrationDate,
-          description: user.description,
-        }});
-      })
+      .then(response => response.json().map(user => UserService.parseAccount(user)))
       .catch(this.handleError);
   }
 
@@ -65,15 +58,7 @@ export class UserService {
   getUserAccount(username: string): Promise<UserAccount>{
     return this.http.get(`${this.url}/${username}`)
       .toPromise()
-      .then(response => {
-        let account = response.json();
-        return {
-          username: account.username,
-          description: account.description,
-          created: account.registrationDate,
-          solved: account.solutions,
-        }
-      })
+      .then(response => UserService.parseAccount(response.json()))
       .catch(this.handleError);
   }
 
@@ -107,6 +92,16 @@ export class UserService {
   logout() {
     localStorage.setItem('auth_token', null);
     this.user = null;
+  }
+
+  private static parseAccount(account: any): UserAccount {
+    return {
+      username: account.username,
+      description: account.description,
+      created: account.registrationDate,
+      solved: account.solutions,
+      challenges: account.challenges,
+    } as UserAccount;
   }
 
   private handleError(error: any): Promise<any> {

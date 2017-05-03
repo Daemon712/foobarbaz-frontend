@@ -4,6 +4,7 @@ import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
 import {SolutionService} from "./solution.service";
+import {TestResult} from "../model/test-result";
 
 @Injectable()
 export class ChallengeService {
@@ -80,7 +81,7 @@ export class ChallengeService {
       .catch((e) => this.handleError(e));
   }
 
-  createChallenge(challenge: Challenge): Promise<number>{
+  createChallenge(challenge: Challenge): Promise<Number|TestResult[]|String>{
     return this.http.post(this.url, {
       name: challenge.name,
       shortDescription: challenge.abstract,
@@ -96,9 +97,12 @@ export class ChallengeService {
           this.alertService.success("Вы успешно создали задачу");
           return Number.parseInt(response.text());
         }
-        else {
+        else if (response.json() instanceof Array) {
+          this.alertService.warning("Пример решения не прошел все тесты");
+          return SolutionService.parseTestResults(response.json());
+        } else {
           this.alertService.warning("Не удалось создать задачу");
-          return null;
+          return response.text();
         }
       })
       .catch((e) => this.handleError(e));
