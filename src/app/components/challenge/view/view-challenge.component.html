@@ -94,13 +94,13 @@
         <ace-editor class="form-control"
                     (textChanged)="updateText()"
                     #solutionEditor
-                    [readOnly]="submitted"
+                    [readOnly]="submitted || !authorized"
                     [mode]="'java'"
                     [theme]="'dreamweaver'"
                     [options]="options">
         </ace-editor>
       </div>
-      <div class="col-md-4" *ngIf="solution">
+      <div class="col-md-4" *ngIf="solution && authorized">
         <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
                 [disabled]="solution.solution === solution.newSolution && solution.status !== solutionStatus.empty"
                 title="Сохранить и протестировать решение"
@@ -145,6 +145,17 @@
             [active]="solution"
             (onSelect)="setSolution($event)">
           </app-revision-list>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="!authorized">
+        <div class="alert alert-warning lead">
+          <p>Решение задач доступно только зарегистрированным пользователям!</p>
+          <p>
+            <a [routerLink]="'/login'">Войдите</a>
+            в систему или
+            <a [routerLink]="'/sign-up'">создайте</a>
+            новый аккаунт!
+          </p>
         </div>
       </div>
     </div>

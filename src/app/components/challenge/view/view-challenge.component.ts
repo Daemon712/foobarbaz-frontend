@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import 'rxjs/add/operator/switchMap';
@@ -8,13 +8,14 @@ import {SolutionService} from "../../../service/solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-view-challenge',
   templateUrl: 'view-challenge.component.html',
   styleUrls: ['view-challenge.component.css']
 })
-export class ViewChallengeComponent implements OnChanges {
+export class ViewChallengeComponent implements OnChanges, OnInit {
 
   @ViewChild(AceEditorComponent)
   solutionEditor : AceEditorComponent;
@@ -26,6 +27,7 @@ export class ViewChallengeComponent implements OnChanges {
   solutionStatus = SolutionStatus;
 
   submitted = false;
+  authorized;
   testResultsActive = false;
 
   options = {
@@ -40,7 +42,12 @@ export class ViewChallengeComponent implements OnChanges {
     private sharedSolutionService: SharedSolutionService,
     private solutionService: SolutionService,
     private alertService: AlertService,
+    private userService: UserService,
   ) { }
+
+  ngOnInit(): void {
+    this.authorized = this.userService.user != null;
+  }
 
   setSolution(solution: Solution){
     if (this.solution) this.updateText();
