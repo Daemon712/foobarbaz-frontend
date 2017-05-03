@@ -75,7 +75,7 @@ export class ChallengeService {
           solutionTemplate: data.details.template,
           userRating: data.details.userDetails ? data.details.userDetails.rating : null,
           userDifficulty: data.details.userDetails ? data.details.userDetails.difficulty : null,
-          solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : null,
+          solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : [],
         }
       })
       .catch((e) => this.handleError(e));
