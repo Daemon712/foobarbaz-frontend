@@ -5,7 +5,7 @@ import {AlertService} from "./alert.service";
 import {UserAccount} from "../model/user-account";
 
 @Injectable()
-export class UserService implements OnInit{
+export class UserService {
   private url = 'api/users';
   private listeners: ((User) => void)[] = [];
 
@@ -13,12 +13,6 @@ export class UserService implements OnInit{
     private http: Http,
     private alertService: AlertService
   ) { }
-
-
-  ngOnInit(): void {
-    let token = localStorage.getItem('auth_token');
-    if (token) this.auth(token);
-  }
 
   getUsers(): Promise<UserAccount[]>{
     return this.http.get(this.url)
@@ -72,9 +66,13 @@ export class UserService implements OnInit{
 
   authenticate(user: User): Promise<User> {
     return this.auth(btoa(`${user.username}:${user.password}`))
+      .then(user => {
+        this.alertService.info(`Здравствуйте, ${user.username}!`);
+        return user;
+      });
   }
 
-  private auth(token: string): Promise<User> {
+  auth(token: string): Promise<User> {
     localStorage.setItem('auth_token', token);
     return this.http.get(`${this.url}/current`)
       .toPromise()
@@ -86,7 +84,6 @@ export class UserService implements OnInit{
         }
         let user = new User();
         user.username = response.json().username;
-        this.alertService.info(`Здравствуйте, ${user.username}!`);
         this.listeners.forEach(listener => listener(user));
         return user;
       })
