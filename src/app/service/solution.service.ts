@@ -12,15 +12,15 @@ export class SolutionService {
     private http: Http,
   ) { }
 
-  getSolutions(challengeId: number): Promise<Solution[]>{
-    return this.http.get(`${this.url}${challengeId}/solutions`)
-      .toPromise()
-      .then(response => {
-        let list = response.json();
-        return list.map(item => SolutionService.parseSolution(item));
-      })
-      .catch(SolutionService.handleError);
-  }
+  // getSolutions(challengeId: number): Promise<Solution[]>{
+  //   return this.http.get(`${this.url}${challengeId}/solutions`)
+  //     .toPromise()
+  //     .then(response => {
+  //       let list = response.json();
+  //       return list.map(item => SolutionService.parseSolution(item));
+  //     })
+  //     .catch(SolutionService.handleError);
+  // }
 
   deleteSolution(challengeId: number, solutionId: number): Promise<void>{
     let url = `${this.url}${challengeId}/solutions/${solutionId}`;
@@ -45,9 +45,10 @@ export class SolutionService {
   }
 
   public static parseSolution(s: any): Solution {
+    console.log(s);
     return {
-      id: s.pk.solutionNum,
-      name: 'Решение №' + s.pk.solutionNum,
+      id: s.solutionNum,
+      name: 'Решение №' + s.solutionNum,
       status: s.status,
       solution: s.implementation,
       newSolution: s.implementation,
