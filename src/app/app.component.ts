@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {UserService} from "./service/user.service";
+import {User} from "./model/user";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import {UserService} from "./service/user.service";
 export class AppComponent {
   constructor(private userService: UserService) {
     let token = localStorage.getItem('auth_token');
-    console.log(token);
+    let user = atob(token).split(':');
+    this.userService.user = new User(user[0], user[1]);
     if (token) this.userService.auth(token);
   }
 }
