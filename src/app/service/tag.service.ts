@@ -11,15 +11,15 @@ export class TagService {
   getTags(): Promise<Tag[]>{
     return this.http.get(this.url)
       .toPromise()
-      .then(response => response.json().data as Tag[])
+      .then(response => response.json().map(o => new Tag(o.tag, o.usages)))
       .catch(TagService.handleError);
   }
 
   findTags(name: string): Promise<Tag[]>{
-    // if (name == null) return this.getTags();
+    if (name == null) return this.getTags();
     return this.http.get(`${this.url}?name=${name}`)
       .toPromise()
-      .then(response => response.json().data as Tag[])
+      .then(response => response.json().map(o => new Tag(o.tag, o.usages)))
       .catch(TagService.handleError);
   }
 
