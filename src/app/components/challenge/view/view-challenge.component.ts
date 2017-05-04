@@ -47,6 +47,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.authorized = this.userService.user != null;
+    this.userService.userObservable.subscribe(u => this.authorized = u != null);
   }
 
   setSolution(solution: Solution){
