@@ -2,7 +2,7 @@ export class UserAccount {
   username: string;
   description: string;
   created: Date;
-  karma: number;
+  rating: number;
   solved: number;
   challenges: number;
   playlists: number;

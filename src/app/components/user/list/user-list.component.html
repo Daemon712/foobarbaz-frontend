@@ -15,11 +15,11 @@
           <span>Рейтинг</span>
         </div>
       </li>
-      <li class="list-group-item list-group-item-info lead p-3" *ngIf="!users">
+      <li class="list-group-item list-group-item-info lead p-3" *ngIf="!page || !page.content">
         <i class="fa fa-spinner fa-pulse ml-3"></i>
         <span> Загрузка...</span>
       </li>
-      <li class="list-group-item justify-content-start flex-nowrap" *ngFor="let user of users">
+      <li class="list-group-item justify-content-start flex-nowrap" *ngFor="let user of page?.content">
         <img src="http://placehold.it/100x100" class="rounded m-2"/>
         <div class="ml-3">
           <h3>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="ml-auto p-3 lead text-nowrap">
-          <span> {{user.karma || 0}}</span>
+          <span> {{user.rating || 0}}</span>
           <i class="fa fa-diamond text-primary"></i>
         </div>
       </li>
@@ -67,8 +67,8 @@
     </span>
       <input type="text" class="form-control" placeholder="Поиск">
     </div>
-    <pagination class="pagination-justified"
-                [totalItems]="80" [(ngModel)]="page"
+    <pagination class="pagination-justified" *ngIf="page" (pageChanged)="reloadPage($event.page - 1)"
+                [totalItems]="page.totalElements" [ngModel]="page.number + 1"
                 [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
                 [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
                 [firstText]="'&laquo;'" [lastText]="'&raquo;'">

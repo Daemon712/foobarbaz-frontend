@@ -24,7 +24,7 @@ export class InMemoryDataService implements InMemoryDbService {
       u.password = '1234';
       u.account.username = u.username;
       u.account.created = this.randomDate(u.username);
-      u.account.karma = this.randomNumber(0, 500, u.username);
+      u.account.rating = this.randomNumber(0, 500, u.username);
       u.account.challenges = this.randomNumber(0, 6, u.username);
       u.account.playlists = this.randomNumber(0, 2, u.username);
       u.account.solved = this.randomNumber(0, 15, u.username);

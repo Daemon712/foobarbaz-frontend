@@ -5,6 +5,7 @@ import {AlertService} from "./alert.service";
 import {UserAccount} from "../model/user-account";
 import {Subject} from "rxjs/Subject";
 import {Observable} from "rxjs/Observable";
+import {Page} from "../model/page";
 
 @Injectable()
 export class UserService {
@@ -27,10 +28,18 @@ export class UserService {
     this.userSubject.next(value);
   }
 
-  getUsers(): Promise<UserAccount[]>{
-    return this.http.get(this.url)
+  getUsers(page?: number): Promise<Page<UserAccount>>{
+    return this.http.get(`${this.url}?page=${page|0}`)
       .toPromise()
-      .then(response => response.json().map(user => UserService.parseAccount(user)))
+      .then(response => {
+        let data = response.json();
+        console.log(page, data.number);
+        return {
+          content: data.content.map(user => UserService.parseAccount(user)),
+          totalElements: data.totalElements,
+          number: data.number,
+        };
+      })
       .catch(this.handleError);
   }
 
@@ -101,6 +110,7 @@ export class UserService {
       created: account.registrationDate,
       solved: account.solutions,
       challenges: account.challenges,
+      rating: account.rating,
     } as UserAccount;
   }
 
