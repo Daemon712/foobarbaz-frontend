@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ChallengeService} from "../../../service/challenge.service";
 import {Challenge} from "../../../model/challenge";
+import {Page} from "../../../model/page";
 
 @Component({
   selector: 'app-challenge-list-page',
@@ -8,10 +9,9 @@ import {Challenge} from "../../../model/challenge";
   styleUrls: ['challenge-list-page.component.scss']
 })
 export class ChallengeListPageComponent implements OnInit {
-  challenges: Challenge[];
-  page = 1;
+  page: Page<Challenge>;
   sortField = "created";
-  sortReverse = false;
+  sortDir = 'desc';
   defaultFilter = {
     name: null,
     author: null,
@@ -30,9 +30,19 @@ export class ChallengeListPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.challengeService.getChallenges().then(
-      challenges => this.challenges = challenges
-    );
+    this.challengeService.getChallenges().then(page => this.page = page);
+  }
+
+  changePage(newPage: number){
+    this.page.content = null;
+    this.challengeService.getChallenges(newPage, this.sortField, this.sortDir)
+      .then(page => this.page = page);
+  }
+
+  changeSort(){
+    this.page.content = null;
+    this.challengeService.getChallenges(null, this.sortField, this.sortDir)
+      .then(page => this.page = page);
   }
 
   applyFilter(){

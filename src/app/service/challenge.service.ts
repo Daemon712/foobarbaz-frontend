@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Challenge} from "../model/challenge";
-import {Http} from "@angular/http";
+import {Http, URLSearchParams} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
 import {SolutionService} from "./solution.service";
 import {TestResult} from "../model/test-result";
+import {Page} from "../model/page";
 
 @Injectable()
 export class ChallengeService {
@@ -15,22 +16,20 @@ export class ChallengeService {
     private http: Http,
   ) { }
 
-  getChallenges(): Promise<Challenge[]>{
-    return this.http.get(this.url)
+  getChallenges(page?: number, sortField?: string, sortDir?: string): Promise<Page<Challenge>>{
+    let params = new URLSearchParams();
+    if (page) params.set("page", page.toString());
+    if (sortField) params.set("field", sortField);
+    if (sortDir) params.set("dir", sortDir);
+    return this.http.get(this.url, {params: params})
         .toPromise()
         .then(response => {
-          let list = response.json() as any[];
-          return list.map(item => { return {
-            id: item.id,
-            name: item.name,
-            abstract: item.shortDescription,
-            status: item.status,
-            tags: item.tags,
-            author: item.author.username,
-            created: item.created,
-            rating: item.rating,
-            difficulty: item.difficulty,
-          }})
+          let data = response.json();
+          return {
+            content: data.content.map(c => ChallengeService.parseChallenge(c)),
+            totalElements: data.totalElements,
+            number: data.number,
+          }
         })
         .catch((e) => this.handleError(e));
   }
@@ -138,5 +137,19 @@ export class ChallengeService {
     this.alertService.danger('Ошибка на стороне сервера');
     console.error(error);
     return Promise.reject(error.message || error);
+  }
+
+  private static parseChallenge(c: any) {
+    return {
+      id: c.id,
+      name: c.name,
+      abstract: c.shortDescription,
+      status: c.status,
+      tags: c.tags,
+      author: c.author.username,
+      created: c.created,
+      rating: c.rating,
+      difficulty: c.difficulty,
+    }
   }
 }
