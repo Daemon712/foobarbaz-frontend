@@ -2,8 +2,7 @@
   <tr *ngFor="let user of users; let i = index">
     <td class="font-weight-bold">#{{i + 1}}</td>
     <td>
-      <i class="fa fa-user"></i>
-      <a [routerLink]="['users',user.username]">{{user.username}}</a>
+      <app-user-link [user]="user"></app-user-link>
     </td>
     <td class="text-right">{{user[property]}}</td>
   </tr>

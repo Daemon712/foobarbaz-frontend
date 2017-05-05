@@ -67,7 +67,10 @@ export class ChallengeService {
           description: data.details.fullDescription,
           tags: data.tags,
           status: data.status,
-          author: data.author.username,
+          author: {
+            username: data.author.username,
+            name: data.author.name,
+          },
           created: data.created,
           rating: data.rating,
           difficulty: data.difficulty,
@@ -146,7 +149,10 @@ export class ChallengeService {
       abstract: c.shortDescription,
       status: c.status,
       tags: c.tags,
-      author: c.author.username,
+      author: {
+        username: c.author.username,
+        name: c.author.name,
+      },
       created: c.created,
       rating: c.rating,
       difficulty: c.difficulty,

@@ -8,8 +8,7 @@
 <div *ngFor="let challenge of challenges" class="card mb-2">
   <div class="card-header">
     <div class="pull-right m-1">
-      <a [routerLink]="'/users/' + challenge.author">{{challenge.author}} </a>
-      <i class="fa fa-user"></i>
+      <app-user-link [user]="challenge.author"></app-user-link>
     </div>
     <h3 class="m-0">
       <small [ngSwitch]="challenge.status" class="challenge-status mr-3">

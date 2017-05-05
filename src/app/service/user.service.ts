@@ -54,6 +54,7 @@ export class UserService {
 
   signUp(user: User): Promise<User> {
     return this.http.post(this.url, {
+      name: user.name,
       username: user.username,
       password: user.password,
       description: user.account.description,
@@ -64,6 +65,7 @@ export class UserService {
           this.alertService.success("Вы успешно зарегистрировались");
           let user = new User();
           user.username = response.json().username;
+          user.name = response.json().name;
           return user;
         } else {
           if (response.text() === 'username already in use')
@@ -86,7 +88,7 @@ export class UserService {
         if (user == null){
           this.alertService.warning("Неверное имя пользователя или пароль");
         } else {
-          this.alertService.info(`Здравствуйте, <b>${user.username}</b>!`);
+          this.alertService.info(`Здравствуйте, <b>${user.name}</b>!`);
         }
         return user;
       });
@@ -101,7 +103,10 @@ export class UserService {
           localStorage.setItem('auth_token', null);
           return null;
         }
-        this.user = new User(response.json().username);
+        this.user = {
+          username: response.json().username,
+          name: response.json().name
+        } as User;
         return this.user;
       })
       .catch(this.handleError);
@@ -114,7 +119,8 @@ export class UserService {
 
   private static parseAccount(account: any): UserAccount {
     return {
-      username: account.username,
+      name: account.user.name,
+      username: account.user.username,
       description: account.description,
       registrationDate: account.registrationDate,
       solutions: account.solutions,

@@ -1,4 +1,5 @@
 export class UserAccount {
+  name: string;
   username: string;
   description: string;
   registrationDate: Date;

@@ -5,7 +5,7 @@
   </h1>
   <p *ngIf="solution" class="lead">
     <span>Решение от пользователя</span>
-    <a [routerLink]="['/users', solution.author]">{{solution.author}}</a>
+    <app-user-link [user]="challenge.author"></app-user-link>
   </p>
   <h1 *ngIf="!challenge" class="display-3">Загрузка...</h1>
 </div>

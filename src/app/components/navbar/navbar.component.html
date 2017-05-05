@@ -31,8 +31,7 @@
         </li>
         <li class="nav-item" [hidden]="user == null">
           <a class="nav-link" routerLink="/users/{{user?.username}}">
-            <span>{{user?.username}} </span>
-            <i class="fa fa-user"> </i>
+            <app-user-link [user]="user" [link]="false"></app-user-link>
           </a>
         </li>
         <li class="nav-item" [hidden]="user == null">

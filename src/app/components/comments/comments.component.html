@@ -22,8 +22,7 @@
         </div>
       </div>
       <h5>
-        <i class="fa fa-user"></i>
-        <a [routerLink]="'/users/' + comment.author"> {{comment.author}}</a>
+        <app-user-link [user]="comment.author"></app-user-link>
       </h5>
       <p>{{comment.text}}</p>
     </div>

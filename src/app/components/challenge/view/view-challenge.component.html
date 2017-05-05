@@ -17,8 +17,7 @@
             <tr>
               <td>Автор</td>
               <td>
-                <i class="fa fa-user"></i>
-                <a [routerLink]="'/users/' + challenge.author"> {{challenge.author}}</a>
+                <app-user-link [user]="challenge.author"></app-user-link>
               </td>
             </tr>
             <tr>

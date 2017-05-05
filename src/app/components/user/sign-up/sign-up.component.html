@@ -4,13 +4,12 @@
 </div>
 <form (ngSubmit)="onSubmit()" #signUpForm="ngForm">
   <div class="form-group row">
-
-    <label for="username" class="col-md-4 col-form-label">Имя Пользователя</label>
+    <label for="username" class="col-md-4 col-form-label">Имя пользователя</label>
     <div class="col-md-4">
       <input class="form-control" type="text"
              id="username" name="username" #username="ngModel"
              [(ngModel)]="model.username"
-             required maxlength="32" pattern="[a-zA-Zа-яА-Я0-9\-._ ]+">
+             required maxlength="32" pattern="[\w\d-._]+">
     </div>
     <div *ngIf="username.errors && (username.dirty || username.touched)"
          class="col-md-4 text-danger col-form-label">
@@ -21,13 +20,20 @@
 
   <div class="form-group row">
 
+    <label for="name" class="col-md-4 col-form-label">Полное имя</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text"
+             id="name" name="name" #name="ngModel"
+             [(ngModel)]="model.name" maxlength="32">
+    </div>
+  </div>
+
+  <div class="form-group row">
     <label for="description" class="col-md-4 col-form-label">Пару слов о себе</label>
     <div class="col-md-4">
       <textarea class="form-control" id="description" name="description" #description="ngModel"
              [(ngModel)]="model.account.description" maxlength="200">
       </textarea>
-    </div>
-    <div class="col-md-4 text-danger col-form-label">
     </div>
   </div>
 

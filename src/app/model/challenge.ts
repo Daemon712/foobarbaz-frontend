@@ -1,11 +1,12 @@
 import {Solution} from "./solution";
+import {User} from "./user";
 export class Challenge {
   id: number;
   name: string;
   abstract: string;
   description: string;
   status: ChallengeStatus;
-  author: string;
+  author: User;
   created: Date;
   solutionTemplate: string;
   solutionExample: string;
