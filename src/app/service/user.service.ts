@@ -45,6 +45,13 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  getTopUsers(property: string): Promise<UserAccount[]>{
+    return this.http.get(`${this.url}/top/${property}`)
+      .toPromise()
+      .then(r => r.json().map(u => UserService.parseAccount(u)))
+      .catch(this.handleError);
+  }
+
   signUp(user: User): Promise<User> {
     return this.http.post(this.url, {
       username: user.username,
@@ -109,8 +116,8 @@ export class UserService {
     return {
       username: account.username,
       description: account.description,
-      created: account.registrationDate,
-      solved: account.solutions,
+      registrationDate: account.registrationDate,
+      solutions: account.solutions,
       challenges: account.challenges,
       rating: account.rating,
     } as UserAccount;

@@ -22,13 +22,13 @@
           <td>Решено задач</td>
           <td>
             <i class="fa fa-check text-success"></i>
-            <span>{{userAccount.solved || 0}}</span>
+            <span>{{userAccount.solutions || 0}}</span>
           </td>
         </tr>
         <tr>
           <td>Регистрация</td>
           <td>
-            <span>{{userAccount.created | date:'d MMM yyyy'}}</span>
+            <span>{{userAccount.registrationDate | date:'d MMM yyyy'}}</span>
           </td>
         </tr>
         </tbody>

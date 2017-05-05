@@ -32,7 +32,7 @@
           <div class="text-muted">
             <span class="mr-3">
               <i class="fa fa-calendar"></i>
-              {{user.created | date: "dd MMM yyyy"}}
+              {{user.registrationDate | date: "dd MMM yyyy"}}
             </span>
             <span *ngIf="user.challenges" class="mr-3">
               <i class="fa fa-plus"></i>
@@ -42,9 +42,9 @@
               <i class="fa fa-list"></i>
               {{user.playlists}}
             </span>
-            <span *ngIf="user.solved" class="mr-3">
+            <span *ngIf="user.solutions" class="mr-3">
               <i class="fa fa-check"></i>
-              {{user.solved}}
+              {{user.solutions}}
             </span>
             <span *ngIf="user.comments" class="mr-3">
               <i class="fa fa-comments"></i>
@@ -81,38 +81,18 @@
     <div class="card mb-3">
       <div class="card-header">
         <i class="fa fa-plus"></i>
-        <span>Лучший автор </span>
+        <span>Топ 3 авторов</span>
       </div>
-      <div class="card-block">
-        <h5>
-          <i class="fa fa-user"></i>
-          <a href="#">Рандом</a>
-        </h5>
-      </div>
+      <app-top-users [property]="'challenges'">
+      </app-top-users>
     </div>
     <div class="card mb-3">
       <div class="card-header">
         <i class="fa fa-check"></i>
-        <span>Лучший решатель</span>
+        <span>Топ 3 решающих</span>
       </div>
-      <div class="card-block">
-        <h5>
-          <i class="fa fa-user"></i>
-          <a href="#">Рандом</a>
-        </h5>
-      </div>
-    </div>
-    <div class="card mb-3">
-      <div class="card-header">
-        <i class="fa fa-comment"></i>
-        <span>Лучший комментатор</span>
-      </div>
-      <div class="card-block">
-        <h5>
-          <i class="fa fa-user"></i>
-          <a href="#">Рандом</a>
-        </h5>
-      </div>
+      <app-top-users [property]="'solutions'">
+      </app-top-users>
     </div>
   </div>
 </div>

@@ -48,6 +48,7 @@ import { PlaylistViewComponent } from './components/playlist/view/playlist-view.
 import { ChallengeViewPageComponent } from './components/challenge/view-page/challenge-view-page.component';
 import {HttpServiceFactory} from "./service/http.service";
 import {CanActivateAuthorized} from "./security/can-activate-authorized";
+import { TopUsersComponent } from './components/user/top/top-users.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -103,6 +104,7 @@ const routes: Routes = [
     PlaylistListComponent,
     PlaylistViewComponent,
     ChallengeViewPageComponent,
+    TopUsersComponent,
   ],
   imports: [
     BrowserModule,

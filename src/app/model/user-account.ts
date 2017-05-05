@@ -1,9 +1,9 @@
 export class UserAccount {
   username: string;
   description: string;
-  created: Date;
+  registrationDate: Date;
   rating: number;
-  solved: number;
+  solutions: number;
   challenges: number;
   playlists: number;
   comments: number;

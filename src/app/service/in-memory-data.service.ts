@@ -23,11 +23,11 @@ export class InMemoryDataService implements InMemoryDbService {
     users.forEach((u: any) => {
       u.password = '1234';
       u.account.username = u.username;
-      u.account.created = this.randomDate(u.username);
+      u.account.registrationDate = this.randomDate(u.username);
       u.account.rating = this.randomNumber(0, 500, u.username);
       u.account.challenges = this.randomNumber(0, 6, u.username);
       u.account.playlists = this.randomNumber(0, 2, u.username);
-      u.account.solved = this.randomNumber(0, 15, u.username);
+      u.account.solutions = this.randomNumber(0, 15, u.username);
       u.account.comments = this.randomNumber(0, 10, u.username);
       u.account.sharedSolutions = this.randomNumber(0, 8, u.username);
     });
@@ -157,7 +157,7 @@ export class InMemoryDataService implements InMemoryDbService {
       c.id = i + 1;
       c.solutionTemplate = defaultSolutionTemplate;
       c.description = defaultDescription;
-      c.created = this.randomDate(c.name);
+      c.registrationDate = this.randomDate(c.name);
       c.rating = this.randomNumber(1, 9)/10;
       c.difficulty = this.randomNumber(1, 9)/10;
       c.comments = this.randomNumber(0, 12, c.name);
@@ -248,7 +248,7 @@ export class InMemoryDataService implements InMemoryDbService {
     for (let i = 0; i < playlists.length; i++){
       let p: any = playlists[i];
       p.id = i + 1;
-      p.created = this.randomDate(p.name);
+      p.registrationDate = this.randomDate(p.name);
       p.author = this.randomItem(users, p.name).username;
     }
 
