@@ -19,6 +19,9 @@
         <i class="fa fa-spinner fa-pulse ml-3"></i>
         <span> Загрузка...</span>
       </li>
+      <li class="list-group-item list-group-item-warning lead p-3" *ngIf="page?.content && !page.content.length">
+        Ни одного пользователя не найдено
+      </li>
       <li class="list-group-item justify-content-start flex-nowrap" *ngFor="let user of page?.content">
         <img src="http://placehold.it/100x100" class="rounded m-2"/>
         <div class="ml-3">
@@ -61,13 +64,15 @@
     </ul>
   </div>
   <div class="col-3">
-    <div class="input-group mb-3">
-    <span class="input-group-addon">
-      <i class="fa fa-search"></i>
-    </span>
-      <input type="text" class="form-control" placeholder="Поиск">
-    </div>
-    <pagination class="pagination-justified" *ngIf="page" (pageChanged)="reloadPage($event.page - 1)"
+    <form (submit)="changeSearch(search.value)">
+      <div class="input-group mb-3">
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+        <input #search type="text" class="form-control" placeholder="Поиск">
+      </div>
+    </form>
+    <pagination class="pagination-justified" *ngIf="page" (pageChanged)="changePage($event.page - 1)"
                 [totalItems]="page.totalElements" [ngModel]="page.number + 1"
                 [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
                 [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"

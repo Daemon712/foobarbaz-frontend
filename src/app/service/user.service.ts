@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from "@angular/http";
+import {Http, URLSearchParams} from "@angular/http";
 import {User} from "../model/user";
 import {AlertService} from "./alert.service";
 import {UserAccount} from "../model/user-account";
@@ -28,12 +28,14 @@ export class UserService {
     this.userSubject.next(value);
   }
 
-  getUsers(page?: number): Promise<Page<UserAccount>>{
-    return this.http.get(`${this.url}?page=${page|0}`)
+  getUsers(page?: number, search?: string): Promise<Page<UserAccount>>{
+    let params = new URLSearchParams();
+    if (page) params.set("page", page.toString());
+    if (search) params.set("search", search);
+    return this.http.get(this.url, {params: params})
       .toPromise()
       .then(response => {
         let data = response.json();
-        console.log(page, data.number);
         return {
           content: data.content.map(user => UserService.parseAccount(user)),
           totalElements: data.totalElements,

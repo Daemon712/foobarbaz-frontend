@@ -9,6 +9,7 @@ import {Page} from "../../../model/page";
 })
 export class UserListComponent implements OnInit {
   page: Page<UserAccount>;
+  search: string;
 
   constructor(private userService: UserService) { }
 
@@ -17,9 +18,16 @@ export class UserListComponent implements OnInit {
       .then(page => this.page = page);
   }
 
-  reloadPage(pageNumber: number){
+  changePage(pageNumber: number){
     this.page.content = null;
-    this.userService.getUsers(pageNumber)
+    this.userService.getUsers(pageNumber, this.search)
+      .then(page => this.page = page);
+  }
+
+  changeSearch(search: string){
+    this.page.content = null;
+    this.search = search;
+    this.userService.getUsers(null, this.search)
       .then(page => this.page = page);
   }
 }
