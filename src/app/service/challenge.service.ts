@@ -79,6 +79,7 @@ export class ChallengeService {
           solutionTemplate: data.details.template,
           userRating: data.details.userDetails ? data.details.userDetails.rating : null,
           userDifficulty: data.details.userDetails ? data.details.userDetails.difficulty : null,
+          bookmark: data.details.userDetails ? data.details.userDetails.bookmark : null,
           solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : [],
         }
       })
@@ -113,15 +114,10 @@ export class ChallengeService {
       .catch((e) => this.handleError(e));
   }
 
-  updateBookmark(challengeId: number, bookmark: boolean): Promise<Challenge>{
-    //TODO change url to 'api/challenges/:id//bookmark'
-    return this.getChallenge(challengeId)
-      .then(challenge => {
-        challenge.bookmark = bookmark;
-        return this.http.post(`${this.url}/${challengeId}`, challenge)
-          .toPromise()
-          .then(response => challenge);
-      });
+  updateBookmark(challengeId: number, bookmark: boolean): Promise<void>{
+    return this.http.post(`${this.url}/${challengeId}/bookmark`, bookmark.toString())
+      .toPromise()
+      .then(() => {});
   }
 
   updateUserRating(challengeId: number, rating: number, difficulty: number): Promise<Challenge>{
