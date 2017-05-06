@@ -6,7 +6,8 @@
       <i class="fa fa-close" (click)="removeTag(i)"> </i>
     </span>
   </div>
-  <input class="form-control"
+  <input class="form-control" maxlength="25" title="Добавить значение"
+         [readonly]="tags?.length >= 5"
          [(ngModel)]="newTag"
          [ngModelOptions]="{standalone: true}"
          [typeahead]="availableTags"

@@ -31,7 +31,7 @@ export class TagPickerComponent implements OnInit {
             .findTags(newTag)
             .then(tags => {
               let result = tags.map(tag => tag.name);
-              if (this.newTag && this.newTag.length >= 3) result.push(this.newTag);
+              if (this.newTag && this.newTag.length >= 3) result.push(this.newTag.toLowerCase());
               return this.tags ? result.filter(tagName => this.tags.indexOf(tagName) < 0) : result
             })
       );
