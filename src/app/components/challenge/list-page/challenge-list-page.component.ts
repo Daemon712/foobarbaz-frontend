@@ -13,13 +13,13 @@ export class ChallengeListPageComponent implements OnInit {
   sortField = "created";
   sortDir = 'desc';
   defaultFilter = {
-    name: null,
-    author: null,
     statusNotStarted: true,
     statusInProgress: true,
     statusCompleted: true,
-    createdAfter: null,
-    createdBefore: null,
+    minRating: 1,
+    maxRating: 5,
+    minDifficulty: 1,
+    maxDifficulty: 5,
   };
   newFilter = Object.assign({}, this.defaultFilter);
   activeFilter = Object.assign({}, this.defaultFilter);

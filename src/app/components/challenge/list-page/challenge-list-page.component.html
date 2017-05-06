@@ -17,22 +17,15 @@
       </span>
       <input type="text" class="form-control" placeholder="Поиск">
     </div>
-    <div class="card mb-3">
-      <div class="card-header">
-        <i class="fa fa-filter"> </i>
-        <span>Фильтр</span>
-      </div>
-      <div class="card-block">
-        <div class="card-text">
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Название"
-                   [(ngModel)]="newFilter.name">
-          </div>
-          <div class="form-group mb-2">
-            <input class="form-control form-control-sm" type="text" placeholder="Автор"
-                   [(ngModel)]="newFilter.author">
-          </div>
-
+    <accordion>
+      <accordion-group #group>
+        <div accordion-heading class="d-flex align-items-center">
+          <i class="mr-1 fa fa-filter"> </i>
+          <span>Фильтр</span>
+          <i class="ml-auto fa "
+             [ngClass]="{'fa-chevron-down': group?.isOpen, 'fa-chevron-right': !group?.isOpen}"></i>
+        </div>
+        <div>
           <div class="form-group mb-0 text-center">
             <div class="btn-group btn-group-sm" role="group">
               <label class="btn btn-outline-primary" title="Новые"
@@ -57,9 +50,9 @@
                     (click)="applyFilter()">Применить</button>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="card mb-2">
+      </accordion-group>
+    </accordion>
+    <div class="card my-3">
       <div class="card-header">
         <i class="fa fa-star"> </i>
         <span>Популярные метки</span>
