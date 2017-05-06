@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ModalDirective} from "ng2-bootstrap";
+import {Rating} from "../../../model/rating";
 
 @Component({
   selector: 'app-rate-challenge',
@@ -7,35 +8,31 @@ import {ModalDirective} from "ng2-bootstrap";
 })
 export class RateChallengeComponent implements OnInit {
 
-  rating: number;
-  difficulty: number;
+  rating: Rating;
 
   @ViewChild('ratingModal')
   ratingModal: ModalDirective;
 
   @Input()
-  initRating: number;
-  @Input()
-  initDifficulty: number;
+  initRating: Rating;
 
   @Output()
-  onSubmit = new EventEmitter<{rating: number, difficulty: number}>();
+  onSubmit = new EventEmitter<Rating>();
 
   constructor() { }
 
   ngOnInit() {
-    this.rating = this.initRating;
-    this.difficulty = this.initDifficulty;
+    this.rating = new Rating();
+    Object.assign(this.rating, this.initRating);
   }
 
   submit(){
-    this.onSubmit.emit({rating: this.rating, difficulty: this.difficulty});
+    this.onSubmit.emit(this.rating);
     this.ratingModal.hide();
   }
 
   close(){
-    this.rating = this.initRating;
-    this.difficulty = this.initDifficulty;
+    Object.assign(this.rating, this.initRating);
     this.ratingModal.hide();
   }
 }

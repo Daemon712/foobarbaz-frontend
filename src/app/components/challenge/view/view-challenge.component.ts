@@ -9,6 +9,7 @@ import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
 import {UserService} from "../../../service/user.service";
+import {Rating} from "../../../model/rating";
 
 @Component({
   selector: 'app-view-challenge',
@@ -70,15 +71,15 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
               : this.alertService.info('Задача успешно удалена из закладок'));
   }
 
-  updateUserRating(userRating: {rating: number, difficulty: number}){
+  updateUserRating(userRating: Rating){
+    this.challenge.userRating = userRating.rating;
+    this.challenge.userDifficulty = userRating.difficulty;
     this.challengeService.updateUserRating(
-      this.challenge.id,
-      (userRating.rating - 1) / 4,
-      (userRating.difficulty - 1) / 4,
-    )
-      .then((challenge) => {
-        this.challenge.userRating = challenge.userRating;
-        this.challenge.userDifficulty = challenge.userDifficulty;
+      this.challenge.id, userRating)
+      .then((rating) => {
+        this.alertService.info('Ваша оценка сохранена. Рейтинг и сложность задачи пересчитаны с учетом вашей оценки');
+        this.challenge.rating = rating.rating;
+        this.challenge.difficulty = rating.difficulty;
       });
   }
 

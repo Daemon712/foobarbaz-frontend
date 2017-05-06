@@ -6,6 +6,7 @@ import {AlertService} from "./alert.service";
 import {SolutionService} from "./solution.service";
 import {TestResult} from "../model/test-result";
 import {Page} from "../model/page";
+import {Rating} from "../model/rating";
 
 @Injectable()
 export class ChallengeService {
@@ -120,16 +121,13 @@ export class ChallengeService {
       .then(() => {});
   }
 
-  updateUserRating(challengeId: number, rating: number, difficulty: number): Promise<Challenge>{
-    //TODO change url to 'api/challenges/:id/rating'
-    return this.getChallenge(challengeId)
-      .then(challenge => {
-        challenge.userRating = rating;
-        challenge.userDifficulty = difficulty;
-        return this.http.post(`${this.url}/${challengeId}`, challenge)
-          .toPromise()
-          .then(response => challenge);
-      });
+  updateUserRating(challengeId: number, rating: Rating): Promise<Rating>{
+    return this.http.post(`${this.url}/${challengeId}/rating`, rating)
+      .toPromise()
+      .then(response => { return {
+        rating: response.json().rating,
+        difficulty: response.json().difficulty,
+      }});
   }
 
   private handleError(error: any): Promise<any> {

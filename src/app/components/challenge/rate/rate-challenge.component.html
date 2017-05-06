@@ -1,5 +1,5 @@
 <button type="button"
-        [class.active]="initDifficulty || initRating"
+        [class.active]="initRating && (initRating.rating || initRating.difficulty)"
         (click)="ratingModal.show()"
         class="btn btn-outline-warning btn-block">
   <i class="fa fa-star"></i>
@@ -20,7 +20,7 @@
         <div class="form-group row">
           <label class="col-6">Рейтинг</label>
           <div class="col-6">
-            <rating [(ngModel)]="rating" [max]="5"
+            <rating [(ngModel)]="rating.rating" [max]="5"
                     stateOn="fa fa-lg fa-star text-warning"
                     stateOff="fa fa-lg fa-star text-muted">
             </rating>
@@ -29,7 +29,7 @@
         <div class="form-group row">
           <label class="col-6">Сложность</label>
           <div class="col-6">
-            <rating [(ngModel)]="difficulty" [max]="5"
+            <rating [(ngModel)]="rating.difficulty" [max]="5"
                     stateOn="fa fa-lg fa-asterisk text-primary"
                     stateOff="fa fa-lg fa-asterisk text-muted">
             </rating>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button [disabled]="!rating || !difficulty"
+        <button [disabled]="!rating.rating || !rating.difficulty"
                 class="btn btn-primary btn-sm"
                 (click)="submit()">
           Сохранить оценку
