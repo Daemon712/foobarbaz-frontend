@@ -49,9 +49,9 @@ export class ChallengeService {
   }
 
   getBookmarksByUser(username: string): Promise<Challenge[]>{
-    return this.http.get(`${this.url}?bookmark=true`)
+    return this.http.get(`${this.url}/bookmark/${username}`)
       .toPromise()
-      .then(response => response.json().data as Challenge[])
+      .then(response => response.json().map(c => ChallengeService.parseChallenge(c)))
       .catch((e) => this.handleError(e));
   }
 
