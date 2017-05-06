@@ -34,7 +34,6 @@ export class PlaylistService {
   }
 
   addPlaylist(playlist: Playlist): Promise<Playlist>{
-    playlist.author = 'user';
     return this.http.post(this.url, playlist)
       .toPromise()
       .then(response => {

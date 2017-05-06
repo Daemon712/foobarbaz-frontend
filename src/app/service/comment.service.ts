@@ -19,12 +19,11 @@ export class CommentService {
 
   addComment(text: string, challengeId: number, sharedSolId?: number): Promise<Comment>{
     //TODO params should be filled on server
-    let comment: Comment = {
+    let comment = {
       id: 10 + 10000 * Math.random(),
       challengeId: challengeId,
       sharedSolId: sharedSolId,
       text: text,
-      author: "User",
       date: new Date(),
       likes: 0,
       liked: false,

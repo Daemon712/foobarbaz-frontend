@@ -55,7 +55,6 @@ export class SharedSolutionService {
     solution.id = 20 + solutionId;
     solution.date = new Date();
     solution.comment = comment;
-    solution.author = 'Privet';
     solution.status = Math.random() > 0.5 ? SolutionStatus.success : SolutionStatus.failed;
     solution.likes = 0;
     solution.liked = false;

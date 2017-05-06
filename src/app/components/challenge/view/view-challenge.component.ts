@@ -86,7 +86,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
       .then(solution => {
         this.submitted = false;
         Object.assign(thatSolution, solution);
-        this.setSolution(solution);
+        this.setSolution(thatSolution);
         this.testResultsActive = true;
       }
     );
