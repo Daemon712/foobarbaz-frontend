@@ -13,7 +13,7 @@ import { LoginComponent } from './components/user/login/login.component';
 import { SignUpComponent } from './components/user/sign-up/sign-up.component';
 import { EqualValidator } from './directives/equal-validator.directive';
 import {TagService} from "./service/tag.service";
-import { TagsComponent } from './components/tags/view/tags.component';
+import { TopTagsComponent } from './components/tags/top/top-tags.component';
 import { UserListComponent } from './components/user/list/user-list.component';
 import {UserService} from "./service/user.service";
 import { AlertsComponent } from './components/alerts/alerts.component';
@@ -50,6 +50,7 @@ import {HttpServiceFactory} from "./service/http.service";
 import {CanActivateAuthorized} from "./security/can-activate-authorized";
 import { TopUsersComponent } from './components/user/top/top-users.component';
 import { UserLinkComponent } from './components/user/link/user-link.component';
+import { TagsLineComponent } from './components/tags/line/tags-line.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -82,7 +83,7 @@ const routes: Routes = [
     LoginComponent,
     SignUpComponent,
     EqualValidator,
-    TagsComponent,
+    TopTagsComponent,
     UserListComponent,
     UserViewComponent,
     AlertsComponent,
@@ -107,6 +108,7 @@ const routes: Routes = [
     ChallengeViewPageComponent,
     TopUsersComponent,
     UserLinkComponent,
+    TagsLineComponent,
   ],
   imports: [
     BrowserModule,

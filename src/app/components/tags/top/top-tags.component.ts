@@ -4,9 +4,9 @@ import {TagService} from "../../../service/tag.service";
 
 @Component({
   selector: 'app-tags',
-  templateUrl: 'tags.component.html',
+  templateUrl: 'top-tags.component.html',
 })
-export class TagsComponent implements OnInit {
+export class TopTagsComponent implements OnInit {
   tags: Tag[];
   minUsages: number;
   maxUsages: number;

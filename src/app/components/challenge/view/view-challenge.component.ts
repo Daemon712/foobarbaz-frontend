@@ -28,7 +28,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   solutionStatus = SolutionStatus;
 
   submitted = false;
-  authorized;
+  authorized = false;
   testResultsActive = false;
 
   options = {
@@ -47,6 +47,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.userService.user);
     this.authorized = this.userService.user != null;
   }
 

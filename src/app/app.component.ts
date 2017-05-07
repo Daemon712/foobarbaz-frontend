@@ -10,8 +10,9 @@ import {User} from "./model/user";
 export class AppComponent {
   constructor(private userService: UserService) {
     let token = localStorage.getItem('auth_token');
+    if (!token || token == 'null') return;
     let user = atob(token).split(':');
     this.userService.user = new User(user[0], user[1]);
-    if (token) this.userService.auth(token);
+    this.userService.auth(token);
   }
 }
