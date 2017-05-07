@@ -83,11 +83,11 @@
         <label>Публичные решения</label>
         <div class="btn-group btn-group-fill">
           <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+                 [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.allow">Разрешить</label>
           <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+                 [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
           <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.sharedSolutionAccess" [btnRadio]="accessOption.deny">Запретить</label>
+                 [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.deny">Запретить</label>
         </div>
       </div>
 

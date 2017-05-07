@@ -122,7 +122,7 @@ export class CreateChallengeComponent implements OnInit {
       "}";
 
     this.model.commentAccess = AccessOption.allow;
-    this.model.sharedSolutionAccess = AccessOption.solvedOnly;
+    this.model.shareAccess = AccessOption.solvedOnly;
     this.model.rating = 3;
     this.model.difficulty = 3;
     this.model.abstract = '[FOR TEST ONLY] описание на 50 символов 0123456789';

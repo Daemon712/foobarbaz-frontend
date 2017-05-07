@@ -21,7 +21,7 @@ export class Challenge {
   completedSolutions: number;
   sharedSolutions: number;
   commentAccess: AccessOption;
-  sharedSolutionAccess: AccessOption;
+  shareAccess: AccessOption;
   bookmark: boolean;
   solutions: Solution[];
 }
