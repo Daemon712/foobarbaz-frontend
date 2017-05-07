@@ -88,7 +88,7 @@ export class UserService {
         if (user == null){
           this.alertService.warning("Неверное имя пользователя или пароль");
         } else {
-          this.alertService.info(`Здравствуйте, <b>${user.name}</b>!`);
+          this.alertService.info(`Здравствуйте, <b>${user.name || user.username}</b>!`);
         }
         return user;
       });

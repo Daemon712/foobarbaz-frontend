@@ -26,7 +26,7 @@
         <img src="http://placehold.it/100x100" class="rounded m-2"/>
         <div class="ml-3">
           <h3>
-            <a [routerLink]="'/users/'+user.username">{{user.name}}</a>
+            <a [routerLink]="['/users', user.username]">{{user.name || user.username}}</a>
           </h3>
           <p>{{user.description}}</p>
           <div class="text-muted">
