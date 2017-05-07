@@ -73,7 +73,7 @@
           </div>
           <div class="col-6">
             <app-rate-challenge
-              [initRating]="{rating: challenge.userRating, difficulty: challenge.userDifficulty}"
+              [initRating]="challenge.userRating"
               (onSubmit)="updateUserRating($event)">
             </app-rate-challenge>
           </div>

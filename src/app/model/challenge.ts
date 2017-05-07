@@ -1,5 +1,6 @@
 import {Solution} from "./solution";
 import {User} from "./user";
+import {Rating} from "./rating";
 export class Challenge {
   id: number;
   name: string;
@@ -12,10 +13,9 @@ export class Challenge {
   solutionExample: string;
   solutionTest: string;
   tags: string[];
+  userRating: Rating;
   rating: number;
-  userRating: number;
   difficulty: number;
-  userDifficulty: number;
   comments: number;
   views: number;
   completedSolutions: number;

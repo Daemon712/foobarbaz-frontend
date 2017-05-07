@@ -61,6 +61,7 @@ export class ChallengeService {
       .toPromise()
       .then(response => {
         let data = response.json();
+        let userRating = data.details.userDetails ? data.details.userDetails.userRating : null;
         return {
           id: data.id,
           name: data.name,
@@ -78,8 +79,9 @@ export class ChallengeService {
           views: data.details.views,
           completedSolutions: data.details.solutions,
           solutionTemplate: data.details.template,
-          userRating: data.details.userDetails ? data.details.userDetails.rating : null,
-          userDifficulty: data.details.userDetails ? data.details.userDetails.difficulty : null,
+          userRating: userRating
+            ? { rating: userRating.rating, difficulty: userRating.difficulty }
+            : null,
           bookmark: data.details.userDetails ? data.details.userDetails.bookmark : null,
           solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : [],
         }

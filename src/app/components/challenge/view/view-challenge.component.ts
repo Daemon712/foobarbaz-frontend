@@ -72,8 +72,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   updateUserRating(userRating: Rating){
-    this.challenge.userRating = userRating.rating;
-    this.challenge.userDifficulty = userRating.difficulty;
+    this.challenge.userRating = userRating;
     this.challengeService.updateUserRating(
       this.challenge.id, userRating)
       .then((rating) => {
