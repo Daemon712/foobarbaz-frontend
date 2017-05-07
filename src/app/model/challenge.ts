@@ -16,10 +16,8 @@ export class Challenge {
   userRating: Rating;
   rating: number;
   difficulty: number;
-  comments: number;
   views: number;
   completedSolutions: number;
-  sharedSolutions: number;
   commentAccess: AccessOption;
   shareAccess: AccessOption;
   bookmark: boolean;

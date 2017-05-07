@@ -47,8 +47,6 @@ export class CreateChallengeComponent implements OnInit {
     this.submitted = true;
     this.challengeService.createChallenge(this.model)
       .then(response => {
-        console.log(response);
-        console.log(typeof response);
         if (typeof response === 'number') {
           this.router.navigate([`challenges/${response}`]);
         } else if (response instanceof Array) {
@@ -56,7 +54,7 @@ export class CreateChallengeComponent implements OnInit {
           this.testResults = response as TestResult[];
           this.testResultsActive = true;
         } else {
-          console.log(response)
+          console.error(response)
         }
       })
       .catch(() => this.submitted = false);

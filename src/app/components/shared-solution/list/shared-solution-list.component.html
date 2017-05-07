@@ -1,7 +1,10 @@
 <ul class="list-group">
-  <li *ngIf="!solutions" class="list-group-item lead text-center">
-    <i class="fa fa-spinner fa-pulse"></i>
-    <span> Загрузка...</span>
+  <li *ngIf="!solutions" class="list-group-item list-group-item-info">
+    <i class="fa fa-spinner fa-pulse m-2"></i>
+    <span>Загрузка...</span>
+  </li>
+  <li *ngIf="solutions && !solutions.length" class="list-group-item">
+    Опубликованные решения отсутствуют
   </li>
   <li *ngFor="let solution of solutions" class="list-group-item">
     <div class="w-100">

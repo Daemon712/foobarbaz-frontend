@@ -17,8 +17,10 @@ export class TopTagsComponent implements OnInit {
     this.tagService.getTags().then(
       tags => {
         this.tags = tags;
-        this.minUsages = tags.map(t => t.usages).reduce((a, b) => a < b ? a : b);
-        this.maxUsages = tags.map(t => t.usages).reduce((a, b) => a > b ? a : b);
+        if (tags.length) {
+          this.minUsages = tags.map(t => t.usages).reduce((a, b) => a < b ? a : b);
+          this.maxUsages = tags.map(t => t.usages).reduce((a, b) => a > b ? a : b);
+        }
       }
     );
   }

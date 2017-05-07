@@ -79,6 +79,8 @@ export class ChallengeService {
           views: data.details.views,
           completedSolutions: data.details.solutions,
           solutionTemplate: data.details.template,
+          commentAccess: data.details.commentAccess,
+          shareAccess: data.details.shareAccess,
           userRating: userRating
             ? { rating: userRating.rating, difficulty: userRating.difficulty }
             : null,
@@ -99,6 +101,8 @@ export class ChallengeService {
       template: challenge.solutionTemplate,
       unitTest: challenge.solutionTest,
       sample: challenge.solutionExample,
+      commentAccess: challenge.commentAccess,
+      shareAccess: challenge.shareAccess,
     })
       .toPromise()
       .then(response => {

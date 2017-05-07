@@ -45,7 +45,6 @@ export class SolutionService {
   }
 
   public static parseSolution(s: any): Solution {
-    console.log(s);
     return {
       id: s.solutionNum,
       name: 'Решение №' + s.solutionNum,

@@ -51,6 +51,7 @@ import {CanActivateAuthorized} from "./security/can-activate-authorized";
 import { TopUsersComponent } from './components/user/top/top-users.component';
 import { UserLinkComponent } from './components/user/link/user-link.component';
 import { TagsLineComponent } from './components/tags/line/tags-line.component';
+import { ChallengeStatusViewComponent } from './components/challenge/status-view/challenge-status-view.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -109,6 +110,7 @@ const routes: Routes = [
     TopUsersComponent,
     UserLinkComponent,
     TagsLineComponent,
+    ChallengeStatusViewComponent,
   ],
   imports: [
     BrowserModule,

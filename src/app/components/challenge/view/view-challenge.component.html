@@ -26,7 +26,13 @@
                 <span>{{challenge.created | date:'d MMM yyyy'}}</span>
               </td>
             </tr>
-            <tr >
+            <tr>
+              <td>Статус</td>
+              <td>
+                <app-challenge-status-view [status]="challenge.status"></app-challenge-status-view>
+              </td>
+            </tr>
+            <tr>
               <td>Рейтинг</td>
               <td>
                 <rating [ngModel]="challenge.rating"
@@ -53,7 +59,7 @@
             </tr>
             <tr>
               <td>Успешные решения</td>
-              <td [class.text-success]="challenge.status === challengeStatus.Completed">
+              <td>
                 <span>{{challenge.completedSolutions}} </span>
                 <i class="fa fa-check"></i>
               </td>
@@ -100,7 +106,7 @@
                 title="Сохранить и протестировать решение"
                 (click)="testSolution()">
           <i class="fa fa-play"></i>
-          <span> Протестировать</span>
+          <span> Проверить</span>
         </button>
         <div class="mb-3 d-flex justify-content-between">
           <button type="button" class="btn btn-success"
@@ -108,13 +114,18 @@
                   title="Добавить новое решение">
             <i class="fa fa-plus"></i>
           </button>
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-success"
                   (click)="copySolution()"
                   title="Скопировать в новое решение">
             <i class="fa fa-clone"></i>
           </button>
-          <app-share-solution [revision]="solution" (onSubmit)="shareSolution($event)">
-          </app-share-solution>
+          <button type="button"
+                  [disabled]="!checkShare()"
+                  [title]="titleShare()"
+                  (click)="sharePopup.open()"
+                  class="btn btn-info">
+            <i class="fa fa-share-alt"></i>
+          </button>
           <button type="button" class="btn btn-secondary"
                   [disabled]="solution.solution === solution.newSolution"
                   title="Сохранить решение без тестирования"
@@ -133,6 +144,8 @@
             <i class="fa fa-close"></i>
           </button>
         </div>
+        <app-share-solution #sharePopup [revision]="solution" (onSubmit)="shareSolution($event)">
+        </app-share-solution>
         <div>
           <app-revision-list
             [solutions]="challenge.solutions"

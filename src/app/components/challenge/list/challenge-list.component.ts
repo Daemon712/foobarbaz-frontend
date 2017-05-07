@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Challenge, ChallengeStatus} from "../../../model/challenge";
+import {Challenge} from "../../../model/challenge";
 
 @Component({
   selector: 'app-challenge-list',
@@ -9,6 +9,4 @@ import {Challenge, ChallengeStatus} from "../../../model/challenge";
 export class ChallengeListComponent {
   @Input()
   challenges: Challenge[];
-  challengeStatus = ChallengeStatus;
-  math = Math;
 }

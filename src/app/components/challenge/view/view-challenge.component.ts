@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {Challenge, ChallengeStatus} from "../../../model/challenge";
+import {AccessOption, Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import 'rxjs/add/operator/switchMap';
 import {AceEditorComponent} from "ng2-ace-editor";
@@ -23,7 +23,6 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   @Input()
   challenge: Challenge;
-  challengeStatus = ChallengeStatus;
   solution: Solution;
   solutionStatus = SolutionStatus;
 
@@ -47,7 +46,6 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.userService.user);
     this.authorized = this.userService.user != null;
   }
 
@@ -87,13 +85,17 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
     this.submitted = true;
     let thatSolution = this.solution;
     this.solutionService.testSolution(this.challenge.id, this.solution)
-      .then(solution => {
-        this.submitted = false;
-        Object.assign(thatSolution, solution);
-        this.setSolution(thatSolution);
-        this.testResultsActive = true;
-      }
-    );
+        .then(solution => {
+          this.submitted = false;
+          Object.assign(thatSolution, solution);
+          this.setSolution(thatSolution);
+          if (solution.status == SolutionStatus.success){
+            this.challenge.status = ChallengeStatus.Completed;
+          } else if (this.challenge.status == ChallengeStatus.NotStarted){
+            this.challenge.status = ChallengeStatus.InProgress;
+          }
+          this.testResultsActive = true;
+        });
   }
 
   addSolution(){
@@ -122,9 +124,10 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
     this.solutionService.saveSolution(this.challenge.id, this.solution)
       .then(solution => {
         this.submitted = false;
-        if (solution){
-          Object.assign(thatSolution, solution);
-          this.setSolution(solution);
+        Object.assign(thatSolution, solution);
+        this.setSolution(solution);
+        if (this.challenge.status == ChallengeStatus.NotStarted){
+          this.challenge.status = ChallengeStatus.InProgress;
         }
       });
   }
@@ -134,6 +137,8 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   revertChanges(){
+    console.log(this.solution.newSolution);
+    console.log(this.solution.solution);
     this.solution.newSolution = this.solution.solution;
     this.setSolution(this.solution);
   }
@@ -151,6 +156,24 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
           if (this.challenge.solutions.length == 0) this.addSolution();
           this.setSolution(this.challenge.solutions[Math.min(index, this.challenge.solutions.length - 1)]);
         })
+    }
+  }
+
+  checkShare(): boolean {
+    return (this.challenge.shareAccess == AccessOption.allow
+      || this.challenge.shareAccess == AccessOption.solvedOnly
+      && this.challenge.status == ChallengeStatus.Completed)
+    && this.solution.status != SolutionStatus.created
+    && this.solution.solution == this.solution.newSolution
+  }
+
+  titleShare(): string {
+    if (this.challenge.shareAccess == AccessOption.solvedOnly && this.challenge.status != ChallengeStatus.Completed){
+      return 'Вы получите доступ к этой функции после решения задачи';
+    } else if (this.solution.status == SolutionStatus.created || this.solution.solution == this.solution.newSolution){
+      return 'Решение необходимо проверить или сохранить';
+    } else {
+      return 'Поделиться решением'
     }
   }
 

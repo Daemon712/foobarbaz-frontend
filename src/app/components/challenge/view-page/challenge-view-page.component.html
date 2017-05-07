@@ -14,33 +14,68 @@
           <i class="fa fa-plus"></i>
           <span> Комментировать</span>
         </template>
-        <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
-        <button type="button" class="btn btn-primary btn-sm"
-                [disabled]="!newComment" (click)="sendComment()">
-          Оставить комментарий
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm"
-                [disabled]="!newComment" (click)="newComment = ''">
-          Отмена
-        </button>
+        <div *ngIf="checkAccess(challenge.commentAccess) && authorized">
+          <textarea title="Ваш комментарий" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
+          <button type="button" class="btn btn-primary btn-sm"
+                  [disabled]="!newComment" (click)="sendComment()">
+            Оставить комментарий
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm"
+                  [disabled]="!newComment" (click)="newComment = ''">
+            Отмена
+          </button>
+        </div>
+        <div *ngIf="!checkAccess(challenge.commentAccess) || !authorized" class="alert alert-warning">
+          <p *ngIf="!authorized">
+            Оставлять коментарии могут только зарегистрированные пользователи
+          </p>
+          <p *ngIf="authorized && accessDeny(challenge.commentAccess)">
+            Возможность комментирования данной задачи ограничена
+          </p>
+          <p *ngIf="authorized && accessOnlySolved(challenge.commentAccess)">
+            Вы получите доступ к комментированию после решения задачи
+          </p>
+        </div>
       </tab>
       <tab customClass="tab-sm tab-info px-2" class="py-3"
-           [disabled]="!challenge.comments && !comments?.length" (select)="loadComments()">
+           [active]="true"
+           (select)="loadComments()">
         <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
-          <span> {{comments?.length || challenge.comments || 0}}</span>
+          <span> {{comments?.length || 0}}</span>
         </template>
-        <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
+        <app-comments *ngIf="checkAccess(challenge.commentAccess)"
+                      [comments]="comments"
+                      (commentLiked)="commentLiked($event)">
+        </app-comments>
+        <div *ngIf="!checkAccess(challenge.commentAccess)" class="alert alert-warning">
+          <p *ngIf="accessDeny(challenge.commentAccess)">
+            Возможность комментирования данной задачи ограничена
+          </p>
+          <p *ngIf="accessOnlySolved(challenge.commentAccess)">
+            Вы получите доступ к комментариям после решения задачи
+          </p>
+        </div>
       </tab>
       <tab customClass="tab-sm tab-info pl-2" class="py-3"
-           [disabled]="!challenge.sharedSolutions && !sharedSolutions?.length" (select)="loadSolutions()">
+           (select)="loadSolutions()">
         <template tabHeading>
           <span>Открытые решения </span>
           <i class="fa fa-share-alt"></i>
-          <span> {{sharedSolutions?.length || challenge.sharedSolutions || 0}}</span>
+          <span> {{sharedSolutions?.length || 0}}</span>
         </template>
-        <app-shared-solution-list [solutions]="sharedSolutions"></app-shared-solution-list>
+        <app-shared-solution-list  *ngIf="checkAccess(challenge.shareAccess)"
+                                   [solutions]="sharedSolutions">
+        </app-shared-solution-list>
+        <div *ngIf="!checkAccess(challenge.shareAccess)" class="alert alert-warning">
+          <p *ngIf="accessDeny(challenge.shareAccess)">
+            Возможность комментирования данной задачи ограничена
+          </p>
+          <p *ngIf="accessOnlySolved(challenge.shareAccess)">
+            Вы получите доступ к комментариям после решения задачи
+          </p>
+        </div>
       </tab>
     </tabset>
   </div>
