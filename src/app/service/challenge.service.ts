@@ -60,33 +60,7 @@ export class ChallengeService {
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
       .then(response => {
-        let data = response.json();
-        let userRating = data.details.userDetails ? data.details.userDetails.userRating : null;
-        return {
-          id: data.id,
-          name: data.name,
-          abstract: data.shortDescription,
-          description: data.details.fullDescription,
-          tags: data.tags,
-          status: data.status,
-          author: {
-            username: data.author.username,
-            name: data.author.name,
-          },
-          created: data.created,
-          rating: data.rating,
-          difficulty: data.difficulty,
-          views: data.details.views,
-          completedSolutions: data.details.solutions,
-          solutionTemplate: data.details.template,
-          commentAccess: data.details.commentAccess,
-          shareAccess: data.details.shareAccess,
-          userRating: userRating
-            ? { rating: userRating.rating, difficulty: userRating.difficulty }
-            : null,
-          bookmark: data.details.userDetails ? data.details.userDetails.bookmark : null,
-          solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : [],
-        }
+        return ChallengeService.parseChallenge(response.json());
       })
       .catch((e) => this.handleError(e));
   }
@@ -142,20 +116,32 @@ export class ChallengeService {
     return Promise.reject(error.message || error);
   }
 
-  private static parseChallenge(c: any) {
+  static parseChallenge(data: any) : Challenge {
+    let userRating = data.details.userDetails ? data.details.userDetails.userRating : null;
     return {
-      id: c.id,
-      name: c.name,
-      abstract: c.shortDescription,
-      status: c.status,
-      tags: c.tags,
+      id: data.id,
+      name: data.name,
+      abstract: data.shortDescription,
+      description: data.details.fullDescription,
+      tags: data.tags,
+      status: data.status,
       author: {
-        username: c.author.username,
-        name: c.author.name,
+        username: data.author.username,
+        name: data.author.name,
       },
-      created: c.created,
-      rating: c.rating,
-      difficulty: c.difficulty,
-    }
+      created: data.created,
+      rating: data.rating,
+      difficulty: data.difficulty,
+      views: data.details.views,
+      completedSolutions: data.details.solutions,
+      solutionTemplate: data.details.template,
+      commentAccess: data.details.commentAccess,
+      shareAccess: data.details.shareAccess,
+      userRating: userRating
+        ? {rating: userRating.rating, difficulty: userRating.difficulty}
+        : null,
+      bookmark: data.details.userDetails ? data.details.userDetails.bookmark : null,
+      solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : [],
+    } as Challenge;
   }
 }

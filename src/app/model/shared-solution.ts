@@ -1,9 +1,10 @@
 import {SolutionStatus} from "./solutions-status";
 import {TestResult} from "./test-result";
 import {User} from "./user";
+import {Challenge} from "./challenge";
 export class SharedSolution {
   id: number;
-  challengeId: number;
+  challenge: Challenge;
   author: User;
   comment: string;
   text: string;

@@ -63,9 +63,9 @@ const routes: Routes = [
     component: CreateChallengeComponent,
     canActivate: [CanActivateAuthorized],
   },
-  { path: 'challenges/:id/shared/:share_id', component: SharedSolutionViewComponent},
   { path: 'challenges/:id',  component: ChallengeViewPageComponent },
   { path: 'challenges',  component: ChallengeListPageComponent },
+  { path: 'solutions/:id', component: SharedSolutionViewComponent},
   {
     path: 'playlists/create',
     component: CreatePlaylistComponent ,

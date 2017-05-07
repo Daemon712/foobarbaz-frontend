@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {SharedSolution} from "../../../model/shared-solution";
 import {ActivatedRoute, Params} from "@angular/router";
-import {ChallengeService} from "../../../service/challenge.service";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
 import {Comment} from "../../../model/comment";
@@ -33,22 +32,16 @@ export class SharedSolutionViewComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private challengeService: ChallengeService,
     private sharedSolutionService: SharedSolutionService,
     private commentService: CommentService,
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params
-    .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
-    .subscribe((challenge: Challenge) => {
-      this.challenge = challenge;
-    });
-
-    this.activatedRoute.params
-      .switchMap((params: Params) => this.sharedSolutionService.getSharedSolution(+params['id'], +params['share_id']))
+      .switchMap((params: Params) => this.sharedSolutionService.getSharedSolution(+params['id']))
       .subscribe((solution: SharedSolution) => {
         this.solution = solution;
+        this.challenge = solution.challenge;
         this.solutionView.setText(solution.text);
         this.solutionView.getEditor().clearSelection();
         this.loadComments();
@@ -66,14 +59,14 @@ export class SharedSolutionViewComponent implements OnInit {
   }
 
   sendComment(){
-    this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.id)
-      .then(comment => this.comments.push(comment));
-    this.newComment = null;
+    // this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.id)
+    //   .then(comment => this.comments.push(comment));
+    // this.newComment = null;
   }
 
   loadComments(){
-    this.commentService.getComments(this.solution.challengeId, this.solution.id)
-      .then(comments => this.comments = comments);
+    // this.commentService.getComments(this.solution.challengeId, this.solution.id)
+    //   .then(comments => this.comments = comments);
   }
 
   commentLiked(comment: Comment){

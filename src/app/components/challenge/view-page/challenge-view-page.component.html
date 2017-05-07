@@ -14,7 +14,7 @@
           <i class="fa fa-plus"></i>
           <span> Комментировать</span>
         </template>
-        <div *ngIf="checkAccess(challenge.commentAccess) && authorized">
+        <div *ngIf="commentsAllowed && authorized">
           <textarea title="Ваш комментарий" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
           <button type="button" class="btn btn-primary btn-sm"
                   [disabled]="!newComment" (click)="sendComment()">
@@ -25,7 +25,7 @@
             Отмена
           </button>
         </div>
-        <div *ngIf="!checkAccess(challenge.commentAccess) || !authorized" class="alert alert-warning">
+        <div *ngIf="!commentsAllowed || !authorized" class="alert alert-warning">
           <p *ngIf="!authorized">
             Оставлять коментарии могут только зарегистрированные пользователи
           </p>
@@ -45,11 +45,11 @@
           <i class="fa fa-comments"></i>
           <span> {{comments?.length || 0}}</span>
         </template>
-        <app-comments *ngIf="checkAccess(challenge.commentAccess)"
+        <app-comments *ngIf="commentsAllowed"
                       [comments]="comments"
                       (commentLiked)="commentLiked($event)">
         </app-comments>
-        <div *ngIf="!checkAccess(challenge.commentAccess)" class="alert alert-warning">
+        <div *ngIf="!commentsAllowed" class="alert alert-warning">
           <p *ngIf="accessDeny(challenge.commentAccess)">
             Возможность комментирования данной задачи ограничена
           </p>
@@ -65,10 +65,9 @@
           <i class="fa fa-share-alt"></i>
           <span> {{sharedSolutions?.length || 0}}</span>
         </template>
-        <app-shared-solution-list  *ngIf="checkAccess(challenge.shareAccess)"
-                                   [solutions]="sharedSolutions">
+        <app-shared-solution-list *ngIf="shareAllowed" [solutions]="sharedSolutions">
         </app-shared-solution-list>
-        <div *ngIf="!checkAccess(challenge.shareAccess)" class="alert alert-warning">
+        <div *ngIf="!shareAllowed" class="alert alert-warning">
           <p *ngIf="accessDeny(challenge.shareAccess)">
             Возможность комментирования данной задачи ограничена
           </p>

@@ -19,6 +19,8 @@ export class ChallengeViewPageComponent implements OnInit {
   comments: Comment[];
   newComment: string;
   authorized = false;
+  commentsAllowed = false;
+  shareAllowed = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,6 +36,8 @@ export class ChallengeViewPageComponent implements OnInit {
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
       .subscribe((challenge: Challenge) => {
         this.challenge = challenge;
+        this.commentsAllowed = this.checkAccess(challenge.commentAccess);
+        this.shareAllowed = this.checkAccess(challenge.shareAccess);
         this.loadComments();
         this.loadSolutions();
       });
@@ -61,20 +65,22 @@ export class ChallengeViewPageComponent implements OnInit {
   }
 
   loadSolutions(){
-    // this.sharedSolutionService.getSharedSolutions(this.challenge.id)
-    //   .then(solutions => this.sharedSolutions = solutions);
+    if (!this.challenge || !this.shareAllowed) return;
+
+    this.sharedSolutionService.getSharedSolutions(this.challenge.id)
+      .then(solutions => this.sharedSolutions = solutions);
   }
 
   //noinspection JSMethodCanBeStatic
   accessDeny(option: AccessOption): boolean {
-    return option == AccessOption.allow;
+    return option == AccessOption.deny;
   }
 
   accessOnlySolved(option: AccessOption): boolean {
-    return option == AccessOption.solvedOnly && this.challenge.status == ChallengeStatus.Completed
+    return option == AccessOption.solvedOnly && this.challenge.status != ChallengeStatus.Completed
   }
 
   checkAccess(option: AccessOption): boolean {
-    return this.accessDeny(option) || this.accessOnlySolved(option);
+    return !this.accessDeny(option) && !this.accessOnlySolved(option);
   }
 }

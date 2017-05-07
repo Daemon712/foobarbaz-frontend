@@ -7,7 +7,6 @@ import {Solution} from "../../../model/solution";
 import {SolutionService} from "../../../service/solution.service";
 import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
-import {SharedSolutionService} from "../../../service/shared-solution.service";
 import {UserService} from "../../../service/user.service";
 import {Rating} from "../../../model/rating";
 
@@ -39,7 +38,6 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   constructor(
     private challengeService: ChallengeService,
-    private sharedSolutionService: SharedSolutionService,
     private solutionService: SolutionService,
     private alertService: AlertService,
     private userService: UserService,
@@ -133,12 +131,12 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   shareSolution(comment: string){
-    this.sharedSolutionService.addSharedSolution(this.challenge.id, this.solution.id, comment);
+    this.submitted = true;
+    this.solutionService.shareSolution(this.challenge.id, this.solution.id, comment)
+      .then(() => this.submitted = false);
   }
 
   revertChanges(){
-    console.log(this.solution.newSolution);
-    console.log(this.solution.solution);
     this.solution.newSolution = this.solution.solution;
     this.setSolution(this.solution);
   }

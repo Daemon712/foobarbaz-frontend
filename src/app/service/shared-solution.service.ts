@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {SharedSolution} from "../model/shared-solution";
-import {SolutionStatus} from "../model/solutions-status";
-import {AlertService} from "./alert.service";
+import {SolutionService} from "./solution.service";
+import {ChallengeService} from "./challenge.service";
 
 @Injectable()
 export class SharedSolutionService {
 
+  url = 'api/shared-solutions/';
+
   constructor(
     private http: Http,
-    private alertService: AlertService,
   ) { }
 
   getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {
-    //TODO change url to 'api/challenges/:id/sharedSolutions'
-    return this.http.get('api/sharedSolutions?challengeId=' + challengeId)
+    return this.http.get(`${this.url}challenge/${challengeId}`)
       .toPromise()
-      .then(response => response.json().data as SharedSolution[])
+      .then(response => response.json().map(item => SharedSolutionService.parseSharedSolution(item)))
       .catch(SharedSolutionService.handleError);
   }
 
-  getSharedSolution(challengeId: number, sharedSolutionId: number): Promise<SharedSolution> {
-    //TODO change url to 'api/challenges/:id/solution/:share_id/'
-    return this.http.get(`api/sharedSolutions?challengeId=${challengeId}&id=${sharedSolutionId}`)
+  getSharedSolution(sharedSolutionId: number): Promise<SharedSolution> {
+    return this.http.get(`${this.url}${sharedSolutionId}`)
       .toPromise()
-      .then(response => response.json().data[0] as SharedSolution)
+      .then(response => SharedSolutionService.parseSharedSolution(response.json()))
       .catch(SharedSolutionService.handleError);
   }
 
@@ -49,24 +48,22 @@ export class SharedSolutionService {
       .catch(SharedSolutionService.handleError);
   }
 
-  addSharedSolution(challengeId: number, solutionId: number, comment: string): Promise<SharedSolution>{
-    //TODO change url to 'api/challenges/:id/solution/1/share/'
-    let solution = new SharedSolution();
-    solution.id = 20 + solutionId;
-    solution.date = new Date();
-    solution.comment = comment;
-    solution.status = Math.random() > 0.5 ? SolutionStatus.success : SolutionStatus.failed;
-    solution.likes = 0;
-    solution.liked = false;
-
-    return this.http.post('api/sharedSolutions', solution)
-      .toPromise()
-      .then(response => {
-        let newSol = response.json().data as SharedSolution;
-        this.alertService.success(`Вы успешно поделились своим решением: <a href='/challenges/${challengeId}/solutions/${newSol.id}'>${newSol.comment}</a>`);
-        return newSol;
-      })
-      .catch(SharedSolutionService.handleError);
+  private static parseSharedSolution(data: any) : SharedSolution{
+    console.log(data);
+    return {
+      id: data.sharedSolutionId,
+      challenge: data.challenge ? ChallengeService.parseChallenge(data.challenge) : null,
+      author: {
+        username: data.author.username,
+        name: data.author.username,
+      },
+      comment: data.comment,
+      text: data.implementation,
+      date: data.created,
+      status: data.status,
+      likes: data.rating,
+      testResults: SolutionService.parseTestResults(data.testResults),
+    } as SharedSolution;
   }
 
   private static handleError(error: any): Promise<any> {

@@ -125,6 +125,7 @@ export class UserService {
       registrationDate: account.registrationDate,
       solutions: account.solutions,
       challenges: account.challenges,
+      sharedSolutions: account.sharedSolutions,
       rating: account.rating,
     } as UserAccount;
   }
