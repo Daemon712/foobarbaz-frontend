@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {SharedSolution} from "../model/shared-solution";
-import {SolutionService} from "./solution.service";
 import {ChallengeService} from "./challenge.service";
 
 @Injectable()
@@ -35,10 +34,10 @@ export class SharedSolutionService {
         //TODO move the logic to server side
         let solution = response.json().data[0] as SharedSolution;
         if (like && !solution.liked){
-          solution.likes++;
+          solution.rating++;
           solution.liked = true;
         } else if (!like && solution.liked) {
-          solution.likes--;
+          solution.rating--;
           solution.liked = false;
         }
         return this.http.post('api/sharedSolutions/' + sharedSolutionId, solution)
@@ -49,21 +48,9 @@ export class SharedSolutionService {
   }
 
   private static parseSharedSolution(data: any) : SharedSolution{
-    console.log(data);
-    return {
-      id: data.sharedSolutionId,
-      challenge: data.challenge ? ChallengeService.parseChallenge(data.challenge) : null,
-      author: {
-        username: data.author.username,
-        name: data.author.username,
-      },
-      comment: data.comment,
-      text: data.implementation,
-      date: data.created,
-      status: data.status,
-      likes: data.rating,
-      testResults: SolutionService.parseTestResults(data.testResults),
-    } as SharedSolution;
+    let ss = Object.assign(new SharedSolution(), data);
+    if (data.challenge) ss.challenge = ChallengeService.parseChallenge(data.challenge);
+    return ss;
   }
 
   private static handleError(error: any): Promise<any> {

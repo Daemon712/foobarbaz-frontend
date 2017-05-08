@@ -7,32 +7,28 @@
     Опубликованные решения отсутствуют
   </li>
   <li *ngFor="let solution of solutions" class="list-group-item">
-    <div class="w-100">
-      <div class="pull-right text-muted small text-right">
-        <div>
-          <span>{{solution.date | date: 'd MMM yyyy'}} </span>
-          <i class="fa fa-calendar"></i>
-        </div>
-        <div>
-          <span>{{solution.date | date: 'HH:mm'}} </span>
-          <i class="fa fa-clock-o"></i>
-        </div>
-        <div *ngIf="solution.comments">
-          <span>{{solution.comments}} </span>
-          <i class="fa fa-comments"></i>
-        </div>
-        <div *ngIf="solution.likes" [class.text-primary]="solution.liked">
-          <span>{{solution.likes}} </span>
+    <div class="w-100 d-flex justify-content-between">
+      <div>
+        <h5>
+          <app-user-link [user]="solution.author"></app-user-link>
+        </h5>
+        <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
+        <a [routerLink]="['/solutions', solution.sharedSolutionId]" title="Посмотреть">{{solution.comment}}</a>
+      </div>
+      <div class="text-right d-flex flex-column">
+        <div *ngIf="solution.rating" [class.text-primary]="solution.liked" class="mb-auto">
+          <span>{{solution.rating}} </span>
           <i class="fa fa-thumbs-up"></i>
         </div>
+        <div class="text-muted small">
+          <span>{{solution.created | date: 'HH:mm'}} </span>
+          <i class="fa fa-clock-o"></i>
+        </div>
+        <div class="text-muted small">
+          <span>{{solution.created | date: 'd MMM yyyy'}} </span>
+          <i class="fa fa-calendar"></i>
+        </div>
       </div>
-      <h5>
-        <app-user-link [user]="solution.author"></app-user-link>
-      </h5>
-      <p>
-        <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
-        <a [routerLink]="['/solutions', solution.id]" title="Посмотреть">{{solution.comment}}</a>
-      </p>
     </div>
   </li >
 </ul>

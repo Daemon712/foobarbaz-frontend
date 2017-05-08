@@ -42,7 +42,7 @@ export class SharedSolutionViewComponent implements OnInit {
       .subscribe((solution: SharedSolution) => {
         this.solution = solution;
         this.challenge = solution.challenge;
-        this.solutionView.setText(solution.text);
+        this.solutionView.setText(solution.implementation);
         this.solutionView.getEditor().clearSelection();
         this.loadComments();
       });
@@ -50,22 +50,22 @@ export class SharedSolutionViewComponent implements OnInit {
 
   like(){
     this.solution.liked = !this.solution.liked;
-    this.solution.likes += this.solution.liked ? +1 : -1;
-    this.sharedSolutionService.likeSharedSolution(this.challenge.id, this.solution.id, this.solution.liked)
+    this.solution.rating += this.solution.liked ? +1 : -1;
+    this.sharedSolutionService.likeSharedSolution(this.challenge.id, this.solution.sharedSolutionId, this.solution.liked)
       .then(solution => {
         this.solution.liked = solution.liked;
-        this.solution.likes = solution.likes;
+        this.solution.rating = solution.rating;
       });
   }
 
   sendComment(){
-    // this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.id)
+    // this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.sharedSolutionId)
     //   .then(comment => this.comments.push(comment));
     // this.newComment = null;
   }
 
   loadComments(){
-    // this.commentService.getComments(this.solution.challengeId, this.solution.id)
+    // this.commentService.getComments(this.solution.challengeId, this.solution.sharedSolutionId)
     //   .then(comments => this.comments = comments);
   }
 
