@@ -117,7 +117,7 @@ export class ChallengeService {
   }
 
   static parseChallenge(data: any) : Challenge {
-    let userRating = data.details.userDetails ? data.details.userDetails.userRating : null;
+    let userRating = data.details.userDetails ? data.details.userDetails.rating : null;
     return {
       id: data.id,
       name: data.name,
