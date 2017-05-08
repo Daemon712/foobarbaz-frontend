@@ -68,7 +68,7 @@ export class ChallengeService {
   createChallenge(challenge: Challenge): Promise<Number|TestResult[]|String>{
     return this.http.post(this.url, {
       name: challenge.name,
-      shortDescription: challenge.abstract,
+      shortDescription: challenge.shortDescription,
       fullDescription: challenge.description,
       tags: challenge.tags,
       difficulty: challenge.difficulty,
@@ -121,7 +121,7 @@ export class ChallengeService {
     return {
       id: data.id,
       name: data.name,
-      abstract: data.shortDescription,
+      shortDescription: data.shortDescription,
       description: data.details.fullDescription,
       tags: data.tags,
       status: data.status,

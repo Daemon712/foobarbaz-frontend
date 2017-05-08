@@ -10,10 +10,30 @@
     <div class="w-100 d-flex justify-content-between">
       <div>
         <h5>
-          <app-user-link [user]="solution.author"></app-user-link>
+          <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
+          <a [routerLink]="['/solutions', solution.sharedSolutionId]" title="Посмотреть">
+            <span *ngIf="solution.comment.length <= 40">
+              {{solution.comment}}
+            </span>
+            <span *ngIf="solution.comment.length > 40">
+              {{solution.comment | slice:0:37}}...
+            </span>
+          </a>
         </h5>
-        <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
-        <a [routerLink]="['/solutions', solution.sharedSolutionId]" title="Посмотреть">{{solution.comment}}</a>
+        <div *ngIf="solution.author">
+          <app-user-link [user]="solution.author"></app-user-link>
+        </div>
+        <div *ngIf="solution.challenge">
+          <a [routerLink]="['/challenges', solution.challenge.id]">{{solution.challenge.name}}: </a>
+          <small class="text-muted ml-1">
+            <span *ngIf="solution.challenge.name.length + solution.challenge.shortDescription.length <= 80">
+              {{solution.challenge.shortDescription}}
+            </span>
+            <span *ngIf="solution.challenge.name.length + solution.challenge.shortDescription.length > 80">
+              {{solution.challenge.shortDescription | slice:0:77-solution.challenge.name.length}}...
+            </span>
+          </small>
+        </div>
       </div>
       <div class="text-right d-flex flex-column">
         <div *ngIf="solution.rating" [class.text-primary]="solution.liked" class="mb-auto">

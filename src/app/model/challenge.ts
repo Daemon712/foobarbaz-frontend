@@ -4,7 +4,7 @@ import {Rating} from "./rating";
 export class Challenge {
   id: number;
   name: string;
-  abstract: string;
+  shortDescription: string;
   description: string;
   status: ChallengeStatus;
   author: User;

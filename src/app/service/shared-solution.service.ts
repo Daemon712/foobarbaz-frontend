@@ -19,6 +19,13 @@ export class SharedSolutionService {
       .catch(SharedSolutionService.handleError);
   }
 
+  getSharedSolutionsByUser(username: string): Promise<SharedSolution[]> {
+    return this.http.get(`${this.url}user/${username}`)
+      .toPromise()
+      .then(response => response.json().map(item => Object.assign(new SharedSolution(), item)))
+      .catch(SharedSolutionService.handleError);
+  }
+
   getSharedSolution(sharedSolutionId: number): Promise<SharedSolution> {
     return this.http.get(`${this.url}${sharedSolutionId}`)
       .toPromise()

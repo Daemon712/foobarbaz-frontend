@@ -6,6 +6,8 @@ import {Challenge} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import {PlaylistService} from "../../../service/playlist.service";
 import {Playlist} from "../../../model/playlist";
+import {SharedSolution} from "../../../model/shared-solution";
+import {SharedSolutionService} from "../../../service/shared-solution.service";
 
 @Component({
   selector: 'app-user-view',
@@ -17,12 +19,14 @@ export class UserViewComponent implements OnInit {
   challenges: Challenge[];
   bookmarks: Challenge[];
   playlists: Playlist[];
+  solutions: SharedSolution[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private challengeService: ChallengeService,
     private playlistService: PlaylistService,
+    private sharedSolutionService: SharedSolutionService,
   ) { }
 
   ngOnInit() {
@@ -33,22 +37,27 @@ export class UserViewComponent implements OnInit {
         this.loadChallenges();
         this.loadPlaylists();
         this.loadBookmarks();
+        this.loadSolutions();
       });
   }
 
-  loadChallenges(){
+  private loadChallenges(){
     this.challengeService.getChallengesByAuthor(this.userAccount.username)
       .then(challenges => this.challenges = challenges);
   }
 
-  loadPlaylists(){
+  private loadPlaylists(){
     this.playlistService.getPlaylistsByAuthor(this.userAccount.username)
       .then(playlists => this.playlists = playlists);
   }
 
-  loadBookmarks(){
+  private loadBookmarks(){
     this.challengeService.getBookmarksByUser(this.userAccount.username)
       .then(challenges => this.bookmarks = challenges);
   }
 
+  private loadSolutions() {
+    this.sharedSolutionService.getSharedSolutionsByUser(this.userAccount.username)
+      .then(solutions => this.solutions = solutions);
+  }
 }
