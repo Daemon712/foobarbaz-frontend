@@ -13,19 +13,28 @@
   <tab heading="Решение" class="py-3">
     <div class="row">
       <div class="col-md-8">
-        <ace-editor
+        <div *ngIf="!solution" class="text-center alert alert-info lead">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+        <ace-editor [hidden]="!solution?.implementation"
              class="form-control"
              [readOnly]="true"
              [mode]="'java'"
              [theme]="'dreamweaver'"
              [options]="options">
         </ace-editor>
+        <div *ngIf="solution && !solution.implementation"
+             class="alert alert-warning lead description d-flex flex-column justify-content-center text-center">
+          <p>Вам недоступен просмотр этого решения.</p>
+          <p>Решение станет доступно, когда вы сами решите эту задачу.</p>
+        </div>
       </div>
       <div class="col-md-4" *ngIf="solution">
         <blockquote class="blockquote mb-3">
           {{solution.comment}}
         </blockquote>
-        <div class="card my-3">
+        <div class="card">
           <table class="table mb-0">
             <tr>
               <td>Автор</td>
@@ -54,7 +63,9 @@
             </tr>
           </table>
         </div>
-        <button class="btn btn-outline-primary" (click)="like()"
+        <button class="btn btn-outline-primary mt-3"
+                *ngIf="solution?.implementation"
+                (click)="like()"
                 [class.active]="solution.liked">
           <i class="fa fa-thumbs-up"></i>
           <span>Мне нравится!</span>
@@ -131,11 +142,7 @@
             </tbody>
           </table>
         </div>
-        <div>
-          <span *ngFor="let tag of challenge.tags"
-                class="badge badge-default mr-1">{{tag}}</span>
-          <i class="fa fa-tags m-1 text-muted"></i>
-        </div>
+        <app-tags-line [tags]="challenge.tags"></app-tags-line>
       </div>
     </div>
   </tab>
