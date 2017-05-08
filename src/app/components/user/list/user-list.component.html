@@ -80,16 +80,22 @@
     </pagination>
     <div class="card mb-3">
       <div class="card-header">
-        <i class="fa fa-plus"></i>
-        <span>Топ 3 авторов</span>
+        <small class="fa-stack">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-plus fa-inverse fa-stack-1x"></i>
+        </small>
+        <span>Топ авторов</span>
       </div>
       <app-top-users [property]="'challenges'">
       </app-top-users>
     </div>
     <div class="card mb-3">
       <div class="card-header">
-        <i class="fa fa-check"></i>
-        <span>Топ 3 решающих</span>
+        <small class="fa-stack">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-check fa-inverse fa-stack-1x"></i>
+        </small>
+        <span>Топ решающих</span>
       </div>
       <app-top-users [property]="'solutions'">
       </app-top-users>
