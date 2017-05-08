@@ -3,7 +3,7 @@ import {TestResult} from "./test-result";
 import {User} from "./user";
 import {Challenge} from "./challenge";
 export class SharedSolution {
-  sharedSolutionId: number;
+  id: number;
   challenge: Challenge;
   author: User;
   comment: string;

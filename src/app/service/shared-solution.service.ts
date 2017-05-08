@@ -33,23 +33,12 @@ export class SharedSolutionService {
       .catch(SharedSolutionService.handleError);
   }
 
-  likeSharedSolution(challengeId: number, sharedSolutionId: number, like: boolean): Promise<SharedSolution>{
-    //TODO change url to 'api/challenges/:id/solution/:id/like'
-    return this.http.get(`api/sharedSolutions?challengeId=${challengeId}&id=${sharedSolutionId}`)
+  likeSharedSolution(sharedSolutionId: number, like: boolean): Promise<number>{
+    return this.http.post(`${this.url}${sharedSolutionId}`, like)
       .toPromise()
       .then(response => {
-        //TODO move the logic to server side
-        let solution = response.json().data[0] as SharedSolution;
-        if (like && !solution.liked){
-          solution.rating++;
-          solution.liked = true;
-        } else if (!like && solution.liked) {
-          solution.rating--;
-          solution.liked = false;
-        }
-        return this.http.post('api/sharedSolutions/' + sharedSolutionId, solution)
-          .toPromise()
-          .then(response => solution)
+        console.log(response);
+        return Number.parseInt(response.text())
       })
       .catch(SharedSolutionService.handleError);
   }

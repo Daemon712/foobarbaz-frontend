@@ -11,7 +11,7 @@
       <div>
         <h5>
           <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
-          <a [routerLink]="['/solutions', solution.sharedSolutionId]" title="Посмотреть">
+          <a [routerLink]="['/solutions', solution.id]" title="Посмотреть">
             <span *ngIf="solution.comment.length <= 40">
               {{solution.comment}}
             </span>

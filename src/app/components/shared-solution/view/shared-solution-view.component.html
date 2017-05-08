@@ -64,7 +64,7 @@
           </table>
         </div>
         <button class="btn btn-outline-primary mt-3"
-                *ngIf="solution?.implementation"
+                *ngIf="currentUser && currentUser.username != solution.author.username && solution.implementation"
                 (click)="like()"
                 [class.active]="solution.liked">
           <i class="fa fa-thumbs-up"></i>

@@ -6,6 +6,8 @@ import {AceEditorComponent} from "ng2-ace-editor";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
 import {Comment} from "../../../model/comment";
 import {CommentService} from "../../../service/comment.service";
+import {UserService} from "../../../service/user.service";
+import {User} from "../../../model/user";
 
 @Component({
   selector: 'app-shared-solution-view',
@@ -21,6 +23,7 @@ export class SharedSolutionViewComponent implements OnInit {
   solution: SharedSolution;
   challengeStatus = ChallengeStatus;
 
+  currentUser: User;
   newComment: string;
   comments: Comment[];
 
@@ -34,9 +37,11 @@ export class SharedSolutionViewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private sharedSolutionService: SharedSolutionService,
     private commentService: CommentService,
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
+    this.currentUser = this.userService.user;
     this.activatedRoute.params
       .switchMap((params: Params) => this.sharedSolutionService.getSharedSolution(+params['id']))
       .subscribe((solution: SharedSolution) => {
@@ -50,22 +55,18 @@ export class SharedSolutionViewComponent implements OnInit {
 
   like(){
     this.solution.liked = !this.solution.liked;
-    this.solution.rating += this.solution.liked ? +1 : -1;
-    this.sharedSolutionService.likeSharedSolution(this.challenge.id, this.solution.sharedSolutionId, this.solution.liked)
-      .then(solution => {
-        this.solution.liked = solution.liked;
-        this.solution.rating = solution.rating;
-      });
+    this.sharedSolutionService.likeSharedSolution(this.solution.id, this.solution.liked)
+      .then(rating => this.solution.rating = rating);
   }
 
   sendComment(){
-    // this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.sharedSolutionId)
+    // this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.id)
     //   .then(comment => this.comments.push(comment));
     // this.newComment = null;
   }
 
   loadComments(){
-    // this.commentService.getComments(this.solution.challengeId, this.solution.sharedSolutionId)
+    // this.commentService.getComments(this.solution.challengeId, this.solution.id)
     //   .then(comments => this.comments = comments);
   }
 
