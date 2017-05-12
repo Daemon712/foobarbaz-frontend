@@ -16,10 +16,8 @@ export class ChallengeListPageComponent implements OnInit {
     statusNotStarted: true,
     statusInProgress: true,
     statusCompleted: true,
-    minRating: 1,
-    maxRating: 5,
-    minDifficulty: 1,
-    maxDifficulty: 5,
+    rating: null,
+    difficulty: null,
   };
   newFilter = Object.assign({}, this.defaultFilter);
   activeFilter = Object.assign({}, this.defaultFilter);

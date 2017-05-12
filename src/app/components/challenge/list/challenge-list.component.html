@@ -19,11 +19,11 @@
   </div>
   <div class="card-block pt-2">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="d-flex flex-column justify-content-between">
+      <div class="d-flex flex-column justify-content-between" style="max-width: 600px">
         <p class="card-text text-justify mt-2">{{challenge.shortDescription}}</p>
         <app-tags-line [tags]="challenge.tags"></app-tags-line>
       </div>
-      <div class="text-right" style="width: 220px">
+      <div class="text-right" style="max-width: 220px">
         <div title="Рейтинг">
           <rating [ngModel]="challenge.rating"
                   [readonly]="true" [max]="5"

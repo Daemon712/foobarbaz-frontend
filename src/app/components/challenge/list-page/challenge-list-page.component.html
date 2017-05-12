@@ -26,7 +26,24 @@
              [ngClass]="{'fa-chevron-down': group?.isOpen, 'fa-chevron-right': !group?.isOpen}"></i>
         </div>
         <div>
-          <div class="form-group mb-0 text-center">
+          <div class="form-group d-flex justify-content-between">
+            <label>Рейтинг</label>
+            <rating [max]="5" [(ngModel)]="newFilter.rating"
+                    stateOn="fa fa-lg fa-star text-warning"
+                    stateOff="fa fa-lg fa-star text-muted">
+            </rating>
+          </div>
+
+          <div class="form-group  d-flex justify-content-between">
+            <label>Сложность</label>
+            <rating [max]="5" [(ngModel)]="newFilter.difficulty"
+                    stateOn="fa fa-lg fa-asterisk text-primary"
+                    stateOff="fa fa-lg fa-asterisk text-muted">
+            </rating>
+          </div>
+
+          <div class="form-group mb-0  d-flex justify-content-between">
+            <label>Статус</label>
             <div class="btn-group btn-group-sm" role="group">
               <label class="btn btn-outline-primary" title="Новые"
                      [(ngModel)]="newFilter.statusNotStarted" btnCheckbox>
