@@ -8,88 +8,115 @@
   <tabset type="tabs">
 
     <tab heading="Параметры" class="py-3">
-
-      <div class="form-group">
-        <label for="name">Название</label>
-        <input type="text" class="form-control"
-               id="name" name="name" #name="ngModel" [(ngModel)]="model.name"
-               required minlength="4" maxlength="50">
-        <div *ngIf="name.errors && (name.dirty || name.touched)"
-             class="text-danger">
-          <div [hidden]="!name.errors['required']">Укажите название задачи</div>
-          <div [hidden]="!name.errors['minlength']">Слишком короткое название</div>
+      <div class="row">
+        <div class="col-8">
+          <div class="form-group">
+            <label for="name">Название</label>
+            <input type="text" class="form-control"
+                   id="name" name="name" #name="ngModel" [(ngModel)]="model.name"
+                   required minlength="4" maxlength="50">
+            <div *ngIf="name.errors && (name.dirty || name.touched)"
+                 class="text-danger">
+              <div [hidden]="!name.errors['required']">Укажите название задачи</div>
+              <div [hidden]="!name.errors['minlength']">Слишком короткое название</div>
+            </div>
           </div>
-      </div>
 
-      <div class="form-group">
-        <label for="abstract">Аннотация</label>
-        <textarea class="form-control"
-                  id="abstract" name="abstract" #abstract="ngModel" [(ngModel)]="model.shortDescription"
-                  required minlength="50" maxlength="300"></textarea>
-        <div *ngIf="abstract.errors && (abstract.dirty || abstract.touched)"
-             class="text-danger">
-          <div [hidden]="!abstract.errors['required']">Напишите краткое описание задачи</div>
-          <div [hidden]="!abstract.errors['minlength']">Слишком короткая аннотация</div>
+          <div class="form-group">
+            <label for="abstract">Аннотация</label>
+            <textarea class="form-control"
+                      id="abstract" name="abstract" #abstract="ngModel" [(ngModel)]="model.shortDescription"
+                      required minlength="50" maxlength="300"></textarea>
+            <div *ngIf="abstract.errors && (abstract.dirty || abstract.touched)"
+                 class="text-danger">
+              <div [hidden]="!abstract.errors['required']">Напишите краткое описание задачи</div>
+              <div [hidden]="!abstract.errors['minlength']">Слишком короткая аннотация</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Ключевые слова</label>
+            <app-tag-picker [(tags)]="model.tags"></app-tag-picker>
+          </div>
+
+          <div class="form-group w-100">
+            <label>Сложность</label>
+            <div>
+              <div class="btn-group btn-group-justified">
+                <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                       [(ngModel)]="model.difficulty" [btnRadio]="1">
+                  1 <i class="fa fa-asterisk"></i>
+                </label>
+                <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                       [(ngModel)]="model.difficulty" [btnRadio]="2">
+                  2 <i class="fa fa-asterisk"></i>
+                </label>
+                <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                       [(ngModel)]="model.difficulty" [btnRadio]="3">
+                  3 <i class="fa fa-asterisk"></i>
+                </label>
+                <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                       [(ngModel)]="model.difficulty" [btnRadio]="4">
+                  4 <i class="fa fa-asterisk"></i>
+                </label>
+                <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
+                       [(ngModel)]="model.difficulty" [btnRadio]="5">
+                  5 <i class="fa fa-asterisk"></i>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group w-100">
+            <label>Комментарии</label>
+            <div class="btn-group btn-group-fill">
+              <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+              <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+              <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
+            </div>
+          </div>
+
+          <div class="form-group w-100">
+            <label>Открытые решения</label>
+            <div class="btn-group btn-group-fill">
+              <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+              <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+              <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.deny">Запретить</label>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label>Ключевые слова</label>
-        <app-tag-picker [(tags)]="model.tags"></app-tag-picker>
-      </div>
-
-      <div class="form-group w-50">
-        <label>Сложность</label>
-        <div>
-          <div class="btn-group btn-group-justified">
-            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="1">
-              1 <i class="fa fa-asterisk"></i>
-            </label>
-            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="2">
-              2 <i class="fa fa-asterisk"></i>
-            </label>
-            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="3">
-              3 <i class="fa fa-asterisk"></i>
-            </label>
-            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="4">
-              4 <i class="fa fa-asterisk"></i>
-            </label>
-            <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="model.difficulty" [btnRadio]="5">
-              5 <i class="fa fa-asterisk"></i>
-            </label>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-question"></i>
+              <span> Помощь</span>
+            </div>
+            <div class="card-block text-justify">
+              <p>
+                Придумайте <b>название</b> и <b>аннотацию</b> (краткое описание) к задаче.
+                Более полное описание можно написать на следующей странице.
+              </p>
+              <p>
+                С помощью <b>ключевых слов</b> обозначьте тематику задачи.
+                Постарайтесь использовать существующие слова, но при желании можно создать новые.
+              </p>
+              <p>
+                Выберите <b>сложность</b> на свое усмотрение. После сложность будет пересчитана по оценкам пользователей.
+              </p>
+              <p>
+                Если не хотите, чтобы пользователи могли узнать решение раньше времени,
+                ограничьте доступ к <b>коментариям</b> и <b>открытым решениям</b>.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="form-group w-50">
-        <label>Комментарии</label>
-        <div class="btn-group btn-group-fill">
-          <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
-          <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
-          <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
-        </div>
-      </div>
-
-      <div class="form-group w-50">
-        <label>Публичные решения</label>
-        <div class="btn-group btn-group-fill">
-          <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.allow">Разрешить</label>
-          <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
-          <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.deny">Запретить</label>
-        </div>
-      </div>
-
     </tab>
 
     <tab heading="Описание" class="py-3">
@@ -97,6 +124,7 @@
         <div class="col-8">
           <quill-editor [(ngModel)]="model.description"
                         [ngModelOptions]="{standalone: true}"
+                        [config]="{placeholder: 'Напишите подробное описание здесь'}"
                         class="form-control required">
           </quill-editor>
         </div>
@@ -112,38 +140,6 @@
                 <i class="fa fa-upload"></i>
                 <span> Добавить</span>
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </tab>
-
-    <tab heading="Шаблон решения" (select)="openSolutionTemplate()" class="py-3">
-      <div class="row">
-        <div class="col-8">
-          <ace-editor class="form-control"
-                      #solutionTemplateEditor
-               [(text)]="model.solutionTemplate"
-          [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
-          </ace-editor>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-header">
-              <i class="fa fa-question"></i>
-              <span> Помощь</span>
-            </div>
-            <div class="card-block text-justify">
-              <p>
-                Шаблон послужит основой для всех новых решений пользователей.
-              </p>
-              <p>
-                Объявите все методы, которые пользователь потом должен будет
-                реализовать и которые Вы хотите вызывать в тестах.
-              </p>
-              <p>
-                Шаблон должен компилироваться без ошибок и должен не проходить тесты.
-              </p>
             </div>
           </div>
         </div>
@@ -185,6 +181,44 @@
       </div>
     </tab>
 
+
+    <tab heading="Шаблон решения" (select)="openSolutionTemplate()" class="py-3">
+      <div class="row">
+        <div class="col-8">
+          <ace-editor class="form-control"
+                      #solutionTemplateEditor
+                      [(text)]="model.solutionTemplate"
+                      [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
+          </ace-editor>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-question"></i>
+              <span> Помощь</span>
+            </div>
+            <div class="card-block text-justify">
+              <p>
+                Шаблон послужит основой для всех новых решений пользователей.
+              </p>
+              <p>
+                Объявите все методы, которые пользователь потом должен будет
+                реализовать и которые Вы хотите вызывать в тестах.
+              </p>
+              <p>
+                Шаблон должен компилироваться без ошибок, но должен не проходить тесты.
+              </p>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary mt-3"
+                  (click)="testSolution()" [disabled]="submitted">
+            <i class="fa fa-play"> </i>
+            <span> Протестировать</span>
+          </button>
+        </div>
+      </div>
+    </tab>
+
     <tab heading="Пример решения" (select)="openSolutionExample()" class="py-3">
       <div class="row">
         <div class="col-8">
@@ -195,13 +229,6 @@
           </ace-editor>
         </div>
         <div class="col-4">
-
-          <button type="button" class="btn btn-lg btn-block btn-primary mb-3"
-                  (click)="testSolution()" [disabled]="submitted">
-            <i class="fa fa-play"> </i>
-            <span> Протестировать</span>
-          </button>
-
           <div class="card">
             <div class="card-header">
               <i class="fa fa-question"></i>
@@ -217,6 +244,11 @@
               </p>
             </div>
           </div>
+          <button type="button" class="btn btn-primary mt-3"
+                  (click)="testSolution()" [disabled]="submitted">
+            <i class="fa fa-play"> </i>
+            <span> Протестировать</span>
+          </button>
         </div>
       </div>
     </tab>
