@@ -1,10 +1,7 @@
+<img src="http://placehold.it/20x20" class="rounded" style="margin-top: -5px"/>
 <a *ngIf="link && user" [routerLink]="['/users', user.username]">
-  <!--TODO: place user photo here-->
-  <i class="fa fa-user"></i>
   <span>{{user.name || user.username}}</span>
 </a>
 <span *ngIf="!link && user">
-  <!--TODO: place user photo here-->
-  <i class="fa fa-user"></i>
   <span>{{user.name || user.username}}</span>
 </span>
