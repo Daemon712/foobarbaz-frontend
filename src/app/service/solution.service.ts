@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Challenge} from "../model/challenge";
 import {Http} from "@angular/http";
 import {TestResult} from "../model/test-result";
 import {Solution} from "../model/solution";
@@ -79,11 +78,8 @@ export class SolutionService {
       })
   }
 
-  testSolutionExample(challenge: Challenge): Promise<TestResult[]>{
-    return this.http.post(this.url + 'test', {
-      unitTest: challenge.solutionTest,
-      sample: challenge.solutionExample,
-    })
+  executeTests(test: string, code: string): Promise<TestResult[]>{
+    return this.http.post(this.url + 'test', { test: test, code: code })
       .toPromise()
       .then(response => SolutionService.parseTestResults(response.json()))
       .catch(SolutionService.handleError);

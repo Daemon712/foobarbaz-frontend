@@ -30,7 +30,7 @@ export class CreateChallengeComponent implements OnInit {
     fontSize: '16px'
   };
 
-  submitted = false;
+  submitted = null;
   testResultsActive = false;
 
   constructor(
@@ -44,10 +44,10 @@ export class CreateChallengeComponent implements OnInit {
   }
 
   onSubmit(){
-    this.submitted = true;
+    this.submitted = 'create';
     this.challengeService.createChallenge(this.model)
       .then(response => {
-        this.submitted = false;
+        this.submitted = null;
         if (typeof response === 'number') {
           this.router.navigate([`challenges/${response}`]);
         } else if (response instanceof Array) {
@@ -60,16 +60,29 @@ export class CreateChallengeComponent implements OnInit {
       .catch(() => this.submitted = false);
   }
 
-  testSolution(){
-    this.submitted = true;
-    this.testSolutionService.testSolutionExample(this.model)
+  testExample(){
+    this.submitted = 'example';
+    this.testSolutionService.executeTests(this.model.solutionTest, this.model.solutionExample)
       .then(testResults => {
-        this.submitted = false;
+        this.submitted = null;
         if (testResults){
           this.testResults = testResults;
           this.testResultsActive = true;
         }
     });
+  }
+
+
+  testTemplate(){
+    this.submitted = 'template';
+    this.testSolutionService.executeTests(this.model.solutionTest, this.model.solutionTemplate)
+      .then(testResults => {
+        this.submitted = null;
+        if (testResults){
+          this.testResults = testResults;
+          this.testResultsActive = true;
+        }
+      });
   }
 
   //Dirty hack. Because AceEditor is not rendered after tab opening

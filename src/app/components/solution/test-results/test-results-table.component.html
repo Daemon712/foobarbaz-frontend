@@ -31,7 +31,10 @@
             </span>
       </span>
     </td>
-    <td>{{testResult.message}}</td>
+    <td>
+      <pre [class.text-danger]="testResult.status == testStatus.error"
+           [class.text-warning]="testResult.status == testStatus.failed">{{testResult.message}}</pre>
+    </td>
   </tr>
   </tbody>
 </table>
