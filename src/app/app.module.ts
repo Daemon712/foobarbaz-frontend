@@ -38,7 +38,7 @@ import { RateChallengeComponent } from './components/challenge/rate/rate-challen
 import { ShareSolutionComponent } from './components/shared-solution/share/share-solution.component';
 import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
 import {SharedSolutionService} from "./service/shared-solution.service";
-import {CommentService} from "./service/comment.service";
+import {ChallengeCommentService,SolutionCommentService} from "./service/comment.service";
 import { PlaylistListPageComponent } from './components/playlist/list-page/playlist-list-page.component';
 import {PlaylistService} from "./service/playlist.service";
 import { CreatePlaylistComponent } from './components/playlist/create/create-playlist.component';
@@ -136,7 +136,8 @@ const routes: Routes = [
   providers: [
     { provide: LOCALE_ID, useValue: "ru-RU" },
     ChallengeService,
-    CommentService,
+    ChallengeCommentService,
+    SolutionCommentService,
     PlaylistService,
     SolutionService,
     TagService,

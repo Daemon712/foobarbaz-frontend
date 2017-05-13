@@ -16,11 +16,11 @@
           <i class="fa fa-thumbs-up"></i>
         </div>
         <div class="small">
-          <span>{{comment.date | date: 'd MMM yyyy'}} </span>
+          <span>{{comment.created | date: 'd MMM yyyy'}} </span>
           <i class="fa fa-calendar"></i>
         </div>
         <div class="small">
-          <span>{{comment.date | date: 'HH:mm'}} </span>
+          <span>{{comment.created | date: 'shortTime'}} </span>
           <i class="fa fa-clock-o"></i>
         </div>
       </div>

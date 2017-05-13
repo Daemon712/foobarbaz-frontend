@@ -2,63 +2,49 @@ import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {Comment} from "../model/comment";
 
-@Injectable()
-export class CommentService {
-
+abstract class CommentService {
   constructor(
     private http: Http,
+    private url,
   ) { }
 
-  getComments(challengeId: number, sharedSolId?: number): Promise<Comment[]>{
-    //TODO change url to 'api/challenges/:id/comments'
-    return this.http.get(`api/comments?challengeId=${challengeId}&sharedSolId=${sharedSolId}`)
+  getComments(challengeId: number): Promise<Comment[]>{
+    return this.http.get(`${this.url}?parentId=${challengeId}`)
       .toPromise()
-      .then(response => response.json().data as Comment[])
+      .then(response => response.json().map(c => Object.assign(new Comment(), c)))
       .catch(CommentService.handleError);
   }
 
-  addComment(text: string, challengeId: number, sharedSolId?: number): Promise<Comment>{
-    //TODO params should be filled on server
-    let comment = {
-      id: 10 + 10000 * Math.random(),
-      challengeId: challengeId,
-      sharedSolId: sharedSolId,
-      text: text,
-      date: new Date(),
-      likes: 0,
-      liked: false,
-    };
-
-    //TODO change url to 'api/challenges/:id/comments'
-    return this.http.post('api/comments', comment)
+  addComment(parentId: number, text: string): Promise<Comment>{
+    return this.http.post(this.url, {parentId, text})
       .toPromise()
-      .then(response => response.json().data as Comment)
+      .then(response => Object.assign(new Comment, response.json()))
       .catch(CommentService.handleError)
   }
 
-    likeComment(commentId: number, like: boolean): Promise<Comment>{
-    //TODO change url to 'api/challenges/:id/comments/:id/like'
-    return this.http.get(`api/comments/${commentId}`)
+  likeComment(commentId: number, like: boolean): Promise<number>{
+    return this.http.post(`${this.url}/${commentId}`, like)
       .toPromise()
-      .then(response => {
-        //TODO move the logic to server side
-        let comment = response.json().data as Comment;
-        if (like && !comment.liked){
-          comment.likes++;
-          comment.liked = true;
-        } else if (!like && comment.liked) {
-          comment.likes--;
-          comment.liked = false;
-        }
-        return this.http.post('api/comments', comment)
-          .toPromise()
-          .then(response => comment)
-      })
+      .then(response => Number.parseInt(response.text()))
       .catch(CommentService.handleError);
   }
 
   private static handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
+  }
+}
+
+@Injectable()
+export class ChallengeCommentService extends CommentService {
+  constructor(http: Http) {
+    super(http, 'api/challenge-comments');
+  }
+}
+
+@Injectable()
+export class SolutionCommentService extends CommentService {
+  constructor(http: Http) {
+    super(http, 'api/solution-comments');
   }
 }

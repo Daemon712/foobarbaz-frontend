@@ -5,7 +5,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
 import {Comment} from "../../../model/comment";
-import {CommentService} from "../../../service/comment.service";
+import {SolutionCommentService} from "../../../service/comment.service";
 import {UserService} from "../../../service/user.service";
 import {User} from "../../../model/user";
 
@@ -36,7 +36,7 @@ export class SharedSolutionViewComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private sharedSolutionService: SharedSolutionService,
-    private commentService: CommentService,
+    private commentService: SolutionCommentService,
     private userService: UserService,
   ) { }
 
@@ -60,23 +60,22 @@ export class SharedSolutionViewComponent implements OnInit {
   }
 
   sendComment(){
-    // this.commentService.addComment(this.newComment, this.solution.challengeId, this.solution.id)
-    //   .then(comment => this.comments.push(comment));
-    // this.newComment = null;
+    this.commentService.addComment(this.solution.id, this.newComment)
+      .then(comment => this.comments.push(comment));
+    this.newComment = null;
   }
 
   loadComments(){
-    // this.commentService.getComments(this.solution.challengeId, this.solution.id)
-    //   .then(comments => this.comments = comments);
+    this.commentService.getComments(this.solution.id)
+      .then(comments => this.comments = comments);
   }
 
   commentLiked(comment: Comment){
     comment.liked = !comment.liked;
     comment.likes += comment.liked ? +1 : -1;
     this.commentService.likeComment(comment.id, comment.liked)
-      .then(newComment => {
-        comment.liked = newComment.liked;
-        comment.likes = newComment.likes;
+      .then(likes => {
+        comment.likes = likes;
       });
   }
 }

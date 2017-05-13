@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SharedSolution} from "../../../model/shared-solution";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
-import {CommentService} from "../../../service/comment.service";
+import {ChallengeCommentService} from "../../../service/comment.service";
 import {AccessOption, Challenge, ChallengeStatus} from "../../../model/challenge";
 import {Comment} from "../../../model/comment";
 import {ChallengeService} from "../../../service/challenge.service";
@@ -25,7 +25,7 @@ export class ChallengeViewPageComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private challengeService: ChallengeService,
-    private commentService: CommentService,
+    private commentService: ChallengeCommentService,
     private sharedSolutionService: SharedSolutionService,
     private userService: UserService,
   ) { }
@@ -44,7 +44,7 @@ export class ChallengeViewPageComponent implements OnInit {
   }
 
   sendComment(){
-    this.commentService.addComment(this.newComment, this.challenge.id)
+    this.commentService.addComment(this.challenge.id, this.newComment)
       .then(comment => this.comments.push(comment));
     this.newComment = null;
   }
@@ -53,15 +53,14 @@ export class ChallengeViewPageComponent implements OnInit {
     comment.liked = !comment.liked;
     comment.likes += comment.liked ? 1 : -1;
     this.commentService.likeComment(comment.id, !comment.liked)
-      .then(newComment => {
-        comment.liked = newComment.liked;
-        comment.likes = newComment.likes;
+      .then(likes => {
+        comment.likes = likes;
       });
   }
 
   loadComments(){
-    // this.commentService.getComments(this.challenge.id)
-    //   .then(comments => this.comments = comments);
+    this.commentService.getComments(this.challenge.id)
+      .then(comments => this.comments = comments);
   }
 
   loadSolutions(){
