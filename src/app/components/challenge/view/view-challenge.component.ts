@@ -138,7 +138,9 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   revertChanges(){
     this.solution.newSolution = this.solution.solution;
-    this.setSolution(this.solution);
+    this.solutionEditor.setText(this.solution.newSolution);
+    this.solutionEditor.updateText();
+    this.solutionEditor.getEditor().clearSelection();
   }
 
   removeSolution(){
