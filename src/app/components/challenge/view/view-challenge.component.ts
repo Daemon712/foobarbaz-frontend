@@ -25,7 +25,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   solution: Solution;
   solutionStatus = SolutionStatus;
 
-  submitted = false;
+  submitted = null;
   authorized = false;
   testResultsActive = false;
 
@@ -80,11 +80,11 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   testSolution(){
-    this.submitted = true;
+    this.submitted = "test";
     let thatSolution = this.solution;
     this.solutionService.testSolution(this.challenge.id, this.solution)
         .then(solution => {
-          this.submitted = false;
+          this.submitted = null;
           Object.assign(thatSolution, solution);
           this.setSolution(thatSolution);
           if (solution.status == SolutionStatus.success){
@@ -117,11 +117,11 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   saveSolution(){
-    this.submitted = true;
+    this.submitted = "save";
     let thatSolution = this.solution;
     this.solutionService.saveSolution(this.challenge.id, this.solution)
       .then(solution => {
-        this.submitted = false;
+        this.submitted = null;
         Object.assign(thatSolution, solution);
         this.setSolution(thatSolution);
         if (this.challenge.status == ChallengeStatus.NotStarted){
@@ -131,9 +131,9 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   shareSolution(comment: string){
-    this.submitted = true;
+    this.submitted = "share";
     this.solutionService.shareSolution(this.challenge.id, this.solution.id, comment)
-      .then(() => this.submitted = false);
+      .then(() => this.submitted = null);
   }
 
   revertChanges(){
@@ -150,8 +150,10 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
       if (this.challenge.solutions.length == 0) this.addSolution();
       this.setSolution(this.challenge.solutions[Math.min(index, this.challenge.solutions.length - 1)]);
     } else {
+      this.submitted = "remove";
       this.solutionService.deleteSolution(this.challenge.id, this.solution.id)
         .then(() => {
+          this.submitted = null;
           this.challenge.solutions.splice(index, 1);
           if (this.challenge.solutions.length == 0) this.addSolution();
           this.setSolution(this.challenge.solutions[Math.min(index, this.challenge.solutions.length - 1)]);

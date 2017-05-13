@@ -102,46 +102,53 @@
       </div>
       <div class="col-md-4" *ngIf="solution && authorized">
         <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
-                [disabled]="solution.solution === solution.newSolution && solution.status !== solutionStatus.empty"
+                [disabled]="submitted || solution.solution === solution.newSolution && solution.status !== solutionStatus.empty"
                 title="Сохранить и протестировать решение"
                 (click)="testSolution()">
-          <i class="fa fa-play"></i>
+          <i *ngIf="submitted!='test'" class="fa fa-play"></i>
+          <i *ngIf="submitted=='test'" class="fa fa-spinner fa-pulse "></i>
           <span> Проверить</span>
         </button>
         <div class="mb-3 d-flex justify-content-between">
           <button type="button" class="btn btn-success"
+                  [disabled]="submitted"
                   (click)="addSolution()"
                   title="Добавить новое решение">
             <i class="fa fa-plus"></i>
           </button>
           <button type="button" class="btn btn-success"
+                  [disabled]="submitted"
                   (click)="copySolution()"
                   title="Скопировать в новое решение">
             <i class="fa fa-clone"></i>
           </button>
           <button type="button"
-                  [disabled]="!checkShare()"
+                  [disabled]="submitted || !checkShare()"
                   [title]="titleShare()"
                   (click)="sharePopup.open()"
                   class="btn btn-info">
-            <i class="fa fa-share-alt"></i>
+            <i *ngIf="submitted!='share'" class="fa fa-share-alt"></i>
+            <i *ngIf="submitted=='share'" class="fa fa-spinner fa-pulse"></i>
           </button>
           <button type="button" class="btn btn-secondary"
-                  [disabled]="solution.solution === solution.newSolution"
+                  [disabled]="submitted || solution.solution == solution.newSolution && solution.status != solutionStatus.created"
                   title="Сохранить решение без тестирования"
                   (click)="saveSolution()">
-            <i class="fa fa-save"></i>
+            <i *ngIf="submitted!='save'" class="fa fa-save"></i>
+            <i *ngIf="submitted=='save'" class="fa fa-spinner fa-pulse"></i>
           </button>
           <button type="button" class="btn btn-warning"
-                  [disabled]="solution.solution === solution.newSolution"
+                  [disabled]="submitted || solution.solution === solution.newSolution"
                   title="Сбросить изменения"
                   (click)="revertChanges()">
             <i class="fa fa-undo"></i>
           </button>
           <button type="button" class="btn btn-danger"
+                  [disabled]="submitted"
                   (click)="removeSolution()"
                   title="Удалить решение">
-            <i class="fa fa-close"></i>
+            <i *ngIf="submitted!='remove'" class="fa fa-remove"></i>
+            <i *ngIf="submitted=='remove'" class="fa fa-spinner fa-pulse"></i>
           </button>
         </div>
         <app-share-solution #sharePopup [revision]="solution" (onSubmit)="shareSolution($event)">
