@@ -2,10 +2,10 @@
   display: block;
   position: absolute;
   overflow: visible;
-  top: 16px;
+  top: 64px;
   height: 0;
-  left: calc(50% - 200px);
-  right: calc(50% - 200px);
+  left: calc(50% - 240px);
+  right: calc(50% - 240px);
   z-index: 1050;
 }
 
