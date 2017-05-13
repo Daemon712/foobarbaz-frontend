@@ -9,7 +9,7 @@
       <input class="form-control" type="text"
              id="username" name="username" #username="ngModel"
              [(ngModel)]="model.username"
-             required>
+             lowerCase required>
     </div>
     <div *ngIf="username.errors && (username.dirty || username.touched)"
          class="col-md-4 text-danger col-form-label">

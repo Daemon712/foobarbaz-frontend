@@ -1,5 +1,5 @@
 <div class="jumbotron" *ngIf="userAccount">
-  <h1 class="display-3">{{userAccount.name}}</h1>
+  <h1 class="display-3">{{userAccount.name || userAccount.username}}</h1>
   <p class="lead">{{userAccount.description}}</p>
 </div>
 <div class="jumbotron" *ngIf="!userAccount">

@@ -52,6 +52,7 @@ import { TopUsersComponent } from './components/user/top/top-users.component';
 import { UserLinkComponent } from './components/user/link/user-link.component';
 import { TagsLineComponent } from './components/tags/line/tags-line.component';
 import { ChallengeStatusViewComponent } from './components/challenge/status-view/challenge-status-view.component';
+import { LowerCaseTransformer } from './directives/lower-case-transformer.directive';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -111,6 +112,7 @@ const routes: Routes = [
     UserLinkComponent,
     TagsLineComponent,
     ChallengeStatusViewComponent,
+    LowerCaseTransformer,
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@
     </span>
   </div>
   <input class="form-control" maxlength="25" title="Добавить значение"
+         lowerCase
          [readonly]="tags?.length >= 5"
          [(ngModel)]="newTag"
          [ngModelOptions]="{standalone: true}"
