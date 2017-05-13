@@ -45,21 +45,31 @@
   </div>
   <div class="col-9">
     <tabset type="tabs">
-      <tab heading="Задачи: {{challenges ? challenges.length : userAccount.challenges || 0}}" class="py-3">
+      <tab class="py-3">
+        <ng-template tabHeading>
+          Задачи <i class="fa fa-plus"></i> {{challenges ? challenges.length : userAccount.challenges}}
+        </ng-template>
         <app-challenge-list [challenges]="challenges">
         </app-challenge-list>
       </tab>
-      <tab heading="Подборки: {{playlists ? playlists.length : userAccount.playlists || 0}}" class="py-3">
+      <tab class="py-3">
+        <ng-template tabHeading>
+          Подборки <i class="fa fa-list"></i> {{playlists ? playlists.length : userAccount.playlists}}
+        </ng-template>
         <app-playlist-list [items]="playlists">
         </app-playlist-list>
       </tab>
-      <tab heading="Закладки: {{bookmarks ? bookmarks?.length : 0}}" class="py-3">
+      <tab class="py-3">
+        <ng-template tabHeading>
+          Закладки <i class="fa fa-bookmark"></i> {{bookmarks?.length}}
+        </ng-template>
         <app-challenge-list [challenges]="bookmarks">
         </app-challenge-list>
       </tab>
-      <tab heading="Комментарии: {{userAccount.comments || 0}}" class="py-3">
-      </tab>
-      <tab heading="Решения: {{userAccount.sharedSolutions || 0}}" class="py-3">
+      <tab class="py-3">
+        <ng-template tabHeading>
+          Решения <i class="fa fa-share-alt"></i> {{solutions ? solutions.length : userAccount.sharedSolutions}}
+        </ng-template>
         <app-shared-solution-list [solutions]="solutions"></app-shared-solution-list>
       </tab>
     </tabset>

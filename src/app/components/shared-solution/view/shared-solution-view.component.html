@@ -167,11 +167,11 @@
         </button>
       </tab>
       <tab customClass="tab-sm tab-info px-2" class="py-3"
-           [disabled]="!solution.comments && !comments?.length" (select)="loadComments()">
+           (select)="loadComments()">
         <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
-          <span> {{comments?.length || solution.comments || 0}}</span>
+          <span> {{comments?.length}}</span>
         </template>
         <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
       </tab>

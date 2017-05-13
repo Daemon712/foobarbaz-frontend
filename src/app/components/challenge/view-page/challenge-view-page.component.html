@@ -43,7 +43,7 @@
         <template tabHeading>
           <span>Комментарии </span>
           <i class="fa fa-comments"></i>
-          <span> {{comments?.length || 0}}</span>
+          <span>{{comments?.length}}</span>
         </template>
         <app-comments *ngIf="commentsAllowed"
                       [comments]="comments"
@@ -63,7 +63,7 @@
         <template tabHeading>
           <span>Открытые решения </span>
           <i class="fa fa-share-alt"></i>
-          <span> {{sharedSolutions?.length || 0}}</span>
+          <span>{{sharedSolutions?.length}}</span>
         </template>
         <app-shared-solution-list *ngIf="shareAllowed" [solutions]="sharedSolutions">
         </app-shared-solution-list>
