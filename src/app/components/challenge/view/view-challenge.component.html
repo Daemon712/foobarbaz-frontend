@@ -71,20 +71,32 @@
           <div class="col-6">
             <button type="button"
                     [class.active]="challenge.bookmark"
+                    [disabled]="submitted=='bookmark'"
                     (click)="updateBookmark()"
                     class="btn btn-outline-primary btn-block">
-              <i class="fa fa-bookmark"></i>
+              <i *ngIf="submitted!='bookmark'" class="fa fa-bookmark"></i>
+              <i *ngIf="submitted=='bookmark'" class="fa fa-spinner fa-pulse"></i>
               <span> В закладки</span>
             </button>
           </div>
           <div class="col-6">
-            <app-rate-challenge
-              [initRating]="challenge.userRating"
-              (onSubmit)="updateUserRating($event)">
-            </app-rate-challenge>
+            <button type="button"
+                    [class.active]="challenge.userRating && (challenge.userRating.rating || challenge.userRating.difficulty)"
+                    [disabled]="submitted=='rating'"
+                    (click)="ratePopup.open()"
+                    class="btn btn-outline-warning btn-block">
+              <i *ngIf="submitted!='rating'" class="fa fa-star"></i>
+              <i *ngIf="submitted=='rating'" class="fa fa-spinner fa-pulse"></i>
+              <span> Оценить</span>
+            </button>
           </div>
         </div>
         <app-tags-line [tags]="challenge.tags"></app-tags-line>
+        <app-rate-challenge
+          #ratePopup
+          [initRating]="challenge.userRating"
+          (onSubmit)="updateUserRating($event)">
+        </app-rate-challenge>
       </div>
     </div>
   </tab>
@@ -151,15 +163,13 @@
             <i *ngIf="submitted=='remove'" class="fa fa-spinner fa-pulse"></i>
           </button>
         </div>
+        <app-revision-list
+          [solutions]="challenge.solutions"
+          [active]="solution"
+          (onSelect)="setSolution($event)">
+        </app-revision-list>
         <app-share-solution #sharePopup [revision]="solution" (onSubmit)="shareSolution($event)">
         </app-share-solution>
-        <div>
-          <app-revision-list
-            [solutions]="challenge.solutions"
-            [active]="solution"
-            (onSelect)="setSolution($event)">
-          </app-revision-list>
-        </div>
       </div>
       <div class="col-md-4" *ngIf="!authorized">
         <div class="alert alert-warning lead">

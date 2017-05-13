@@ -26,6 +26,11 @@ export class RateChallengeComponent implements OnInit {
     Object.assign(this.rating, this.initRating);
   }
 
+  //noinspection JSUnusedGlobalSymbols
+  open(){
+    this.ratingModal.show();
+  }
+
   submit(){
     this.onSubmit.emit(this.rating);
     this.ratingModal.hide();

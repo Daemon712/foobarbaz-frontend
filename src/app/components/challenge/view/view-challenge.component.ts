@@ -60,19 +60,25 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   updateBookmark(){
+    this.submitted = 'bookmark';
     let bookmark = !this.challenge.bookmark;
     this.challenge.bookmark = bookmark;
     this.challengeService.updateBookmark(this.challenge.id, bookmark)
-      .then(() => bookmark
-              ? this.alertService.success('Задача успешно добавлена в закладки')
-              : this.alertService.info('Задача успешно удалена из закладок'));
+      .then(() => {
+        this.submitted = null;
+        return bookmark
+          ? this.alertService.success('Задача успешно добавлена в закладки')
+          : this.alertService.info('Задача успешно удалена из закладок')
+      });
   }
 
   updateUserRating(userRating: Rating){
+    this.submitted = 'rating';
     this.challenge.userRating = userRating;
     this.challengeService.updateUserRating(
       this.challenge.id, userRating)
       .then((rating) => {
+        this.submitted = null;
         this.alertService.info('Ваша оценка сохранена. Рейтинг и сложность задачи пересчитаны с учетом вашей оценки');
         this.challenge.rating = rating.rating;
         this.challenge.difficulty = rating.difficulty;
