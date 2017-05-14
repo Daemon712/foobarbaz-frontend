@@ -3,7 +3,7 @@ export class Comment {
   id: number;
   author: User;
   text: string;
-  likes: number;
+  rating: number;
   liked: boolean;
   created: Date;
 }

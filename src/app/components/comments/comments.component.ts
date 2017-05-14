@@ -1,5 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Comment} from '../../model/comment';
+import {UserService} from "../../service/user.service";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-comments',
@@ -13,9 +15,14 @@ export class CommentsComponent implements OnInit {
   @Output()
   commentLiked = new EventEmitter();
 
-  constructor() { }
+  user: User;
+
+  constructor (
+    private userService: UserService,
+  ) { }
 
   ngOnInit(): void {
+    this.user = this.userService.user;
   }
 
   like(comment: Comment){

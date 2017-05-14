@@ -51,11 +51,8 @@ export class ChallengeViewPageComponent implements OnInit {
 
   commentLiked(comment: Comment){
     comment.liked = !comment.liked;
-    comment.likes += comment.liked ? 1 : -1;
-    this.commentService.likeComment(comment.id, !comment.liked)
-      .then(likes => {
-        comment.likes = likes;
-      });
+    this.commentService.likeComment(comment.id, comment.liked)
+      .then(likes => comment.rating = likes);
   }
 
   loadComments(){

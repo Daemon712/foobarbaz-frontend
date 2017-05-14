@@ -9,12 +9,13 @@
   <li *ngFor="let comment of comments" class="list-group-item">
     <div class="w-100">
       <div class="pull-right text-muted text-right">
-        <div class="btn btn-sm mb-2" (click)="like(comment)"
-             [class.btn-primary]="comment.liked"
-             [class.btn-secondary]="!comment.liked">
-          <span>{{comment.likes || 0}} </span>
+        <button class="btn btn-sm btn-outline-primary mb-2"
+                (click)="like(comment)"
+                [disabled]="!user || user.username === comment.author.username"
+                [class.active]="comment.liked">
+          <span>{{comment.rating}} </span>
           <i class="fa fa-thumbs-up"></i>
-        </div>
+        </button>
         <div class="small">
           <span>{{comment.created | date: 'd MMM yyyy'}} </span>
           <i class="fa fa-calendar"></i>
