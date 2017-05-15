@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-challenge-list',
-  templateUrl: './create-challenge-list.component.html',
+  templateUrl: 'create-challenge-list.component.html',
 })
 export class CreateChallengeListComponent implements OnInit {
 
@@ -23,7 +23,7 @@ export class CreateChallengeListComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.challengeListService.addChallengeList(this.challengeList)
-      .then(list => this.router.navigate(['/challenge-lists']));
+      .then(id => this.router.navigate(['/challenge-lists', id]));
   }
 
 }

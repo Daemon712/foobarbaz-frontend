@@ -18,10 +18,10 @@
       </span>
       <input type="text" class="form-control" placeholder="Поиск">
     </div>
-    <pagination class="pagination-justified"
-                [totalItems]="80" [(ngModel)]="page"
+    <pagination class="pagination-justified" *ngIf="page && page.totalElements > 10"
+                (pageChanged)="changePage($event.page - 1)"
+                [totalItems]="page.totalElements" [ngModel]="page.number + 1"
                 [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
-                [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
                 [firstText]="'&laquo;'" [lastText]="'&raquo;'">
     </pagination>
     <div class="card">
@@ -36,6 +36,6 @@
     </div>
   </div>
   <div class="col-9">
-      <app-challenge-list-list [items]="items"></app-challenge-list-list>
+      <app-challenge-list-list [items]="page?.content"></app-challenge-list-list>
   </div>
 </div>

@@ -1,46 +1,61 @@
 import { Injectable } from '@angular/core';
 import {ChallengeList} from "../model/challenege-list";
-import {Http} from "@angular/http";
+import {Http,URLSearchParams} from "@angular/http";
 import {AlertService} from "./alert.service";
+import {Page} from "../model/page";
+import {ChallengeService} from "./challenge.service";
 
 @Injectable()
 export class ChallengeListService {
 
-  url = '/api/challenge-list';
+  url = '/api/challenge-lists';
 
   constructor(
     private http: Http,
     private alertService: AlertService,
   ) { }
 
-  getChallengeLists(): Promise<ChallengeList[]>{
-    return this.http.get(this.url)
+  getChallengeLists(page?: number): Promise<Page<ChallengeList>>{
+    let params = new URLSearchParams();
+    if (page) params.set("page", page.toString());
+    return this.http.get(this.url, {params})
       .toPromise()
-      .then(response => response.json().data as ChallengeList[]);
+      .then(response => {
+        let data = response.json();
+        return {
+          content: data.content.map(c => Object.assign(new ChallengeList(), c)),
+          totalElements: data.totalElements,
+          number: data.number,
+        }
+      })
   }
 
   getChallengeListsByAuthor(author: string){
-    return this.http.get(`${this.url}?author=${author}`)
+    return this.http.get(`${this.url}/author/${author}`)
       .toPromise()
-      .then(response => response.json().data as ChallengeList[]);
+      .then(response => response.json().map(c => Object.assign(new ChallengeList(), c)));
   }
 
   getChallengeList(id: number): Promise<ChallengeList>{
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
       .then(response => {
-        return response.json().data as ChallengeList;
+        let data = Object.assign(new ChallengeList(), response.json());
+        data.challenges = response.json().challenges.map(c => ChallengeService.parseChallenge(c));
+        return data;
       });
   }
 
-  addChallengeList(challengeList: ChallengeList): Promise<ChallengeList>{
-    return this.http.post(this.url, challengeList)
+  addChallengeList(challengeList: ChallengeList): Promise<number>{
+    return this.http.post(this.url, {
+      name: challengeList.name,
+      description: challengeList.description,
+      challenges: challengeList.challenges.map(c => c.id),
+    })
       .toPromise()
       .then(response => {
-        let list = response.json().data as ChallengeList;
-        if (list) this.alertService.success("Вы успешно создали задачу");
-        else this.alertService.warning("Не удалось создать задачу");
-        return list;
+        this.alertService.success("Вы успешно создали подборку");
+        return Number.parseInt(response.text());
       });
   }
 }

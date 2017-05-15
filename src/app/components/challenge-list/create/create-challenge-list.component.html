@@ -24,7 +24,7 @@
         <label for="description">Описание</label>
         <textarea class="form-control"
                   id="description" name="description" #description="ngModel" [(ngModel)]="challengeList.description"
-                  required minlength="20" maxlength="200"></textarea>
+                  required minlength="50" maxlength="300"></textarea>
         <div *ngIf="description.errors && (description.dirty || description.touched)"
              class="text-danger">
           <div [hidden]="!description.errors['required']">Напишите краткое описание задачи</div>

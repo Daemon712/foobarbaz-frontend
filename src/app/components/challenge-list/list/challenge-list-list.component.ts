@@ -3,7 +3,7 @@ import {ChallengeList} from "../../../model/challenege-list";
 
 @Component({
   selector: 'app-challenge-list-list',
-  templateUrl: './challenge-list-list.component.html',
+  templateUrl: 'challenge-list-list.component.html',
 })
 export class ChallengeListListComponent implements OnInit {
 

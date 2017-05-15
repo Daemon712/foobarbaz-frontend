@@ -6,7 +6,7 @@ import {ChallengeListService} from "../../../service/challenge-list.service";
 
 @Component({
   selector: 'app-challenge-list-view',
-  templateUrl: './challenge-list-view.component.html',
+  templateUrl: 'challenge-list-view.component.html',
 })
 export class ChallengeListViewComponent implements OnInit {
 

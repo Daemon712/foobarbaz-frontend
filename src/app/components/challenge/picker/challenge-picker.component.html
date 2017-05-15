@@ -1,4 +1,4 @@
-<input class="form-control"
+<input class="form-control" title="Добавить задачу"
        [(ngModel)]="newChallenge"
        [ngModelOptions]="{standalone: true}"
        [typeahead]="availableChallenges"
@@ -9,14 +9,14 @@
   [(ngModel)]="challenges"
   [itemTemplate]="itemTemplate">
 </bs-sortable>
-<template #itemTemplate let-item="item" let-index="index">
+<template #itemTemplate [let-item]="'item'" [let-index]="'index'">
   <div class="card my-1">
     <div class="card-block">
       <button type="button" class="pull-right btn btn-danger" (click)="removeItem(index)">
         <i class="fa fa-remove"></i>
       </button>
       <h4><a [routerLink]="['/challenges',item.initData.id]">{{item.initData.name}}</a></h4>
-      <p>{{item.initData.abstract}}</p>
+      <p>{{item.initData.shortDescription}}</p>
     </div>
   </div>
 </template>
