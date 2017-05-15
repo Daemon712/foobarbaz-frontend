@@ -56,6 +56,8 @@ export class ChallengeViewPageComponent implements OnInit {
   }
 
   loadComments(){
+    if (!this.challenge || !this.commentsAllowed) return;
+
     this.commentService.getComments(this.challenge.id)
       .then(comments => this.comments = comments);
   }

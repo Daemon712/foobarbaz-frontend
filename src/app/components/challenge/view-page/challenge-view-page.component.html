@@ -30,7 +30,7 @@
             Оставлять коментарии могут только зарегистрированные пользователи
           </p>
           <p *ngIf="authorized && accessDeny(challenge.commentAccess)">
-            Возможность комментирования данной задачи ограничена
+            Возможность комментирования недоступна для данной задачи
           </p>
           <p *ngIf="authorized && accessOnlySolved(challenge.commentAccess)">
             Вы получите доступ к комментированию после решения задачи
@@ -51,7 +51,7 @@
         </app-comments>
         <div *ngIf="!commentsAllowed" class="alert alert-warning">
           <p *ngIf="accessDeny(challenge.commentAccess)">
-            Возможность комментирования данной задачи ограничена
+            Возможность комментирования недоступна для данной задачи
           </p>
           <p *ngIf="accessOnlySolved(challenge.commentAccess)">
             Вы получите доступ к комментариям после решения задачи
@@ -69,10 +69,10 @@
         </app-shared-solution-list>
         <div *ngIf="!shareAllowed" class="alert alert-warning">
           <p *ngIf="accessDeny(challenge.shareAccess)">
-            Возможность комментирования данной задачи ограничена
+            Открытые решения недоступны для данной задачи
           </p>
           <p *ngIf="accessOnlySolved(challenge.shareAccess)">
-            Вы получите доступ к комментариям после решения задачи
+            Вы получите доступ к открытым решениям после решения задачи
           </p>
         </div>
       </tab>
