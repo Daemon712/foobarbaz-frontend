@@ -6,7 +6,7 @@ export class UserAccount {
   rating: number;
   solutions: number;
   challenges: number;
-  playlists: number;
+  challengeLists: number;
   comments: number;
   sharedSolutions: number;
 

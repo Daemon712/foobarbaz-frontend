@@ -1,0 +1,27 @@
+<div [hidden]="items" class="alert alert-info lead text-center p-3">
+  <i class="fa fa-spinner fa-pulse"></i>
+  <span> Загрузка...</span>
+</div>
+<div [hidden]="!items || items.length" class="alert alert-warning lead text-center p-3">
+  <span> Подборок не найдено</span>
+</div>
+<div class="card mb-2" *ngFor="let challengeList of items">
+  <div class="card-header">
+    <div class="pull-right m-1">
+      <app-user-link [user]="challengeList.author"></app-user-link>
+    </div>
+    <h3><a [routerLink]="['/challengeLists', challengeList.id]">{{challengeList.name}}</a></h3>
+  </div>
+  <div class="card-block">
+    <p>{{challengeList.description}}</p>
+    <span *ngFor="let c of challengeList.challenges | slice:0:3; let i = index">
+      <span *ngIf="i > 0">, </span>
+      <a [routerLink]="['/challenges',c.id]">{{c.name}}</a>
+    </span>
+    <span *ngIf="challengeList.challenges.length == 4">
+      <span>, </span>
+      <a [routerLink]="['/challenges', challengeList.challenges[3].id]">{{challengeList.challenges[3].name}}</a>
+    </span>
+    <span *ngIf="challengeList.challenges.length > 4"> и {{challengeList.challenges.length - 3}} других...</span>
+  </div>
+</div>

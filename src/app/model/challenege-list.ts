@@ -1,6 +1,6 @@
 import {Challenge} from "./challenge";
 import {User} from "./user";
-export class Playlist {
+export class ChallengeList {
   id: number;
   name: string;
   description: string;

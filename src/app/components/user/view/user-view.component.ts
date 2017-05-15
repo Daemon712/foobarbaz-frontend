@@ -4,8 +4,8 @@ import {UserAccount} from "../../../model/user-account";
 import {UserService} from "../../../service/user.service";
 import {Challenge} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
-import {PlaylistService} from "../../../service/playlist.service";
-import {Playlist} from "../../../model/playlist";
+import {ChallengeListService} from "../../../service/challenge-list.service";
+import {ChallengeList} from "../../../model/challenege-list";
 import {SharedSolution} from "../../../model/shared-solution";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
 
@@ -18,14 +18,14 @@ export class UserViewComponent implements OnInit {
   userAccount: UserAccount;
   challenges: Challenge[];
   bookmarks: Challenge[];
-  playlists: Playlist[];
+  challengeLists: ChallengeList[];
   solutions: SharedSolution[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private challengeService: ChallengeService,
-    private playlistService: PlaylistService,
+    private challengeListService: ChallengeListService,
     private sharedSolutionService: SharedSolutionService,
   ) { }
 
@@ -35,7 +35,7 @@ export class UserViewComponent implements OnInit {
       .subscribe((user: UserAccount) => {
         this.userAccount = user;
         this.loadChallenges();
-        this.loadPlaylists();
+        this.loadChallengeLists();
         this.loadBookmarks();
         this.loadSolutions();
       });
@@ -46,9 +46,9 @@ export class UserViewComponent implements OnInit {
       .then(challenges => this.challenges = challenges);
   }
 
-  private loadPlaylists(){
-    this.playlistService.getPlaylistsByAuthor(this.userAccount.username)
-      .then(playlists => this.playlists = playlists);
+  private loadChallengeLists(){
+    this.challengeListService.getChallengeListsByAuthor(this.userAccount.username)
+      .then(lists => this.challengeLists = lists);
   }
 
   private loadBookmarks(){

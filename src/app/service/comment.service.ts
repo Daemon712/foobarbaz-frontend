@@ -38,13 +38,13 @@ abstract class CommentService {
 @Injectable()
 export class ChallengeCommentService extends CommentService {
   constructor(http: Http) {
-    super(http, 'api/challenge-comments');
+    super(http, 'api/comments/challenge');
   }
 }
 
 @Injectable()
 export class SolutionCommentService extends CommentService {
   constructor(http: Http) {
-    super(http, 'api/solution-comments');
+    super(http, 'api/comments/solution');
   }
 }

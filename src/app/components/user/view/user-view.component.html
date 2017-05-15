@@ -54,10 +54,10 @@
       </tab>
       <tab class="py-3">
         <ng-template tabHeading>
-          Подборки <i class="fa fa-list"></i> {{playlists ? playlists.length : userAccount.playlists}}
+          Подборки <i class="fa fa-list"></i> {{challengeLists ? challengeLists.length : userAccount.challengeLists}}
         </ng-template>
-        <app-playlist-list [items]="playlists">
-        </app-playlist-list>
+        <app-challenge-list-list [items]="challengeLists">
+        </app-challenge-list-list>
       </tab>
       <tab class="py-3">
         <ng-template tabHeading>

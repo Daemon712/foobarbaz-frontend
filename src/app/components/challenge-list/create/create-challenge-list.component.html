@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #createPlaylistForm="ngForm" novalidate>
+<form (ngSubmit)="onSubmit()" #createChallengeListForm="ngForm" novalidate>
 
   <div class="jumbotron">
     <h1 class="display-3">Создать подборку</h1>
@@ -10,7 +10,7 @@
       <div class="form-group">
         <label for="name">Название</label>
         <input type="text" class="form-control"
-               id="name" name="name" #name="ngModel" [(ngModel)]="playlist.name"
+               id="name" name="name" #name="ngModel" [(ngModel)]="challengeList.name"
                required minlength="4" maxlength="50" pattern="[a-zA-Zа-яА-Я0-9\-._ ]+">
         <div *ngIf="name.errors && (name.dirty || name.touched)"
              class="text-danger">
@@ -23,7 +23,7 @@
       <div class="form-group">
         <label for="description">Описание</label>
         <textarea class="form-control"
-                  id="description" name="description" #description="ngModel" [(ngModel)]="playlist.description"
+                  id="description" name="description" #description="ngModel" [(ngModel)]="challengeList.description"
                   required minlength="20" maxlength="200"></textarea>
         <div *ngIf="description.errors && (description.dirty || description.touched)"
              class="text-danger">
@@ -34,7 +34,7 @@
 
       <div class="form-group">
         <label>Задачи</label>
-        <app-challenge-picker [(challenges)]="playlist.challenges"></app-challenge-picker>
+        <app-challenge-picker [(challenges)]="challengeList.challenges"></app-challenge-picker>
       </div>
     </div>
 
@@ -61,8 +61,8 @@
 
   <div>
     <button class="btn btn-lg btn-success mb-3"
-            [title]="createPlaylistForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
-            [disabled]="!createPlaylistForm.form.valid || playlist.challenges < 3 || submitted">
+            [title]="createChallengeListForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
+            [disabled]="!createChallengeListForm.form.valid || challengeList.challenges < 3 || submitted">
       <i class="fa fa-plus"> </i>
       <span> Создать подборку</span>
     </button>

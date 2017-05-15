@@ -39,12 +39,12 @@ import { ShareSolutionComponent } from './components/shared-solution/share/share
 import { SharedSolutionViewComponent } from './components/shared-solution/view/shared-solution-view.component';
 import {SharedSolutionService} from "./service/shared-solution.service";
 import {ChallengeCommentService,SolutionCommentService} from "./service/comment.service";
-import { PlaylistListPageComponent } from './components/playlist/list-page/playlist-list-page.component';
-import {PlaylistService} from "./service/playlist.service";
-import { CreatePlaylistComponent } from './components/playlist/create/create-playlist.component';
+import { challengeListListPageComponent } from './components/challenge-list/list-page/challenge-list-list-page.component';
+import {ChallengeListService} from "./service/challenge-list.service";
+import { CreateChallengeListComponent } from './components/challenge-list/create/create-challenge-list.component';
 import { ChallengePickerComponent } from './components/challenge/picker/challenge-picker.component';
-import { PlaylistListComponent } from './components/playlist/list/playlist-list.component';
-import { PlaylistViewComponent } from './components/playlist/view/playlist-view.component';
+import { ChallengeListListComponent } from './components/challenge-list/list/challenge-list-list.component';
+import { ChallengeListViewComponent } from './components/challenge-list/view/challenge-list-view.component';
 import { ChallengeViewPageComponent } from './components/challenge/view-page/challenge-view-page.component';
 import {HttpServiceFactory} from "./service/http.service";
 import {CanActivateAuthorized} from "./security/can-activate-authorized";
@@ -68,12 +68,12 @@ const routes: Routes = [
   { path: 'challenges',  component: ChallengeListPageComponent },
   { path: 'solutions/:id', component: SharedSolutionViewComponent},
   {
-    path: 'playlists/create',
-    component: CreatePlaylistComponent ,
+    path: 'challenge-lists/create',
+    component: CreateChallengeListComponent ,
     canActivate: [CanActivateAuthorized],
   },
-  { path: 'playlists/:id',  component: PlaylistViewComponent },
-  { path: 'playlists',  component: PlaylistListPageComponent },
+  { path: 'challenge-lists/:id',  component: ChallengeListViewComponent },
+  { path: 'challenge-lists',  component: challengeListListPageComponent },
   { path: '', redirectTo: '/challenges', pathMatch: 'full' }
 ];
 
@@ -102,11 +102,11 @@ const routes: Routes = [
     RateChallengeComponent,
     ShareSolutionComponent,
     SharedSolutionViewComponent,
-    PlaylistListPageComponent,
-    CreatePlaylistComponent,
+    challengeListListPageComponent,
+    CreateChallengeListComponent,
     ChallengePickerComponent,
-    PlaylistListComponent,
-    PlaylistViewComponent,
+    ChallengeListListComponent,
+    ChallengeListViewComponent,
     ChallengeViewPageComponent,
     TopUsersComponent,
     UserLinkComponent,
@@ -138,7 +138,7 @@ const routes: Routes = [
     ChallengeService,
     ChallengeCommentService,
     SolutionCommentService,
-    PlaylistService,
+    ChallengeListService,
     SolutionService,
     TagService,
     SharedSolutionService,

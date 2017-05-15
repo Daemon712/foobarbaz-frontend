@@ -1,11 +1,11 @@
-<div class="jumbotron" *ngIf="playlist">
-  <h1 class="display-3">{{playlist.name}}</h1>
-  <p class="lead">{{playlist.description}}</p>
+<div class="jumbotron" *ngIf="challengeList">
+  <h1 class="display-3">{{challengeList.name}}</h1>
+  <p class="lead">{{challengeList.description}}</p>
 </div>
-<div class="jumbotron" *ngIf="!playlist">
+<div class="jumbotron" *ngIf="!challengeList">
   <h1 class="display-3">Загрузка...</h1>
 </div>
-<div *ngIf="playlist" class="btn-group btn-group-sm btn-group-justified input-group-sm mb-3">
+<div *ngIf="challengeList" class="btn-group btn-group-sm btn-group-justified input-group-sm mb-3">
   <span class="input-group-btn">
     <button class="btn btn-secondary" type="button"
             [disabled]="page == 0"
@@ -13,7 +13,7 @@
       <i class="fa fa-chevron-left"></i>
     </button>
   </span>
-  <button *ngFor="let challenge of playlist.challenges | slice:page:page+itemsPerPage"
+  <button *ngFor="let challenge of challengeList.challenges | slice:page:page+itemsPerPage"
           class="btn" (click)="current = challenge"
           [class.btn-success]="challengeStatus.Completed == challenge.status"
           [class.btn-info]="challengeStatus.InProgress == challenge.status"
@@ -23,7 +23,7 @@
   </button>
   <span class="input-group-btn">
     <button class="btn btn-secondary" type="button"
-            [disabled]="page >= playlist.challenges.length-itemsPerPage"
+            [disabled]="page >= challengeList.challenges.length-itemsPerPage"
             (click)="page=page+1">
       <i class="fa fa-chevron-right"></i>
     </button>
