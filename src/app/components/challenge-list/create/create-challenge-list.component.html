@@ -46,13 +46,13 @@
         </div>
         <div class="card-block text-justify">
           <p>
-            Выберите для своей подборки говорящее название.
-            И добавьте немного информации в описании (20-200 символов).
+            Выберите для своей подборки говорящее <b>название</b>.
+            И добавьте немного информации в <b>описании</b>.
           </p>
           <p>
-            В подборке должно быть как минимум 3 задачи.
+            В подборке должно быть как минимум 3 <b>задачи</b>.
             И будьте внимательны к порядку задач, он сохранится.
-            Менять порядок можно с помощью Drag & Drop.
+            Менять порядок можно с помощью <u>Drag & Drop</u>.
           </p>
         </div>
       </div>
@@ -62,7 +62,7 @@
   <div>
     <button class="btn btn-lg btn-success mb-3"
             [title]="createChallengeListForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
-            [disabled]="!createChallengeListForm.form.valid || challengeList.challenges < 3 || submitted">
+            [disabled]="!createChallengeListForm.form.valid || challengeList.challenges?.length < 3 || submitted">
       <i class="fa fa-plus"> </i>
       <span> Создать подборку</span>
     </button>
