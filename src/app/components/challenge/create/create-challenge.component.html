@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #createChallengeForm="ngForm" novalidate>
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
 
   <div class="jumbotron">
     <h1 class="display-3">Создать задачу</h1>
@@ -12,25 +12,22 @@
         <div class="col-8">
           <div class="form-group">
             <label for="name">Название</label>
-            <input type="text" class="form-control"
-                   id="name" name="name" #name="ngModel" [(ngModel)]="model.name"
-                   required minlength="4" maxlength="50">
-            <div *ngIf="name.errors && (name.dirty || name.touched)"
-                 class="text-danger">
-              <div [hidden]="!name.errors['required']">Укажите название задачи</div>
-              <div [hidden]="!name.errors['minlength']">Слишком короткое название</div>
+            <input type="text" class="form-control required" id="name" formControlName="name">
+            <div *ngIf="displayErrors('name')" class="text-danger">
+              <div *ngIf="displayError('name', 'required')">Укажите название задачи</div>
+              <div *ngIf="displayError('name', 'minlength')">Слишком короткое название</div>
+              <div *ngIf="displayError('name', 'maxlength')">Слишком длинное название</div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="abstract">Аннотация</label>
-            <textarea class="form-control"
-                      id="abstract" name="abstract" #abstract="ngModel" [(ngModel)]="model.shortDescription"
-                      required minlength="50" maxlength="300"></textarea>
-            <div *ngIf="abstract.errors && (abstract.dirty || abstract.touched)"
-                 class="text-danger">
-              <div [hidden]="!abstract.errors['required']">Напишите краткое описание задачи</div>
-              <div [hidden]="!abstract.errors['minlength']">Слишком короткая аннотация</div>
+            <textarea class="form-control required" id="abstract" formControlName="shortDescription">
+            </textarea>
+            <div *ngIf="displayErrors('shortDescription')" class="text-danger">
+              <div *ngIf="displayError('shortDescription', 'required')">Напишите краткое описание задачи</div>
+              <div *ngIf="displayError('shortDescription', 'minlength')">Слишком короткая аннотация</div>
+              <div *ngIf="displayError('shortDescription', 'maxlength')">Слишком длинная аннотация</div>
             </div>
           </div>
 
@@ -122,13 +119,31 @@
     <tab heading="Описание" class="py-3">
       <div class="row">
         <div class="col-8">
-          <quill-editor [(ngModel)]="model.description"
-                        [ngModelOptions]="{standalone: true}"
+          <quill-editor [formControl]="form.controls['description']"
                         [config]="{placeholder: 'Напишите подробное описание здесь'}"
                         class="form-control required">
           </quill-editor>
+          <div *ngIf="displayErrors('description')" class="text-danger">
+            <div *ngIf="displayError('description', 'required')">Напишите полное описание задачи</div>
+            <div *ngIf="displayError('description', 'minlength')">Слишком короткое описание</div>
+            <div *ngIf="displayError('description', 'maxlength')">Слишком длинное описание</div>
+          </div>
         </div>
         <div class="col-4">
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fa fa-question"></i>
+              <span> Помощь</span>
+            </div>
+            <div class="card-block text-justify">
+              <p>
+                Напишите <b>полное описание</b> задачи: от 100 до 5000 символов.
+              </p>
+              <p>
+                Добавьте <b>изображения</b>, если требуется.
+              </p>
+            </div>
+          </div>
           <div class="card">
             <div class="card-header">
               <i class="fa fa-image"></i>
@@ -163,7 +178,7 @@
             </div>
             <div class="card-block text-justify">
               <p>
-                Чтобы добавить тест, напишите публичный нестатичный метод
+                Чтобы добавить <b>тест</b>, напишите публичный нестатичный метод
                 без параметров и пометьте его аннотацией <code>@Test</code>
               </p>
               <p>
@@ -199,14 +214,15 @@
             </div>
             <div class="card-block text-justify">
               <p>
-                Шаблон послужит основой для всех новых решений пользователей.
+                <b>Шаблон</b> послужит основой для всех новых решений пользователей.
               </p>
               <p>
                 Объявите все методы, которые пользователь потом должен будет
                 реализовать и которые Вы хотите вызывать в тестах.
               </p>
               <p>
-                Шаблон должен компилироваться без ошибок, но должен не проходить тесты.
+                Шаблон должен <u>компилироваться</u> без ошибок,
+                но должен <u>не проходить</u> тесты.
               </p>
             </div>
           </div>
@@ -237,7 +253,7 @@
             </div>
             <div class="card-block text-justify">
               <p>
-                Пример решения нужен, чтобы убедиться, что у задачи вообще есть решение.
+                <b>Пример решения</b> нужен, чтобы убедиться, что у задачи вообще есть решение.
               </p>
               <p>
                 Ваше решение будет сохранено и задача сразу будет решенной.
@@ -266,8 +282,8 @@
 
   <div>
     <button class="btn btn-lg btn-success mb-3"
-            [title]="createChallengeForm.form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
-            [disabled]="!createChallengeForm.form.valid || submitted">
+            [title]="form.valid ? '' : 'Параметры не заполнены или заполнены неправильно'"
+            [disabled]="!form.valid || submitted">
       <i *ngIf="submitted!='create'" class="fa fa-plus"></i>
       <i *ngIf="submitted=='create'" class="fa fa-spinner fa-pulse"></i>
       <span> Создать задачу</span>

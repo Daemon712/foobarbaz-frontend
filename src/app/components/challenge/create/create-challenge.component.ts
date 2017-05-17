@@ -5,6 +5,7 @@ import {ChallengeService} from "../../../service/challenge.service";
 import {SolutionService} from "../../../service/solution.service";
 import {TestResult} from "../../../model/test-result";
 import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-create-challenge',
@@ -21,6 +22,7 @@ export class CreateChallengeComponent implements OnInit {
   solutionTestEditor: AceEditorComponent;
 
   model: Challenge = new Challenge();
+  form: FormGroup;
   accessOption = AccessOption;
   testResults: TestResult[];
   options = {
@@ -36,8 +38,27 @@ export class CreateChallengeComponent implements OnInit {
   constructor(
     private challengeService: ChallengeService,
     private testSolutionService: SolutionService,
+    private formBuilder: FormBuilder,
     private router: Router,
-  ) { }
+  ) {
+    this.form = formBuilder.group({
+      name: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(50)
+      ])],
+      shortDescription: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(50),
+        Validators.maxLength(300)
+      ])],
+      description: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(100),
+        Validators.maxLength(5000)
+      ])],
+    });
+  }
 
   ngOnInit() {
     this.initDefaultValues();
@@ -45,6 +66,7 @@ export class CreateChallengeComponent implements OnInit {
 
   onSubmit(){
     this.submitted = 'create';
+    Object.assign(this.model, this.form.value);
     this.challengeService.createChallenge(this.model)
       .then(response => {
         this.submitted = null;
@@ -72,6 +94,14 @@ export class CreateChallengeComponent implements OnInit {
     });
   }
 
+  displayErrors(control: string){
+    return this.form.controls[control].errors &&
+      (this.form.controls[control].dirty || this.form.controls[control].touched);
+  }
+
+  displayError(control: string, error: string){
+    return this.form.controls[control].errors[error];
+  }
 
   testTemplate(){
     this.submitted = 'template';
