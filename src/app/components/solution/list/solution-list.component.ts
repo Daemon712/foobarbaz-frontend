@@ -3,8 +3,8 @@ import {Solution} from "../../../model/solution";
 
 @Component({
   selector: 'app-revision-list',
-  templateUrl: 'revision-list.component.html',
-  styleUrls: ['revision-list.component.scss'],
+  templateUrl: 'solution-list.component.html',
+  styleUrls: ['solution-list.component.scss'],
 })
 export class SolutionListComponent {
 

@@ -36,8 +36,8 @@ export class ChallengeViewPageComponent implements OnInit {
       .switchMap((params: Params) => this.challengeService.getChallenge(+params['id']))
       .subscribe((challenge: Challenge) => {
         this.challenge = challenge;
-        this.commentsAllowed = this.checkAccess(challenge.commentAccess);
-        this.shareAllowed = this.checkAccess(challenge.shareAccess);
+        this.commentsAllowed = this.checkAccess(challenge.details.commentAccess);
+        this.shareAllowed = this.checkAccess(challenge.details.shareAccess);
         this.loadComments();
         this.loadSolutions();
       });

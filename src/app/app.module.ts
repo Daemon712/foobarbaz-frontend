@@ -29,7 +29,7 @@ import { TagPickerComponent } from './components/tags/picker/tag-picker.componen
 import {SolutionService} from "./service/solution.service";
 import { TestResultsTableComponent } from './components/solution/test-results/test-results-table.component';
 import { CommentsComponent } from './components/comments/comments.component';
-import { SolutionListComponent } from './components/solution/revision-list/revision-list.component';
+import { SolutionListComponent } from './components/solution/list/solution-list.component';
 import { SolutionStatusViewComponent } from './components/solution/status-view/solution-status-view.component';
 import { SharedSolutionListComponent } from './components/shared-solution/list/shared-solution-list.component';
 import { UserViewComponent } from './components/user/view/user-view.component';

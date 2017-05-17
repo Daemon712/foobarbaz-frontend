@@ -1,5 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {AccessOption, Challenge, ChallengeStatus} from "../../../model/challenge";
+import {
+  AccessOption, Challenge, ChallengeDetails, ChallengeStatus,
+  ChallengeUserDetails
+} from "../../../model/challenge";
 import {ChallengeService} from "../../../service/challenge.service";
 import 'rxjs/add/operator/switchMap';
 import {AceEditorComponent} from "ng2-ace-editor";
@@ -22,6 +25,9 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   @Input()
   challenge: Challenge;
+  details: ChallengeDetails;
+  userDetails: ChallengeUserDetails;
+
   solution: Solution;
   solutionStatus = SolutionStatus;
 
@@ -50,6 +56,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   setSolution(solution: Solution){
     if (this.solution) this.updateText();
     this.solution = solution;
+    if (!this.solution.newSolution) this.solution.newSolution = this.solution.implementation;
     this.solutionEditor.setText(this.solution.newSolution);
     this.solutionEditor.updateText();
     this.solutionEditor.getEditor().clearSelection();
@@ -61,8 +68,8 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   updateBookmark(){
     this.submitted = 'bookmark';
-    let bookmark = !this.challenge.bookmark;
-    this.challenge.bookmark = bookmark;
+    let bookmark = !this.userDetails.bookmark;
+    this.userDetails.bookmark = bookmark;
     this.challengeService.updateBookmark(this.challenge.id, bookmark)
       .then(() => {
         this.submitted = null;
@@ -74,7 +81,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   updateUserRating(userRating: Rating){
     this.submitted = 'rating';
-    this.challenge.userRating = userRating;
+    this.userDetails.rating = userRating;
     this.challengeService.updateUserRating(
       this.challenge.id, userRating)
       .then((rating) => {
@@ -103,20 +110,23 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   addSolution(){
-    this.createNewSolution(this.challenge.solutionTemplate);
+    this.createNewSolution(this.details.template);
   }
 
   copySolution(){
-    this.createNewSolution(this.solution.newSolution);
+    this.createNewSolution(this.solution.implementation);
   }
 
   createNewSolution(solution: string){
-    if (this.challenge.solutions.length >= 10){
+    if (this.userDetails.solutions.length >= 10){
       this.alertService.warning('Для одной задачи можно хранить не больше 10 решений');
       return;
     }
-    this.solution = new Solution(null, 'Новое Решение', SolutionStatus.created, solution);
-    this.challenge.solutions.push(this.solution);
+    this.solution = new Solution();
+    this.solution.status = SolutionStatus.created;
+    this.solution.newSolution = solution;
+    this.solution.implementation = solution;
+    this.userDetails.solutions.push(this.solution);
     this.solutionEditor.setText(this.solution.newSolution);
     this.solutionEditor.updateText();
     this.solutionEditor.getEditor().clearSelection();
@@ -138,47 +148,47 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   shareSolution(comment: string){
     this.submitted = "share";
-    this.solutionService.shareSolution(this.challenge.id, this.solution.id, comment)
+    this.solutionService.shareSolution(this.challenge.id, this.solution.solutionNum, comment)
       .then(() => this.submitted = null);
   }
 
   revertChanges(){
-    this.solution.newSolution = this.solution.solution;
+    this.solution.newSolution = this.solution.implementation;
     this.solutionEditor.setText(this.solution.newSolution);
     this.solutionEditor.updateText();
     this.solutionEditor.getEditor().clearSelection();
   }
 
   removeSolution(){
-    let index = this.challenge.solutions.indexOf(this.solution);
+    let index = this.userDetails.solutions.indexOf(this.solution);
     if (this.solution.status == SolutionStatus.created){
-      this.challenge.solutions.splice(index, 1);
-      if (this.challenge.solutions.length == 0) this.addSolution();
-      this.setSolution(this.challenge.solutions[Math.min(index, this.challenge.solutions.length - 1)]);
+      this.userDetails.solutions.splice(index, 1);
+      if (this.userDetails.solutions.length == 0) this.addSolution();
+      this.setSolution(this.userDetails.solutions[Math.min(index, this.userDetails.solutions.length - 1)]);
     } else {
       this.submitted = "remove";
-      this.solutionService.deleteSolution(this.challenge.id, this.solution.id)
+      this.solutionService.deleteSolution(this.challenge.id, this.solution.solutionNum)
         .then(() => {
           this.submitted = null;
-          this.challenge.solutions.splice(index, 1);
-          if (this.challenge.solutions.length == 0) this.addSolution();
-          this.setSolution(this.challenge.solutions[Math.min(index, this.challenge.solutions.length - 1)]);
+          this.userDetails.solutions.splice(index, 1);
+          if (this.userDetails.solutions.length == 0) this.addSolution();
+          this.setSolution(this.userDetails.solutions[Math.min(index, this.userDetails.solutions.length - 1)]);
         })
     }
   }
 
   checkShare(): boolean {
-    return (this.challenge.shareAccess == AccessOption.allow
-      || this.challenge.shareAccess == AccessOption.solvedOnly
+    return (this.details.shareAccess == AccessOption.allow
+      || this.details.shareAccess == AccessOption.solvedOnly
       && this.challenge.status == ChallengeStatus.Completed)
     && this.solution.status != SolutionStatus.created
-    && this.solution.solution == this.solution.newSolution
+    && this.solution.implementation == this.solution.implementation
   }
 
   titleShare(): string {
-    if (this.challenge.shareAccess == AccessOption.solvedOnly && this.challenge.status != ChallengeStatus.Completed){
+    if (this.details.shareAccess == AccessOption.solvedOnly && this.challenge.status != ChallengeStatus.Completed){
       return 'Вы получите доступ к этой функции после решения задачи';
-    } else if (this.solution.status == SolutionStatus.created || this.solution.solution == this.solution.newSolution){
+    } else if (this.solution.status == SolutionStatus.created || this.solution.implementation == this.solution.implementation){
       return 'Решение необходимо проверить или сохранить';
     } else {
       return 'Поделиться решением'
@@ -194,12 +204,13 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges){
-    if (changes['challenge'].currentValue){
-      if (this.challenge.solutions.length){
-        this.setSolution(this.challenge.solutions[this.challenge.solutions.length-1])
-      } else {
-        this.addSolution();
-      }
+    if (!changes['challenge'].currentValue) return;
+    this.details = this.challenge.details;
+    this.userDetails = this.details.userDetails;
+    if (this.userDetails.solutions.length) {
+      this.setSolution(this.userDetails.solutions[this.userDetails.solutions.length - 1])
+    } else {
+      this.addSolution();
     }
   }
 }

@@ -29,10 +29,10 @@
           <p *ngIf="!authorized">
             Оставлять коментарии могут только зарегистрированные пользователи
           </p>
-          <p *ngIf="authorized && accessDeny(challenge.commentAccess)">
+          <p *ngIf="authorized && accessDeny(challenge.details.commentAccess)">
             Возможность комментирования недоступна для данной задачи
           </p>
-          <p *ngIf="authorized && accessOnlySolved(challenge.commentAccess)">
+          <p *ngIf="authorized && accessOnlySolved(challenge.details.commentAccess)">
             Вы получите доступ к комментированию после решения задачи
           </p>
         </div>
@@ -50,10 +50,10 @@
                       (commentLiked)="commentLiked($event)">
         </app-comments>
         <div *ngIf="!commentsAllowed" class="alert alert-warning">
-          <p *ngIf="accessDeny(challenge.commentAccess)">
+          <p *ngIf="accessDeny(challenge.details.commentAccess)">
             Возможность комментирования недоступна для данной задачи
           </p>
-          <p *ngIf="accessOnlySolved(challenge.commentAccess)">
+          <p *ngIf="accessOnlySolved(challenge.details.commentAccess)">
             Вы получите доступ к комментариям после решения задачи
           </p>
         </div>
@@ -68,10 +68,10 @@
         <app-shared-solution-list *ngIf="shareAllowed" [solutions]="sharedSolutions">
         </app-shared-solution-list>
         <div *ngIf="!shareAllowed" class="alert alert-warning">
-          <p *ngIf="accessDeny(challenge.shareAccess)">
+          <p *ngIf="accessDeny(challenge.details.shareAccess)">
             Открытые решения недоступны для данной задачи
           </p>
-          <p *ngIf="accessOnlySolved(challenge.shareAccess)">
+          <p *ngIf="accessOnlySolved(challenge.details.shareAccess)">
             Вы получите доступ к открытым решениям после решения задачи
           </p>
         </div>

@@ -3,7 +3,6 @@ import {Challenge} from "../model/challenge";
 import {Http, URLSearchParams} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {AlertService} from "./alert.service";
-import {SolutionService} from "./solution.service";
 import {TestResult} from "../model/test-result";
 import {Page} from "../model/page";
 import {Rating} from "../model/rating";
@@ -67,14 +66,14 @@ export class ChallengeService {
     return this.http.post(this.url, {
       name: challenge.name,
       shortDescription: challenge.shortDescription,
-      fullDescription: challenge.description,
+      fullDescription: challenge.details.fullDescription,
       tags: challenge.tags,
       difficulty: challenge.difficulty,
-      template: challenge.solutionTemplate,
-      unitTest: challenge.solutionTest,
-      sample: challenge.solutionExample,
-      commentAccess: challenge.commentAccess,
-      shareAccess: challenge.shareAccess,
+      template: challenge.details.template,
+      unitTest: challenge.details.unitTest,
+      sample: challenge.details.sample,
+      commentAccess: challenge.details.commentAccess,
+      shareAccess: challenge.details.shareAccess,
     })
       .toPromise()
       .then(response => {
@@ -84,7 +83,7 @@ export class ChallengeService {
         }
         else if (response.json() instanceof Array) {
           this.alertService.warning("Пример решения не прошел все тесты");
-          return SolutionService.parseTestResults(response.json());
+          return response.json().map(tr => Object.assign(new TestResult(), tr))
         } else {
           this.alertService.warning("Не удалось создать задачу");
           return response.text();
@@ -115,31 +114,6 @@ export class ChallengeService {
   }
 
   static parseChallenge(data: any) : Challenge {
-    let userRating = data.details.userDetails ? data.details.userDetails.rating : null;
-    return {
-      id: data.id,
-      name: data.name,
-      shortDescription: data.shortDescription,
-      description: data.details.fullDescription,
-      tags: data.tags,
-      status: data.status,
-      author: {
-        username: data.author.username,
-        name: data.author.name,
-      },
-      created: data.created,
-      rating: data.rating,
-      difficulty: data.difficulty,
-      views: data.details.views,
-      completedSolutions: data.details.solutions,
-      solutionTemplate: data.details.template,
-      commentAccess: data.details.commentAccess,
-      shareAccess: data.details.shareAccess,
-      userRating: userRating
-        ? {rating: userRating.rating, difficulty: userRating.difficulty}
-        : null,
-      bookmark: data.details.userDetails ? data.details.userDetails.bookmark : null,
-      solutions: data.details.userDetails ? data.details.userDetails.solutions.map(i => SolutionService.parseSolution(i)) : [],
-    } as Challenge;
+    return Object.assign(new Challenge(), data);
   }
 }

@@ -38,8 +38,9 @@ export class ShareSolutionComponent implements OnInit {
   ngOnInit() {
   }
 
+  //noinspection JSUnusedGlobalSymbols
   open(){
-    this.solutionView.setText(this.revision.solution);
+    this.solutionView.setText(this.revision.implementation);
     this.shareModal.show();
     this.solutionView.getEditor().clearSelection();
   }

@@ -2,15 +2,15 @@
   <tab heading="Описание" class="py-3">
     <div class="row">
       <div class="col-md-8">
-        <div [hidden]="challenge" class="lead text-center alert alert-info">
+        <div [hidden]="details" class="lead text-center alert alert-info">
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
-        <div class="card description" *ngIf="challenge">
-          <div class="card-block text-justify" [innerHTML]="challenge.description"></div>
+        <div class="card description" *ngIf="details">
+          <div class="card-block text-justify" [innerHTML]="details.fullDescription"></div>
         </div>
       </div>
-      <div class="col-md-4" *ngIf="challenge">
+      <div class="col-md-4" *ngIf="challenge && details">
         <div class="card mb-3">
           <table class="table mb-0">
             <tbody>
@@ -53,14 +53,14 @@
             <tr>
               <td>Просмотры</td>
               <td>
-                <span>{{challenge.views}} </span>
+                <span>{{details.views}} </span>
                 <i class="fa fa-eye"></i>
               </td>
             </tr>
             <tr>
               <td>Успешные решения</td>
               <td>
-                <span>{{challenge.completedSolutions}} </span>
+                <span>{{details.solutions}} </span>
                 <i class="fa fa-check"></i>
               </td>
             </tr>
@@ -70,7 +70,7 @@
         <div class="row mb-3" *ngIf="authorized">
           <div class="col-6">
             <button type="button"
-                    [class.active]="challenge.bookmark"
+                    [class.active]="userDetails?.bookmark"
                     [disabled]="submitted=='bookmark'"
                     (click)="updateBookmark()"
                     class="btn btn-outline-primary btn-block">
@@ -81,7 +81,7 @@
           </div>
           <div class="col-6">
             <button type="button"
-                    [class.active]="challenge.userRating && (challenge.userRating.rating || challenge.userRating.difficulty)"
+                    [class.active]="userDetails?.rating"
                     [disabled]="submitted=='rating'"
                     (click)="ratePopup.open()"
                     class="btn btn-outline-warning btn-block">
@@ -94,7 +94,7 @@
         <app-tags-line [tags]="challenge.tags"></app-tags-line>
         <app-rate-challenge
           #ratePopup
-          [initRating]="challenge.userRating"
+          [initRating]="userDetails?.rating"
           (onSubmit)="updateUserRating($event)">
         </app-rate-challenge>
       </div>
@@ -114,7 +114,7 @@
       </div>
       <div class="col-md-4" *ngIf="solution && authorized">
         <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
-                [disabled]="submitted || solution.solution === solution.newSolution && solution.status !== solutionStatus.empty"
+                [disabled]="submitted || solution.implementation === solution.newSolution && solution.status !== solutionStatus.empty"
                 title="Сохранить и протестировать решение"
                 (click)="testSolution()">
           <i *ngIf="submitted!='test'" class="fa fa-play"></i>
@@ -143,14 +143,14 @@
             <i *ngIf="submitted=='share'" class="fa fa-spinner fa-pulse"></i>
           </button>
           <button type="button" class="btn btn-secondary"
-                  [disabled]="submitted || solution.solution == solution.newSolution && solution.status != solutionStatus.created"
+                  [disabled]="submitted || solution.implementation == solution.newSolution && solution.status != solutionStatus.created"
                   title="Сохранить решение без тестирования"
                   (click)="saveSolution()">
             <i *ngIf="submitted!='save'" class="fa fa-save"></i>
             <i *ngIf="submitted=='save'" class="fa fa-spinner fa-pulse"></i>
           </button>
           <button type="button" class="btn btn-warning"
-                  [disabled]="submitted || solution.solution === solution.newSolution"
+                  [disabled]="submitted || solution.implementation === solution.newSolution"
                   title="Сбросить изменения"
                   (click)="revertChanges()">
             <i class="fa fa-undo"></i>
@@ -164,7 +164,7 @@
           </button>
         </div>
         <app-revision-list
-          [solutions]="challenge.solutions"
+          [solutions]="userDetails.solutions"
           [active]="solution"
           (onSelect)="setSolution($event)">
         </app-revision-list>

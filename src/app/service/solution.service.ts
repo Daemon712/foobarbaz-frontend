@@ -48,40 +48,18 @@ export class SolutionService {
   }
 
   private processSolution(challengeId: number, action: string, solution: Solution): Promise<Solution> {
-    let solutionId = solution.id ? solution.id : 'new';
+    let solutionId = solution.solutionNum ? solution.solutionNum : 'new';
     let url = `${this.url}${challengeId}/solutions/${solutionId}/${action}`;
     return this.http.post(url, solution.newSolution)
       .toPromise()
-      .then(response => SolutionService.parseSolution(response.json()))
+      .then(response => Object.assign(new Solution(), response.json()))
       .catch(SolutionService.handleError);
-  }
-
-  public static parseSolution(s: any): Solution {
-    return {
-      id: s.solutionNum,
-      name: 'Решение №' + s.solutionNum,
-      status: s.status,
-      solution: s.implementation,
-      newSolution: s.implementation,
-      testResults: SolutionService.parseTestResults(s.testResults),
-    };
-  }
-
-  public static parseTestResults(testResults: any[]): TestResult[]{
-    return !testResults ? [] :
-      testResults.map(tr => {
-        return {
-          testName: tr.testName,
-          status: tr.status,
-          message: tr.message,
-        }
-      })
   }
 
   executeTests(test: string, code: string): Promise<TestResult[]>{
     return this.http.post(this.url + 'test', { test: test, code: code })
       .toPromise()
-      .then(response => SolutionService.parseTestResults(response.json()))
+      .then(response => response.json().map(tr => Object.assign(new TestResult(), tr)))
       .catch(SolutionService.handleError);
   }
 

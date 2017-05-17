@@ -5,6 +5,8 @@
       [class.active]="active === solution"
       (click)="onSelect.emit(solution)">
     <app-solution-status-view [status]="solution.status" class="mr-2"></app-solution-status-view>
-    <span [class.changed]="solution.solution != solution.newSolution">{{solution.name}}</span>
+    <span [class.changed]="solution.newSolution && solution.newSolution != solution.implementation">
+      {{solution.solutionNum ? 'Решение №' + solution.solutionNum : 'Новое решение'}}
+    </span>
   </li>
 </ul>

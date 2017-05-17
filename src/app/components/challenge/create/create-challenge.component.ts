@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AccessOption, Challenge} from "../../../model/challenge";
+import {AccessOption, Challenge, ChallengeDetails} from "../../../model/challenge";
 import {AceEditorComponent} from "ng2-ace-editor";
 import {ChallengeService} from "../../../service/challenge.service";
 import {SolutionService} from "../../../service/solution.service";
@@ -21,7 +21,7 @@ export class CreateChallengeComponent implements OnInit {
   @ViewChild('solutionTestEditor')
   solutionTestEditor: AceEditorComponent;
 
-  model: Challenge = new Challenge();
+  challenge: Challenge = new Challenge();
   form: FormGroup;
   accessOption = AccessOption;
   testResults: TestResult[];
@@ -52,7 +52,7 @@ export class CreateChallengeComponent implements OnInit {
         Validators.minLength(50),
         Validators.maxLength(300)
       ])],
-      description: ['', Validators.compose([
+      fullDescription: ['', Validators.compose([
         Validators.required,
         Validators.minLength(100),
         Validators.maxLength(5000)
@@ -66,8 +66,9 @@ export class CreateChallengeComponent implements OnInit {
 
   onSubmit(){
     this.submitted = 'create';
-    Object.assign(this.model, this.form.value);
-    this.challengeService.createChallenge(this.model)
+    Object.assign(this.challenge, this.form.value);
+    Object.assign(this.challenge.details, this.form.value);
+    this.challengeService.createChallenge(this.challenge)
       .then(response => {
         this.submitted = null;
         if (typeof response === 'number') {
@@ -84,7 +85,7 @@ export class CreateChallengeComponent implements OnInit {
 
   testExample(){
     this.submitted = 'example';
-    this.testSolutionService.executeTests(this.model.solutionTest, this.model.solutionExample)
+    this.testSolutionService.executeTests(this.challenge.details.unitTest, this.challenge.details.sample)
       .then(testResults => {
         this.submitted = null;
         if (testResults){
@@ -105,7 +106,7 @@ export class CreateChallengeComponent implements OnInit {
 
   testTemplate(){
     this.submitted = 'template';
-    this.testSolutionService.executeTests(this.model.solutionTest, this.model.solutionTemplate)
+    this.testSolutionService.executeTests(this.challenge.details.unitTest, this.challenge.details.template)
       .then(testResults => {
         this.submitted = null;
         if (testResults){
@@ -136,21 +137,23 @@ export class CreateChallengeComponent implements OnInit {
   }
 
   private initDefaultValues(){
-    this.model.solutionTemplate =
+    this.challenge.details = new ChallengeDetails();
+
+    this.challenge.details.template =
       "public class Foo {\n" +
       "\tpublic int bar() {\n" +
       "\t\t//...\n" +
       "\t\treturn 0;\n" +
       "\t}\n}";
 
-    this.model.solutionExample =
+    this.challenge.details.sample =
       "public class Foo {\n" +
       "\tpublic int bar() {\n" +
       "\t\treturn 1;\n" +
       "\t}\n" +
       "}";
 
-    this.model.solutionTest =
+    this.challenge.details.unitTest =
       "import org.junit.Assert;\n" +
       "import org.junit.Test;\n\n" +
       "public class FooTest {\n" +
@@ -162,8 +165,8 @@ export class CreateChallengeComponent implements OnInit {
       "\t}\n" +
       "}";
 
-    this.model.commentAccess = AccessOption.allow;
-    this.model.shareAccess = AccessOption.solvedOnly;
-    this.model.difficulty = 3;
+    this.challenge.details.commentAccess = AccessOption.allow;
+    this.challenge.details.shareAccess = AccessOption.solvedOnly;
+    this.challenge.difficulty = 3;
   };
 }

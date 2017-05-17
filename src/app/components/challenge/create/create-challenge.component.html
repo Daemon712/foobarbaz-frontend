@@ -33,7 +33,7 @@
 
           <div class="form-group">
             <label>Ключевые слова</label>
-            <app-tag-picker [(tags)]="model.tags"></app-tag-picker>
+            <app-tag-picker [(tags)]="challenge.tags"></app-tag-picker>
           </div>
 
           <div class="form-group w-100">
@@ -41,23 +41,23 @@
             <div>
               <div class="btn-group btn-group-justified">
                 <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                       [(ngModel)]="model.difficulty" [btnRadio]="1">
+                       [(ngModel)]="challenge.difficulty" [btnRadio]="1">
                   1 <i class="fa fa-asterisk"></i>
                 </label>
                 <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                       [(ngModel)]="model.difficulty" [btnRadio]="2">
+                       [(ngModel)]="challenge.difficulty" [btnRadio]="2">
                   2 <i class="fa fa-asterisk"></i>
                 </label>
                 <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                       [(ngModel)]="model.difficulty" [btnRadio]="3">
+                       [(ngModel)]="challenge.difficulty" [btnRadio]="3">
                   3 <i class="fa fa-asterisk"></i>
                 </label>
                 <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                       [(ngModel)]="model.difficulty" [btnRadio]="4">
+                       [(ngModel)]="challenge.difficulty" [btnRadio]="4">
                   4 <i class="fa fa-asterisk"></i>
                 </label>
                 <label class="btn btn-outline-primary" [ngModelOptions]="{standalone: true}"
-                       [(ngModel)]="model.difficulty" [btnRadio]="5">
+                       [(ngModel)]="challenge.difficulty" [btnRadio]="5">
                   5 <i class="fa fa-asterisk"></i>
                 </label>
               </div>
@@ -68,11 +68,11 @@
             <label>Комментарии</label>
             <div class="btn-group btn-group-fill">
               <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+                     [(ngModel)]="challenge.details.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
               <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+                     [(ngModel)]="challenge.details.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
               <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="model.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
+                     [(ngModel)]="challenge.details.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
             </div>
           </div>
 
@@ -80,11 +80,11 @@
             <label>Открытые решения</label>
             <div class="btn-group btn-group-fill">
               <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+                     [(ngModel)]="challenge.details.shareAccess" [btnRadio]="accessOption.allow">Разрешить</label>
               <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+                     [(ngModel)]="challenge.details.shareAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
               <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="model.shareAccess" [btnRadio]="accessOption.deny">Запретить</label>
+                     [(ngModel)]="challenge.details.shareAccess" [btnRadio]="accessOption.deny">Запретить</label>
             </div>
           </div>
         </div>
@@ -119,14 +119,14 @@
     <tab heading="Описание" class="py-3">
       <div class="row">
         <div class="col-8">
-          <quill-editor [formControl]="form.controls['description']"
+          <quill-editor [formControl]="form.controls['fullDescription']"
                         [config]="{placeholder: 'Напишите подробное описание здесь'}"
                         class="form-control required">
           </quill-editor>
-          <div *ngIf="displayErrors('description')" class="text-danger">
-            <div *ngIf="displayError('description', 'required')">Напишите полное описание задачи</div>
-            <div *ngIf="displayError('description', 'minlength')">Слишком короткое описание</div>
-            <div *ngIf="displayError('description', 'maxlength')">Слишком длинное описание</div>
+          <div *ngIf="displayErrors('fullDescription')" class="text-danger">
+            <div *ngIf="displayError('fullDescription', 'required')">Напишите полное описание задачи</div>
+            <div *ngIf="displayError('fullDescription', 'minlength')">Слишком короткое описание</div>
+            <div *ngIf="displayError('fullDescription', 'maxlength')">Слишком длинное описание</div>
           </div>
         </div>
         <div class="col-4">
@@ -166,7 +166,7 @@
         <div class="col-8">
           <ace-editor class="form-control"
                       #solutionTestEditor
-                      [(text)]="model.solutionTest"
+                      [(text)]="challenge.details.unitTest"
                       [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
           </ace-editor>
         </div>
@@ -202,7 +202,7 @@
         <div class="col-8">
           <ace-editor class="form-control"
                       #solutionTemplateEditor
-                      [(text)]="model.solutionTemplate"
+                      [(text)]="challenge.details.template"
                       [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
           </ace-editor>
         </div>
@@ -241,7 +241,7 @@
         <div class="col-8">
           <ace-editor class="form-control"
                       #solutionExampleEditor
-                      [(text)]="model.solutionExample"
+                      [(text)]="challenge.details.sample"
                       [mode]="'java'" [theme]="'dreamweaver'" [options]="options">
           </ace-editor>
         </div>
