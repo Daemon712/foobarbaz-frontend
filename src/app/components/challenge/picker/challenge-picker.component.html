@@ -5,11 +5,7 @@
        typeaheadOptionField="name"
        [typeaheadWaitMs]="300"
        (typeaheadOnSelect)="onSelect($event)">
-<bs-sortable
-  [(ngModel)]="challenges"
-  [itemTemplate]="itemTemplate">
-</bs-sortable>
-<template #itemTemplate [let-item]="'item'" [let-index]="'index'">
+<ng-template #itemTemplate let-item="item">
   <div class="card my-1">
     <div class="card-block">
       <button type="button" class="pull-right btn btn-danger" (click)="removeItem(index)">
@@ -19,4 +15,8 @@
       <p>{{item.initData.shortDescription}}</p>
     </div>
   </div>
-</template>
+</ng-template>
+<bs-sortable
+  [(ngModel)]="challenges"
+  [itemTemplate]="itemTemplate">
+</bs-sortable>
