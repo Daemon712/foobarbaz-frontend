@@ -27,7 +27,7 @@ export class ChallengeService {
         .then(response => {
           let data = response.json();
           return {
-            content: data.content.map(c => ChallengeService.parseChallenge(c)),
+            content: data.content.map(c => Object.assign(new Challenge(), c)),
             totalElements: data.totalElements,
             number: data.number,
           }
@@ -38,30 +38,28 @@ export class ChallengeService {
   getChallengesByAuthor(author: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}/author/${author}`)
       .toPromise()
-      .then(response => response.json().map(c => ChallengeService.parseChallenge(c)))
+      .then(response => response.json().map(c => Object.assign(new Challenge(), c)))
       .catch((e) => this.handleError(e));
   }
 
   getChallengesByName(name: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}/quick-search/${name}`)
       .toPromise()
-      .then(response => response.json().map(c => ChallengeService.parseChallenge(c)))
+      .then(response => response.json().map(c => Object.assign(new Challenge(), c)))
       .catch((e) => this.handleError(e));
   }
 
   getBookmarksByUser(username: string): Promise<Challenge[]>{
     return this.http.get(`${this.url}/bookmark/${username}`)
       .toPromise()
-      .then(response => response.json().map(c => ChallengeService.parseChallenge(c)))
+      .then(response => response.json().map(c => Object.assign(new Challenge(), c)))
       .catch((e) => this.handleError(e));
   }
 
   getChallenge(id: number): Promise<Challenge>{
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
-      .then(response => {
-        return ChallengeService.parseChallenge(response.json());
-      })
+      .then(response => ChallengeService.parseChallenge(response.json()))
       .catch((e) => this.handleError(e));
   }
 

@@ -15,7 +15,7 @@ export class SharedSolutionService {
   getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {
     return this.http.get(`${this.url}challenge/${challengeId}`)
       .toPromise()
-      .then(response => response.json().map(item => SharedSolutionService.parseSharedSolution(item)))
+      .then(response => response.json().map(item => Object.assign(new SharedSolution(), item)))
       .catch(SharedSolutionService.handleError);
   }
 

@@ -3,7 +3,7 @@ import {ChallengeList} from "../model/challenege-list";
 import {Http,URLSearchParams} from "@angular/http";
 import {AlertService} from "./alert.service";
 import {Page} from "../model/page";
-import {ChallengeService} from "./challenge.service";
+import {Challenge} from "../model/challenge";
 
 @Injectable()
 export class ChallengeListService {
@@ -41,7 +41,7 @@ export class ChallengeListService {
       .toPromise()
       .then(response => {
         let data = Object.assign(new ChallengeList(), response.json());
-        data.challenges = response.json().challenges.map(c => ChallengeService.parseChallenge(c));
+        data.challenges = response.json().challenges.map(c => Object.assign(new Challenge(), c));
         return data;
       });
   }
