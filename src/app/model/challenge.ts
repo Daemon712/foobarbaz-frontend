@@ -29,7 +29,7 @@ export class ChallengeDetails {
 export class ChallengeUserDetails {
   rating: Rating;
   bookmark: boolean;
-  solutions: Solution[];
+  solutions: Solution[] = [];
 }
 
 export enum ChallengeStatus {

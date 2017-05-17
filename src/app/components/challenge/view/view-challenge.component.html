@@ -172,7 +172,7 @@
         </app-share-solution>
       </div>
       <div class="col-md-4" *ngIf="!authorized">
-        <div class="alert alert-warning lead">
+        <div class="alert alert-warning lead text-justify">
           <p>Решение задач доступно только зарегистрированным пользователям!</p>
           <p>
             <a [routerLink]="'/login'">Войдите</a>
@@ -182,11 +182,24 @@
           </p>
         </div>
       </div>
+      <div class="col-md-4" *ngIf="!solution">
+        <div class="alert alert-info lead text-center">
+          <i class="fa fa-spinner fa-pulse"></i>
+          <span> Загрузка...</span>
+        </div>
+      </div>
     </div>
     </tab>
   <tab heading="Результаты тестов" class="py-3" *ngIf="authorized" [disabled]="!solution?.testResults?.length"
        (deselect)="testResultsActive = false" [active]="testResultsActive">
-    <div class="card">
+    <div *ngIf="!solution" class="alert alert-info lead text-center">
+      <i class="fa fa-spinner fa-pulse"></i>
+      <span> Загрузка...</span>
+    </div>
+    <div *ngIf="solution && !solution.testResults" class="alert alert-warning lead text-center">
+      <span>Решение не тестировалось</span>
+    </div>
+    <div class="card" *ngIf="solution?.testResults">
       <app-test-results-table [testResults]="solution?.testResults">
       </app-test-results-table>
     </div>

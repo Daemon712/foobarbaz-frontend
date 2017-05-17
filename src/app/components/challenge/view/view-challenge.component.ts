@@ -27,7 +27,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   challenge: Challenge;
   details: ChallengeDetails;
   userDetails: ChallengeUserDetails;
-
+  solutions: Solution[];
   solution: Solution;
   solutionStatus = SolutionStatus;
 
@@ -118,7 +118,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   createNewSolution(solution: string){
-    if (this.userDetails.solutions.length >= 10){
+    if (this.solutions.length >= 10){
       this.alertService.warning('Для одной задачи можно хранить не больше 10 решений');
       return;
     }
@@ -126,7 +126,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
     this.solution.status = SolutionStatus.created;
     this.solution.newSolution = solution;
     this.solution.implementation = solution;
-    this.userDetails.solutions.push(this.solution);
+    this.solutions.push(this.solution);
     this.solutionEditor.setText(this.solution.newSolution);
     this.solutionEditor.updateText();
     this.solutionEditor.getEditor().clearSelection();
@@ -160,19 +160,19 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   removeSolution(){
-    let index = this.userDetails.solutions.indexOf(this.solution);
+    let index = this.solutions.indexOf(this.solution);
     if (this.solution.status == SolutionStatus.created){
-      this.userDetails.solutions.splice(index, 1);
-      if (this.userDetails.solutions.length == 0) this.addSolution();
-      this.setSolution(this.userDetails.solutions[Math.min(index, this.userDetails.solutions.length - 1)]);
+      this.solutions.splice(index, 1);
+      if (this.solutions.length == 0) this.addSolution();
+      this.setSolution(this.solutions[Math.min(index, this.solutions.length - 1)]);
     } else {
       this.submitted = "remove";
       this.solutionService.deleteSolution(this.challenge.id, this.solution.solutionNum)
         .then(() => {
           this.submitted = null;
-          this.userDetails.solutions.splice(index, 1);
-          if (this.userDetails.solutions.length == 0) this.addSolution();
-          this.setSolution(this.userDetails.solutions[Math.min(index, this.userDetails.solutions.length - 1)]);
+          this.solutions.splice(index, 1);
+          if (this.solutions.length == 0) this.addSolution();
+          this.setSolution(this.solutions[Math.min(index, this.solutions.length - 1)]);
         })
     }
   }
@@ -205,10 +205,28 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges){
     if (!changes['challenge'].currentValue) return;
+    if (this.challenge.details){
+      this.setDetails();
+    } else {
+      this.details = null;
+      this.userDetails = null;
+      this.solution = null;
+      this.challengeService.getChallenge(this.challenge.id)
+        .then(challenge => {
+          Object.assign(this.challenge, challenge);
+          this.setDetails();
+        })
+    }
+  }
+
+  private setDetails() {
     this.details = this.challenge.details;
+    if (!this.details.userDetails)
+      this.details.userDetails = new ChallengeUserDetails();
     this.userDetails = this.details.userDetails;
-    if (this.userDetails.solutions.length) {
-      this.setSolution(this.userDetails.solutions[this.userDetails.solutions.length - 1])
+    this.solutions = this.userDetails.solutions;
+    if (this.solutions.length) {
+      this.setSolution(this.solutions[this.solutions.length - 1])
     } else {
       this.addSolution();
     }
