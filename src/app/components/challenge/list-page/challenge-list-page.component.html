@@ -11,71 +11,69 @@
       <i class="fa fa-plus"></i>
       <span> Добавить задачу</span>
     </a>
-    <div class="input-group mb-3">
-      <span class="input-group-addon">
-        <i class="fa fa-search"></i>
-      </span>
-      <input type="text" class="form-control" placeholder="Поиск">
+    <form (submit)="changeSearch(search.value)">
+      <div class="input-group mb-3">
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+        <input #search type="text" class="form-control" placeholder="Поиск">
+      </div>
+    </form>
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="mr-1 fa fa-filter"> </i>
+        <span>Фильтр</span>
+      </div>
+      <div class="card-block">
+        <div class="form-group d-flex justify-content-between">
+          <label>Рейтинг</label>
+          <rating [max]="5" [(ngModel)]="newFilter.rating"
+                  stateOn="fa fa-lg fa-star text-warning"
+                  stateOff="fa fa-lg fa-star text-muted">
+          </rating>
+        </div>
+
+        <div class="form-group  d-flex justify-content-between">
+          <label>Сложность</label>
+          <rating [max]="5" [(ngModel)]="newFilter.difficulty"
+                  stateOn="fa fa-lg fa-asterisk text-primary"
+                  stateOff="fa fa-lg fa-asterisk text-muted">
+          </rating>
+        </div>
+
+        <div class="form-group mb-0 d-flex justify-content-between">
+          <label>Статус</label>
+          <div class="btn-group btn-group-sm" role="group">
+            <label class="btn btn-outline-primary" title="Новые"
+                   [(ngModel)]="newFilter.status" [btnRadio]="challengeStatus.NotStarted">
+              <i class="fa fa-play fa-fw"></i>
+            </label>
+            <label class="btn btn-outline-info" title="Начатые"
+                   [(ngModel)]="newFilter.status" [btnRadio]="challengeStatus.InProgress">
+              <i class="fa fa-play fa-fw"></i>
+            </label>
+            <label class="btn btn-outline-success" title="Решенные"
+                   [(ngModel)]="newFilter.status" [btnRadio]="challengeStatus.Completed">
+              <i class="fa fa-check fa-fw"></i>
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="showClearButton()" class="text-center mt-2">
+          <button *ngIf="showClearButton()" class="btn btn-secondary btn-sm"
+                  (click)="clearFilter()">Сбросить</button>
+          <button *ngIf="showApplyButton()" class="btn btn-primary btn-sm"
+                  (click)="applyFilter()">Применить</button>
+        </div>
+      </div>
     </div>
-    <accordion>
-      <accordion-group #group>
-        <div accordion-heading class="d-flex align-items-center">
-          <i class="mr-1 fa fa-filter"> </i>
-          <span>Фильтр</span>
-          <i class="ml-auto fa "
-             [ngClass]="{'fa-chevron-down': group?.isOpen, 'fa-chevron-right': !group?.isOpen}"></i>
-        </div>
-        <div>
-          <div class="form-group d-flex justify-content-between">
-            <label>Рейтинг</label>
-            <rating [max]="5" [(ngModel)]="newFilter.rating"
-                    stateOn="fa fa-lg fa-star text-warning"
-                    stateOff="fa fa-lg fa-star text-muted">
-            </rating>
-          </div>
-
-          <div class="form-group  d-flex justify-content-between">
-            <label>Сложность</label>
-            <rating [max]="5" [(ngModel)]="newFilter.difficulty"
-                    stateOn="fa fa-lg fa-asterisk text-primary"
-                    stateOff="fa fa-lg fa-asterisk text-muted">
-            </rating>
-          </div>
-
-          <div class="form-group mb-0  d-flex justify-content-between">
-            <label>Статус</label>
-            <div class="btn-group btn-group-sm" role="group">
-              <label class="btn btn-outline-primary" title="Новые"
-                     [(ngModel)]="newFilter.statusNotStarted" btnCheckbox>
-                <i class="fa fa-play fa-fw"></i>
-              </label>
-              <label class="btn btn-outline-info" title="Начатые"
-                     [(ngModel)]="newFilter.statusInProgress" btnCheckbox>
-                <i class="fa fa-play fa-fw"></i>
-              </label>
-              <label class="btn btn-outline-success" title="Решенные"
-                     [(ngModel)]="newFilter.statusCompleted" btnCheckbox>
-                <i class="fa fa-check fa-fw"></i>
-              </label>
-            </div>
-          </div>
-
-          <div *ngIf="showClearButton()" class="text-center mt-1">
-            <button *ngIf="showClearButton()" class="btn btn-secondary btn-sm"
-                    (click)="clearFilter()">Сбросить</button>
-            <button *ngIf="showApplyButton()" class="btn btn-primary btn-sm"
-                    (click)="applyFilter()">Применить</button>
-          </div>
-        </div>
-      </accordion-group>
-    </accordion>
-    <div class="card my-3">
+    <div class="card">
       <div class="card-header">
         <i class="fa fa-star"> </i>
         <span>Популярные метки</span>
       </div>
       <div class="card-block">
-        <app-tags></app-tags>
+        <app-tags (tagSelected)="changeTag($event.name)"></app-tags>
       </div>
     </div>
   </div>
@@ -83,7 +81,7 @@
     <div class="d-flex justify-content-between mb-2">
       <div>
         <select class="custom-select custom-select-sm" title="Сортировать"
-                [(ngModel)]="sortField" (change)="changeSort()">
+                [(ngModel)]="request.sortField" (change)="changeSort()">
           <option value="created">По дате создания</option>
           <option value="name">По названию</option>
           <option value="author">По автору</option>
@@ -92,11 +90,11 @@
         </select>
         <div class="btn-group btn-group-sm">
           <label class="btn btn-outline-primary mb-0"
-                 [(ngModel)]="sortDir" (click)="changeSort()" btnRadio="asc">
+                 [(ngModel)]="request.sortDir" (click)="changeSort()" btnRadio="asc">
             <i class="fa fa-sort-amount-asc"></i>
           </label>
           <label class="btn btn-outline-primary mb-0"
-                 [(ngModel)]="sortDir" (click)="changeSort()" btnRadio="desc">
+                 [(ngModel)]="request.sortDir" (click)="changeSort()" btnRadio="desc">
             <i class="fa fa-sort-amount-desc"></i>
           </label>
         </div>

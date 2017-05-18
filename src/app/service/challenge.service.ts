@@ -16,12 +16,26 @@ export class ChallengeService {
     private http: Http,
   ) { }
 
-  getChallenges(page?: number, sortField?: string, sortDir?: string): Promise<Page<Challenge>>{
+  getChallenges(request: {
+    page?: number,
+    sortField?: string,
+    sortDir?: string,
+    name?: string,
+    rating?: number,
+    difficulty?: number,
+    status?: number,
+    tag?: string,
+  }): Promise<Page<Challenge>>{
     let params = new URLSearchParams();
-    if (page) params.set("page", page.toString());
-    if (sortField) params.set("field", sortField);
-    if (sortDir) params.set("dir", sortDir);
-    return this.http.get(this.url, {params: params})
+    if (request.page) params.set("page", ''+request.page);
+    if (request.sortField) params.set("field", request.sortField);
+    if (request.sortDir) params.set("dir", request.sortDir);
+    if (request.name) params.set("name", request.name);
+    if (request.rating) params.set("rating", ''+request.rating);
+    if (request.difficulty) params.set("difficulty", ''+request.difficulty);
+    if (request.status != null) params.set("status", ''+request.status);
+    if (request.tag) params.set("tag", request.tag);
+    return this.http.get(this.url, {params})
         .toPromise()
         .then(response => {
           let data = response.json();
