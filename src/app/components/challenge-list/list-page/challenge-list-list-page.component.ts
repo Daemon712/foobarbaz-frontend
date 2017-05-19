@@ -11,6 +11,7 @@ export class challengeListListPageComponent implements OnInit {
 
   page: Page<ChallengeList>;
   search: string;
+  randomList: ChallengeList;
 
   constructor(
     private challengeListService: ChallengeListService,
@@ -19,6 +20,8 @@ export class challengeListListPageComponent implements OnInit {
   ngOnInit() {
     this.challengeListService.getChallengeLists()
       .then(page => this.page = page);
+    this.challengeListService.getRandomChallengeList()
+      .then(list => this.randomList = list);
   }
 
   changePage(newPage: number){

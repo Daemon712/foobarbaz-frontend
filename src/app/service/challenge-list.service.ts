@@ -52,6 +52,12 @@ export class ChallengeListService {
       });
   }
 
+  getRandomChallengeList(): Promise<ChallengeList>{
+    return this.http.get(`${this.url}/random`)
+      .toPromise()
+      .then(response => Object.assign(new ChallengeList(), response.json()));
+  }
+
   addChallengeList(challengeList: ChallengeList): Promise<number>{
     return this.http.post(this.url, {
       name: challengeList.name,

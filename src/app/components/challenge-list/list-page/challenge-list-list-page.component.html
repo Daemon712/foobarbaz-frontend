@@ -31,9 +31,11 @@
         <i class="fa fa-gift"></i>
         <span>Случайная подборка</span>
       </div>
-      <div class="card-block">
-        <h5><a href="#">Stub</a></h5>
-        <div>Stub Stub Stub Stub Stub </div>
+      <div class="card-block" *ngIf="randomList">
+        <h5><a [routerLink]="['/challenge-lists', randomList.id]">
+          {{randomList.name}}
+        </a></h5>
+        <div>{{randomList.description}}</div>
       </div>
     </div>
   </div>
