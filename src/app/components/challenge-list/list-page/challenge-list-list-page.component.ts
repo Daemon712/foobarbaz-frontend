@@ -10,6 +10,7 @@ import {Page} from "../../../model/page";
 export class challengeListListPageComponent implements OnInit {
 
   page: Page<ChallengeList>;
+  search: string;
 
   constructor(
     private challengeListService: ChallengeListService,
@@ -22,7 +23,14 @@ export class challengeListListPageComponent implements OnInit {
 
   changePage(newPage: number){
     this.page.content = null;
-    this.challengeListService.getChallengeLists(newPage)
+    this.challengeListService.getChallengeLists(newPage, this.search)
+      .then(page => this.page = page);
+  }
+
+  changeSearch(search: string){
+    this.page.content = null;
+    this.search = search;
+    this.challengeListService.getChallengeLists(null, this.search)
       .then(page => this.page = page);
   }
 }

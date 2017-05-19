@@ -12,12 +12,14 @@
       <i class="fa fa-plus"></i>
       <span> Добавить подборку</span>
     </a>
-    <div class="input-group mb-3">
-      <span class="input-group-addon">
-        <i class="fa fa-search"></i>
-      </span>
-      <input type="text" class="form-control" placeholder="Поиск">
-    </div>
+    <form (submit)="changeSearch(search.value)">
+      <div class="input-group mb-3">
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+        <input #search type="text" class="form-control" placeholder="Поиск">
+      </div>
+    </form>
     <pagination class="pagination-justified" *ngIf="page && page.totalElements > 10"
                 (pageChanged)="changePage($event.page - 1)"
                 [totalItems]="page.totalElements" [ngModel]="page.number + 1"

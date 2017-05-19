@@ -15,9 +15,10 @@ export class ChallengeListService {
     private alertService: AlertService,
   ) { }
 
-  getChallengeLists(page?: number): Promise<Page<ChallengeList>>{
+  getChallengeLists(page?: number, search?: string): Promise<Page<ChallengeList>>{
     let params = new URLSearchParams();
     if (page) params.set("page", page.toString());
+    if (search) params.set("search", search);
     return this.http.get(this.url, {params})
       .toPromise()
       .then(response => {
