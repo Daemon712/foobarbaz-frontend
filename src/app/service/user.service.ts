@@ -141,17 +141,11 @@ export class UserService {
     this.user = null;
   }
 
-  private static parseAccount(account: any): UserAccount {
-    return {
-      name: account.user.name,
-      username: account.user.username,
-      description: account.description,
-      registrationDate: account.registrationDate,
-      solutions: account.solutions,
-      challenges: account.challenges,
-      sharedSolutions: account.sharedSolutions,
-      rating: account.rating,
-    } as UserAccount;
+  private static parseAccount(data: any): UserAccount {
+    let account = Object.assign(new UserAccount(), data);
+    account.name = data.user.name;
+    account.username = data.user.username;
+    return account;
   }
 
   private handleError(error: any): Promise<any> {
