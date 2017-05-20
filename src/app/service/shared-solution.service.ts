@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {SharedSolution} from "../model/shared-solution";
 import {ChallengeService} from "./challenge.service";
+import {AlertService} from "./alert.service";
 
 @Injectable()
 export class SharedSolutionService {
@@ -10,6 +11,7 @@ export class SharedSolutionService {
 
   constructor(
     private http: Http,
+    private alertService: AlertService,
   ) { }
 
   getSharedSolutions(challengeId: number): Promise<SharedSolution[]> {
@@ -29,7 +31,13 @@ export class SharedSolutionService {
   getSharedSolution(sharedSolutionId: number): Promise<SharedSolution> {
     return this.http.get(`${this.url}${sharedSolutionId}`)
       .toPromise()
-      .then(response => SharedSolutionService.parseSharedSolution(response.json()))
+      .then(response => {
+        if (response.status == 404){
+          this.alertService.warning(`Решение <b>#${sharedSolutionId}</b> не найдено`);
+          return null;
+        }
+        return SharedSolutionService.parseSharedSolution(response.json())
+      })
       .catch(SharedSolutionService.handleError);
   }
 

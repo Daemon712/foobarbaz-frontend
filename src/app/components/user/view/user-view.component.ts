@@ -49,6 +49,7 @@ export class UserViewComponent implements OnInit {
     this.activatedRoute.params
       .switchMap((params: Params) => this.userService.getUserAccount(params['username']))
       .subscribe((user: UserAccount) => {
+        if (!user) return;
         this.userAccount = user;
         this.modifyInfoData = {
           name: user.name,

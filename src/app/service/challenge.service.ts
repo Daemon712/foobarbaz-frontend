@@ -72,7 +72,13 @@ export class ChallengeService {
   getChallenge(id: number): Promise<Challenge>{
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
-      .then(response => ChallengeService.parseChallenge(response.json()))
+      .then(response => {
+        if (response.status == 404){
+          this.alertService.warning(`Задача <b>#${id}</b> не найдена`);
+          return null;
+        }
+        return ChallengeService.parseChallenge(response.json())
+      })
       .catch((e) => this.handleError(e));
   }
 

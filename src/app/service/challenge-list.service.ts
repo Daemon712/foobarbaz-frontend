@@ -41,6 +41,11 @@ export class ChallengeListService {
     return this.http.get(`${this.url}/${id}`)
       .toPromise()
       .then(response => {
+        if (response.status == 404){
+          this.alertService.warning(`Подборка <b>#${id}</b> не найдена`);
+          return null;
+        }
+
         let data = Object.assign(new ChallengeList(), response.json());
         data.challenges = response.json().challenges.map(c => Object.assign(new Challenge(), c));
         return data;

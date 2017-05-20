@@ -45,6 +45,7 @@ export class SharedSolutionViewComponent implements OnInit {
     this.activatedRoute.params
       .switchMap((params: Params) => this.sharedSolutionService.getSharedSolution(+params['id']))
       .subscribe((solution: SharedSolution) => {
+        if (!solution) return;
         this.solution = solution;
         this.challenge = solution.challenge;
         this.solutionView.setText(solution.implementation);

@@ -78,7 +78,13 @@ export class UserService {
   getUserAccount(username: string): Promise<UserAccount>{
     return this.http.get(`${this.url}/account/${username}`)
       .toPromise()
-      .then(response => UserService.parseAccount(response.json()))
+      .then(response => {
+        if (response.status == 404){
+          this.alertService.warning(`Пользователь <b>${username}</b> не найден`);
+          return null;
+        }
+        return UserService.parseAccount(response.json())
+      })
       .catch(this.handleError);
   }
 
