@@ -82,6 +82,30 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  modifyUserAccount(userAccount: UserAccount): Promise<UserAccount>{
+    let info = {name: userAccount.name, description: userAccount.description};
+    return this.http.post(`${this.url}/account/${userAccount.username}`, info)
+      .toPromise()
+      .then(response => {
+        this.alertService.success(`Информация о пользователе успешно обновлена!`);
+        if (this.user.username == userAccount.username)
+          this.user.name = userAccount.name;
+        return UserService.parseAccount(response.json())
+      })
+      .catch(this.handleError);
+  }
+
+  modifyUserPassword(username: string, password: string): Promise<void>{
+    return this.http.post(`${this.url}/account/${username}/password`, password)
+      .toPromise()
+      .then(() => {
+        this.alertService.success(`Пароль пользователя успешно обновлен!`);
+        if (this.user.username == username)
+          this.auth(btoa(`${username}:${password}`))
+      })
+      .catch(this.handleError);
+  }
+
   authenticate(user: User): Promise<User> {
     return this.auth(btoa(`${user.username}:${user.password}`))
       .then(user => {

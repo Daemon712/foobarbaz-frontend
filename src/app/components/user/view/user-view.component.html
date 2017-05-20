@@ -7,8 +7,12 @@
 </div>
 <div class="row" *ngIf="userAccount">
   <div class="col-3">
-    <img src="http://placehold.it/300x300" class="rounded w-100 mb-3"/>
-    <div class="card mb-3">
+    <img src="http://placehold.it/300x300" class="rounded w-100"/>
+    <button *ngIf="currentUser.username == userAccount.username" class="btn btn-secondary btn-block mt-2">
+      <i class="fa fa-image"></i>
+      Загрузить фотографию
+    </button>
+    <div class="card my-3">
       <table class="table mb-0">
         <tbody>
         <tr>
@@ -34,14 +38,6 @@
         </tbody>
       </table>
     </div>
-    <!--<button class="btn btn-secondary btn-block mb-1">-->
-      <!--<i class="fa fa-image"></i>-->
-      <!--<span>Загрузить фото</span>-->
-    <!--</button>-->
-    <!--<button class="btn btn-secondary btn-block">-->
-      <!--<i class="fa fa-lock"></i>-->
-      <!--<span>Сменить пароль</span>-->
-    <!--</button>-->
   </div>
   <div class="col-9">
     <tabset type="tabs">
@@ -71,6 +67,85 @@
           Решения <i class="fa fa-share-alt"></i> {{solutions ? solutions.length : userAccount.sharedSolutions}}
         </ng-template>
         <app-shared-solution-list [solutions]="solutions"></app-shared-solution-list>
+      </tab>
+      <tab class="py-3" *ngIf="currentUser.username == userAccount.username" >
+        <ng-template tabHeading>
+          Параметры <i class="fa fa-cogs"></i>
+        </ng-template>
+        <div class="mb-3">
+          <h5>
+            <i class="fa fa-file-text"></i>
+            Изменить описание
+          </h5>
+          <div class="form-group">
+            <label for="name">Полное имя</label>
+            <input type="text" class="form-control"
+                   id="name" [(ngModel)]="modifyInfoData.name"
+                   maxlength="50">
+          </div>
+          <div class="form-group">
+            <label for="description">Пару слов о себе</label>
+            <textarea class="form-control" id="description"
+                      [(ngModel)]="modifyInfoData.description"
+                      maxlength="200">
+            </textarea>
+          </div>
+          <div class="form-group" [hidden]="modifyInfoData.name == userAccount.name && modifyInfoData.description == userAccount.description">
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="modifyInfo()" [disabled]="submitted">
+              <i *ngIf="submitted!='info'" class="fa fa-fw fa-save"></i>
+              <i *ngIf="submitted=='info'" class="fa fa-fw fa-spinner fa-pulse"></i>
+              Сохранить
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm"
+                    (click)="cancelModifyInfo()" [disabled]="submitted">
+              Отменить
+            </button>
+          </div>
+        </div>
+        <div>
+          <h5>
+            <i class="fa fa-lock"></i>
+            Изменить пароль
+          </h5>
+          <form #modifyPasswordForm="ngForm" (ngSubmit)="modifyPassword()">
+            <div class="form-group">
+              <label for="password">Пароль</label>
+              <input class="form-control" type="password"
+                     id="password" name="password" #password="ngModel"
+                     [(ngModel)]="modifyPasswordData.password"
+                     required minlength="6" maxlength="32">
+              <div *ngIf="password.errors && (password.dirty || password.touched)"
+                   class="text-danger">
+                <div [hidden]="!password.errors['required']">Укажите пароль</div>
+                <div [hidden]="!password.errors['minlength']">Пароль должен быть не меньше 6 символов</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Повторите Пароль</label>
+              <input class="form-control" type="password"
+                     id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel"
+                     [(ngModel)]="modifyPasswordData.confirmPassword"
+                     required maxlength="32" validateEqual="password">
+              <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)"
+                   class="text-danger">
+                <div [hidden]="!confirmPassword.errors['required']">Укажите пароль еще раз</div>
+                <div [hidden]="!confirmPassword.errors['validateEqual']">Пароли не совпадают</div>
+              </div>
+            </div>
+            <div [hidden]="modifyPasswordForm.form.pristine" class="form-group">
+              <button type="submit" class="btn btn-primary btn-sm"
+                      [disabled]="!modifyPasswordForm.form.valid || submitted">
+                <i *ngIf="submitted!='password'" class="fa fa-fw fa-save"></i>
+                <i *ngIf="submitted=='password'" class="fa fa-fw fa-spinner fa-pulse"></i>
+                Сохранить
+              </button>
+              <button type="reset" class="btn btn-secondary btn-sm" [disabled]="submitted">
+                Отменить
+              </button>
+            </div>
+          </form>
+        </div>
       </tab>
     </tabset>
   </div>
