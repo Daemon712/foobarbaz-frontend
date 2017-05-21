@@ -42,14 +42,14 @@ export class UserService {
           number: data.number,
         };
       })
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
   }
 
   getTopUsers(property: string): Promise<UserAccount[]>{
     return this.http.get(`${this.url}/top/${property}`)
       .toPromise()
       .then(r => r.json().map(u => UserService.parseAccount(u)))
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
   }
 
   signUp(user: User): Promise<User> {
@@ -72,7 +72,7 @@ export class UserService {
             this.alertService.warning('Имя пользователя уже занято');
         }
       })
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
   }
 
   getUserAccount(username: string): Promise<UserAccount>{
@@ -85,7 +85,7 @@ export class UserService {
         }
         return UserService.parseAccount(response.json())
       })
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
   }
 
   modifyUserAccount(userAccount: UserAccount): Promise<UserAccount>{
@@ -98,7 +98,7 @@ export class UserService {
           this.user.name = userAccount.name;
         return UserService.parseAccount(response.json())
       })
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
   }
 
   modifyUserPassword(username: string, password: string): Promise<void>{
@@ -109,7 +109,16 @@ export class UserService {
         if (this.user.username == username)
           this.auth(btoa(`${username}:${password}`))
       })
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
+  }
+
+  modifyUserPhoto(username: string, photo: File): Promise<void>{
+    let formData:FormData = new FormData();
+    formData.append('file', photo, photo.name);
+    return this.http.post(`${this.url}/account/${username}/photo`, formData)
+      .toPromise()
+      .then(() => {})
+      .catch(error => this.handleError(error));
   }
 
   authenticate(user: User): Promise<User> {
@@ -139,7 +148,7 @@ export class UserService {
         } as User;
         return this.user;
       })
-      .catch(this.handleError);
+      .catch(error => this.handleError(error));
   }
 
   logout() {

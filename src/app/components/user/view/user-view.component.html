@@ -7,11 +7,19 @@
 </div>
 <div class="row" *ngIf="userAccount">
   <div class="col-3">
-    <img src="http://placehold.it/300x300" class="rounded w-100"/>
-    <button *ngIf="currentUser.username == userAccount.username" class="btn btn-secondary btn-block mt-2">
-      <i class="fa fa-image"></i>
+    <img class="rounded w-100"
+         [src]="userPhotoUrl"
+         onError="this.src='/assets/default_user_photo/max.png'"/>
+    <button *ngIf="currentUser.username == userAccount.username"
+            class="btn btn-secondary btn-block mt-2"
+            (click)="fileInput.click()">
+      <i *ngIf="submitted=='photo'" class="fa fa-spinner fa-pulse"></i>
+      <i *ngIf="submitted!='photo'" class="fa fa-image"></i>
       Загрузить фотографию
     </button>
+    <input #fileInput type="file" accept="image/*"
+           (change)="uploadPhoto(fileInput.files[0])"
+           style="visibility: hidden; position: absolute">
     <div class="card my-3">
       <table class="table mb-0">
         <tbody>

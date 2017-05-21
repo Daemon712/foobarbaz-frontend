@@ -1,4 +1,14 @@
-<img src="http://placehold.it/20x20" class="rounded" style="margin-top: -5px"/>
+<style>
+  img {
+    margin-top: -5px;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+  }
+</style>
+<img *ngIf="user" class="rounded"
+     src="/api/users/account/{{user.username}}/photo/min"
+     onError="this.src='/assets/default_user_photo/min.png'"/>
 <a *ngIf="link && user" [routerLink]="['/users', user.username]">
   <span>{{user.name || user.username}}</span>
 </a>

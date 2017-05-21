@@ -23,7 +23,9 @@
         Ни одного пользователя не найдено
       </li>
       <li class="list-group-item justify-content-start flex-nowrap" *ngFor="let user of page?.content">
-        <img src="http://placehold.it/100x100" class="rounded m-2"/>
+        <img class="rounded m-2"
+             src="/api/users/account/{{user.username}}/photo/mid"
+             onError="this.src='/assets/default_user_photo/mid.png'"/>
         <div class="ml-3">
           <h3>
             <a [routerLink]="['/users', user.username]">{{user.name || user.username}}</a>

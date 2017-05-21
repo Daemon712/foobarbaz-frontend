@@ -14,11 +14,13 @@ import {NgForm} from "@angular/forms";
 @Component({
   selector: 'app-user-view',
   templateUrl: 'user-view.component.html',
+  styleUrls: ['user-view.component.css'],
 })
 export class UserViewComponent implements OnInit {
 
   userAccount: UserAccount;
   currentUser: User;
+  userPhotoUrl: string;
   modifyInfoData: {
     name: string;
     description: string;
@@ -51,6 +53,7 @@ export class UserViewComponent implements OnInit {
       .subscribe((user: UserAccount) => {
         if (!user) return;
         this.userAccount = user;
+        this.userPhotoUrl = `/api/users/account/${user.username}/photo/max`;
         this.modifyInfoData = {
           name: user.name,
           description: user.description
@@ -62,6 +65,14 @@ export class UserViewComponent implements OnInit {
       });
   }
 
+  uploadPhoto(file: File){
+    this.submitted = 'photo';
+    this.userService.modifyUserPhoto(this.userAccount.username, file)
+      .then(() => {
+        this.submitted = null;
+        this.userPhotoUrl = `/api/users/account/${this.userAccount.username}/photo/max?rand=${Math.random()}`;
+      });
+  }
 
   modifyInfo(){
     this.submitted = 'info';
