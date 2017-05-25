@@ -10,7 +10,7 @@
     <img class="rounded w-100"
          [src]="userPhotoUrl"
          onError="this.src='/assets/default_user_photo/max.png'"/>
-    <button *ngIf="currentUser.username == userAccount.username"
+    <button *ngIf="currentUser?.username == userAccount.username"
             class="btn btn-secondary btn-block mt-2"
             (click)="fileInput.click()">
       <i *ngIf="submitted=='photo'" class="fa fa-spinner fa-pulse"></i>
@@ -76,7 +76,7 @@
         </ng-template>
         <app-shared-solution-list [solutions]="solutions"></app-shared-solution-list>
       </tab>
-      <tab class="py-3" *ngIf="currentUser.username == userAccount.username" >
+      <tab class="py-3" *ngIf="currentUser?.username == userAccount.username" >
         <ng-template tabHeading>
           Параметры <i class="fa fa-cogs"></i>
         </ng-template>
