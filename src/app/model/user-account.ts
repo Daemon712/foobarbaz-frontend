@@ -1,3 +1,4 @@
+import {UserRole} from "./user";
 export class UserAccount {
   name: string;
   username: string;
@@ -9,6 +10,7 @@ export class UserAccount {
   challengeLists: number;
   comments: number;
   sharedSolutions: number;
+  role: UserRole;
 
   constructor(username?: string) {
     this.username = username;

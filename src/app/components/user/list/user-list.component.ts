@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../../service/user.service";
 import {UserAccount} from "../../../model/user-account";
 import {Page} from "../../../model/page";
+import {UserRole} from "../../../model/user";
 
 @Component({
   selector: 'app-user-list',
@@ -11,6 +12,7 @@ import {Page} from "../../../model/page";
 export class UserListComponent implements OnInit {
   page: Page<UserAccount>;
   search: string;
+  userRole = UserRole;
 
   constructor(private userService: UserService) { }
 

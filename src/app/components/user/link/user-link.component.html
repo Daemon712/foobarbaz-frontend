@@ -9,7 +9,9 @@
 <img *ngIf="user" class="rounded"
      src="/api/users/account/{{user.username}}/photo/min"
      onError="this.src='/assets/default_user_photo/min.png'"/>
-<a *ngIf="link && user" [routerLink]="['/users', user.username]">
+<a *ngIf="link && user" [routerLink]="['/users', user.username]"
+   [class.text-danger]="user.role == userRole.ADMINISTRATOR"
+   [class.text-warning]="user.role == userRole.MODERATOR">
   <span>{{user.name || user.username}}</span>
 </a>
 <span *ngIf="!link && user">

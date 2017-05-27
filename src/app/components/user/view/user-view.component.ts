@@ -8,7 +8,7 @@ import {ChallengeListService} from "../../../service/challenge-list.service";
 import {ChallengeList} from "../../../model/challenege-list";
 import {SharedSolution} from "../../../model/shared-solution";
 import {SharedSolutionService} from "../../../service/shared-solution.service";
-import {User} from "../../../model/user";
+import {User, UserRole} from "../../../model/user";
 import {NgForm} from "@angular/forms";
 
 @Component({
@@ -37,6 +37,7 @@ export class UserViewComponent implements OnInit {
   bookmarks: Challenge[];
   challengeLists: ChallengeList[];
   solutions: SharedSolution[];
+  userRole = UserRole;
 
   constructor(
     private activatedRoute: ActivatedRoute,

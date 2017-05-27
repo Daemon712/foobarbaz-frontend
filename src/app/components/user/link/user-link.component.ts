@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {User} from "../../../model/user";
+import {User, UserRole} from "../../../model/user";
 
 @Component({
   selector: 'app-user-link',
@@ -8,4 +8,5 @@ import {User} from "../../../model/user";
 export class UserLinkComponent {
   @Input() user: User;
   @Input() link = true;
+  userRole = UserRole;
 }

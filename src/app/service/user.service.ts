@@ -142,10 +142,7 @@ export class UserService {
           localStorage.setItem('auth_token', null);
           return null;
         }
-        this.user = {
-          username: response.json().username,
-          name: response.json().name
-        } as User;
+        this.user = Object.assign(this.user? this.user : new User(), response.json());
         return this.user;
       })
       .catch(error => this.handleError(error));
@@ -160,6 +157,7 @@ export class UserService {
     let account = Object.assign(new UserAccount(), data);
     account.name = data.user.name;
     account.username = data.user.username;
+    account.role = data.user.role;
     return account;
   }
 

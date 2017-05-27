@@ -7,11 +7,18 @@
 </div>
 <div class="row" *ngIf="userAccount">
   <div class="col-3">
-    <img class="rounded w-100"
-         [src]="userPhotoUrl"
-         onError="this.src='/assets/default_user_photo/max.png'"/>
-    <button *ngIf="currentUser?.username == userAccount.username"
-            class="btn btn-secondary btn-block mt-2"
+    <div style="position: relative">
+      <img class="rounded w-100"
+           [src]="userPhotoUrl"
+           onError="this.src='/assets/default_user_photo/max.png'"/>
+      <h5 [ngSwitch]="userAccount.role" class="w-100 text-center user-role-badge">
+        <span *ngSwitchCase="userRole.ADMINISTRATOR" class="badge badge-danger">Администратор</span>
+        <span *ngSwitchCase="userRole.MODERATOR" class="badge badge-warning">Модератор</span>
+        <!--<span *ngSwitchCase="userRole.USER" class="badge badge-default">Пользователь</span>-->
+      </h5>
+    </div>
+    <button *ngIf="currentUser?.username == userAccount.username || currentUser?.role > userAccount.role"
+            class="btn btn-secondary btn-block mt-3"
             (click)="fileInput.click()">
       <i *ngIf="submitted=='photo'" class="fa fa-spinner fa-pulse"></i>
       <i *ngIf="submitted!='photo'" class="fa fa-image"></i>
@@ -20,7 +27,7 @@
     <input #fileInput type="file" accept="image/*"
            (change)="uploadPhoto(fileInput.files[0])"
            style="visibility: hidden; position: absolute">
-    <div class="card my-3">
+    <div class="card mt-3">
       <table class="table mb-0">
         <tbody>
         <tr>
@@ -76,7 +83,7 @@
         </ng-template>
         <app-shared-solution-list [solutions]="solutions"></app-shared-solution-list>
       </tab>
-      <tab class="py-3" *ngIf="currentUser?.username == userAccount.username" >
+      <tab class="py-3" *ngIf="currentUser?.username == userAccount.username || currentUser?.role > userAccount.role">
         <ng-template tabHeading>
           Параметры <i class="fa fa-cogs"></i>
         </ng-template>
@@ -111,7 +118,7 @@
             </button>
           </div>
         </div>
-        <div>
+        <div *ngIf="currentUser?.username == userAccount.username || currentUser?.role == userRole.ADMINISTRATOR">
           <h5>
             <i class="fa fa-lock"></i>
             Изменить пароль

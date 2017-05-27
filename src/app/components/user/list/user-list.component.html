@@ -29,6 +29,10 @@
         <div class="ml-3">
           <h3>
             <a [routerLink]="['/users', user.username]">{{user.name || user.username}}</a>
+            <small [ngSwitch]="user.role">
+              <span *ngSwitchCase="userRole.ADMINISTRATOR" class="badge badge-danger">Администратор</span>
+              <span *ngSwitchCase="userRole.MODERATOR" class="badge badge-warning">Модератор</span>
+            </small>
           </h3>
           <p>{{user.description}}</p>
           <div class="text-muted">

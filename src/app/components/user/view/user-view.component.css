@@ -2,3 +2,7 @@ img {
   min-height: 250px;
   object-fit: cover;
 }
+.user-role-badge {
+  position: absolute;
+  bottom: -4px;
+}
