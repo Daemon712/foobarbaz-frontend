@@ -1,7 +1,7 @@
 <div class="text-center">
   <a *ngFor="let tag of tags" href
      (click)="selectTag(tag)"
-     class="badge badge-default m-1"
+     class="badge badge-default no-focus m-1"
      [class.badge-primary]="tag === selected"
      [style.fontSize]="12 + 8*(tag.usages - minUsages)/(maxUsages - minUsages) + 'px'">
     {{tag.name}}

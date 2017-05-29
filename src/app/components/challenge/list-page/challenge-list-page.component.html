@@ -73,7 +73,7 @@
         <span>Популярные метки</span>
       </div>
       <div class="card-block">
-        <app-tags (tagSelected)="changeTag($event.name)"></app-tags>
+        <app-tags (tagSelected)="changeTag($event?.name)"></app-tags>
       </div>
     </div>
   </div>

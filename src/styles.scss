@@ -21,6 +21,12 @@ tr:first-child > td {
 rating>span:focus {
   outline: none;
 }
+.no-focus.badge-default:focus {
+  background-color: $badge-default-bg;
+}
+.no-focus.badge-primary:focus {
+  background-color: $badge-primary-bg;
+}
 
 /* Forms */
 label.col-form-label {
