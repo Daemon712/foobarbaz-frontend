@@ -9,7 +9,7 @@
         <quill-editor *ngIf="details"
                       [config]="{readOnly: true, modules: { toolbar: false }}"
                       [ngModel]="details.fullDescription"
-                      class="form-control">
+                      class="form-control description">
         </quill-editor>
       </div>
       <div class="col-md-4" *ngIf="challenge && details">

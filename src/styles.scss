@@ -27,6 +27,13 @@ rating>span:focus {
 .no-focus.badge-primary:focus {
   background-color: $badge-primary-bg;
 }
+.ql-container {
+  font-size: 1rem !important;
+}
+pre.ql-syntax {
+  background-color: $code-bg !important;
+  color: $code-color !important;
+}
 
 /* Forms */
 label.col-form-label {
