@@ -53,6 +53,8 @@ import { UserLinkComponent } from './components/user/link/user-link.component';
 import { TagsLineComponent } from './components/tags/line/tags-line.component';
 import { ChallengeStatusViewComponent } from './components/challenge/status-view/challenge-status-view.component';
 import { LowerCaseTransformer } from './directives/lower-case-transformer.directive';
+import { ChallengeEditComponent } from './components/challenge/edit/challenge-edit.component';
+import { ConfirmationPopupComponent } from './components/common/confirmation-popup/confirmation-popup.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -113,6 +115,8 @@ const routes: Routes = [
     TagsLineComponent,
     ChallengeStatusViewComponent,
     LowerCaseTransformer,
+    ChallengeEditComponent,
+    ConfirmationPopupComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,8 @@ import {SolutionStatus} from "../../../model/solutions-status";
 import {AlertService} from "../../../service/alert.service";
 import {UserService} from "../../../service/user.service";
 import {Rating} from "../../../model/rating";
+import {User, UserRole} from "../../../model/user";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-view-challenge',
@@ -32,7 +34,7 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   solutionStatus = SolutionStatus;
 
   submitted = null;
-  authorized = false;
+  user: User;
   testResultsActive = false;
 
   options = {
@@ -47,10 +49,36 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
     private solutionService: SolutionService,
     private alertService: AlertService,
     private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.authorized = this.userService.user != null;
+    this.user = this.userService.user;
+  }
+
+  get canEdit(){
+    return this.user && this.user.username == this.challenge.author.username
+      || this.user.role > UserRole.USER;
+  }
+
+  updateChallenge(challenge: Challenge){
+    this.submitted = 'edit';
+    this.challengeService.updateChallenge(challenge)
+      .then(value => {
+        this.submitted = null;
+        this.challenge.name = value.name;
+        this.challenge.shortDescription = value.shortDescription;
+        this.challenge.tags = value.tags;
+        this.challenge.details.fullDescription = value.details.fullDescription;
+        this.challenge.details.commentAccess = value.details.commentAccess;
+        this.challenge.details.shareAccess = value.details.shareAccess;
+      });
+  }
+
+  deleteChallenge(){
+    this.submitted = 'delete';
+    this.challengeService.deleteChallenge(this.challenge.id)
+      .then(() => this.router.navigate(['/challenges']));
   }
 
   setSolution(solution: Solution){

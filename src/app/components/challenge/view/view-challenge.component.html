@@ -6,11 +6,35 @@
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
-        <div class="card description" *ngIf="details">
-          <div class="card-block text-justify" [innerHTML]="details.fullDescription"></div>
-        </div>
+        <quill-editor *ngIf="details"
+                      [config]="{readOnly: true, modules: { toolbar: false }}"
+                      [ngModel]="details.fullDescription"
+                      class="form-control">
+        </quill-editor>
       </div>
       <div class="col-md-4" *ngIf="challenge && details">
+        <div class="row mb-3" *ngIf="canEdit">
+          <div class="col-6">
+            <button type="button"
+                    [disabled]="submitted=='edit'"
+                    (click)="editPopup.open()"
+                    class="btn btn-info btn-block">
+              <i *ngIf="submitted!='edit'" class="fa fa-edit"></i>
+              <i *ngIf="submitted=='edit'" class="fa fa-spinner fa-pulse"></i>
+              <span> Изменить</span>
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button"
+                    [disabled]="submitted=='delete'"
+                    (click)="confirmDelete.open()"
+                    class="btn btn-danger btn-block">
+              <i *ngIf="submitted!='delete'" class="fa fa-trash"></i>
+              <i *ngIf="submitted=='delete'" class="fa fa-spinner fa-pulse"></i>
+              <span> Удалить</span>
+            </button>
+          </div>
+        </div>
         <div class="card mb-3">
           <table class="table mb-0">
             <tbody>
@@ -67,7 +91,7 @@
             </tbody>
           </table>
         </div>
-        <div class="row mb-3" *ngIf="authorized">
+        <div class="row mb-3" *ngIf="user">
           <div class="col-6">
             <button type="button"
                     [class.active]="userDetails?.bookmark"
@@ -97,6 +121,17 @@
           [initRating]="userDetails?.rating"
           (onSubmit)="updateUserRating($event)">
         </app-rate-challenge>
+        <app-challenge-edit
+          #editPopup
+          [initData]="challenge"
+          (onSubmit)="updateChallenge($event)">
+        </app-challenge-edit>
+        <app-confirmation-popup
+          #confirmDelete
+          title="Удалить задачу"
+          [body]="'Вы действительно хотите удалить задачу? Операция необратима!'"
+          (onConfirm)="deleteChallenge()">
+        </app-confirmation-popup>
       </div>
     </div>
   </tab>
@@ -106,13 +141,13 @@
         <ace-editor class="form-control"
                     (textChanged)="updateText()"
                     #solutionEditor
-                    [readOnly]="submitted || !authorized"
+                    [readOnly]="submitted || !user"
                     [mode]="'java'"
                     [theme]="'dreamweaver'"
                     [options]="options">
         </ace-editor>
       </div>
-      <div class="col-md-4" *ngIf="solution && authorized">
+      <div class="col-md-4" *ngIf="solution && user">
         <button type="button" class="btn btn-primary btn-block btn-lg mb-2"
                 [disabled]="submitted || solution.implementation === solution.newSolution && solution.status !== solutionStatus.empty"
                 title="Сохранить и протестировать решение"
@@ -171,7 +206,7 @@
         <app-share-solution #sharePopup [revision]="solution" (onSubmit)="shareSolution($event)">
         </app-share-solution>
       </div>
-      <div class="col-md-4" *ngIf="!authorized">
+      <div class="col-md-4" *ngIf="!user">
         <div class="alert alert-warning lead text-justify">
           <p>Решение задач доступно только зарегистрированным пользователям!</p>
           <p>
@@ -190,7 +225,7 @@
       </div>
     </div>
     </tab>
-  <tab heading="Результаты тестов" class="py-3" *ngIf="authorized" [disabled]="!solution?.testResults?.length"
+  <tab heading="Результаты тестов" class="py-3" *ngIf="user" [disabled]="!solution?.testResults?.length"
        (deselect)="testResultsActive = false" [active]="testResultsActive">
     <div *ngIf="!solution" class="alert alert-info lead text-center">
       <i class="fa fa-spinner fa-pulse"></i>

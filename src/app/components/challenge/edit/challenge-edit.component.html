@@ -1,0 +1,91 @@
+<div bsModal #modal="bs-modal"
+     class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form (ngSubmit)="submit()" [formGroup]="form">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Изменить задачу</h4>
+          <button type="button" class="close pull-right" aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="challenge?.details">
+          <tabset>
+            <tab heading="Параметры" class="pt-3">
+              <div class="form-group">
+                <label for="name">Название</label>
+                <input type="text" class="form-control required" id="name" formControlName="name">
+                <div *ngIf="displayErrors('name')" class="text-danger">
+                  <div *ngIf="displayError('name', 'required')">Укажите название задачи</div>
+                  <div *ngIf="displayError('name', 'minlength')">Слишком короткое название</div>
+                  <div *ngIf="displayError('name', 'maxlength')">Слишком длинное название</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="abstract">Аннотация</label>
+                <textarea class="form-control required" id="abstract" formControlName="shortDescription">
+                </textarea>
+                <div *ngIf="displayErrors('shortDescription')" class="text-danger">
+                  <div *ngIf="displayError('shortDescription', 'required')">Напишите краткое описание задачи</div>
+                  <div *ngIf="displayError('shortDescription', 'minlength')">Слишком короткая аннотация</div>
+                  <div *ngIf="displayError('shortDescription', 'maxlength')">Слишком длинная аннотация</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Ключевые слова</label>
+                <app-tag-picker [(tags)]="challenge.tags"></app-tag-picker>
+              </div>
+
+              <div class="form-group w-100">
+                <label>Комментарии</label>
+                <div class="btn-group btn-group-fill">
+                  <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="challenge.details.commentAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+                  <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="challenge.details.commentAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+                  <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="challenge.details.commentAccess" [btnRadio]="accessOption.deny">Запретить</label>
+                </div>
+              </div>
+
+              <div class="form-group w-100">
+                <label>Открытые решения</label>
+                <div class="btn-group btn-group-fill">
+                  <label class="btn btn-outline-success" [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="challenge.details.shareAccess" [btnRadio]="accessOption.allow">Разрешить</label>
+                  <label class="btn btn-outline-info" [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="challenge.details.shareAccess" [btnRadio]="accessOption.solvedOnly">Только после решения</label>
+                  <label class="btn btn-outline-danger" [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="challenge.details.shareAccess" [btnRadio]="accessOption.deny">Запретить</label>
+                </div>
+              </div>
+            </tab>
+            <tab heading="Описание" class="pt-3">
+              <quill-editor [formControl]="form.controls['fullDescription']"
+                            [config]="{placeholder: 'Напишите подробное описание здесь'}"
+                            class="form-control required">
+              </quill-editor>
+              <div *ngIf="displayErrors('fullDescription')" class="text-danger">
+                <div *ngIf="displayError('fullDescription', 'required')">Напишите полное описание задачи</div>
+                <div *ngIf="displayError('fullDescription', 'minlength')">Слишком короткое описание</div>
+                <div *ngIf="displayError('fullDescription', 'maxlength')">Слишком длинное описание</div>
+              </div>
+            </tab>
+          </tabset>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn">
+            <i class="fa fa-save"></i>
+            Сохранить изменения
+          </button>
+          <button type="button" class="btn btn-secondary btn" (click)="close()">
+            Отмена
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

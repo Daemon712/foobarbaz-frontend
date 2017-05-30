@@ -112,6 +112,31 @@ export class ChallengeService {
       .catch((e) => this.handleError(e));
   }
 
+  updateChallenge(challenge: Challenge): Promise<Challenge>{
+    console.log(challenge.details.fullDescription);
+    return this.http.put(`${this.url}/${challenge.id}`, {
+      name: challenge.name,
+      shortDescription: challenge.shortDescription,
+      fullDescription: challenge.details.fullDescription,
+      tags: challenge.tags,
+      commentAccess: challenge.details.commentAccess,
+      shareAccess: challenge.details.shareAccess,
+    })
+      .toPromise()
+      .then(response => {
+        this.alertService.success("Задача успешно обновлена");
+        return Object.assign(new Challenge(), response.json())
+      })
+      .catch((e) => this.handleError(e));
+  }
+
+  deleteChallenge(challengeId: number): Promise<void>{
+    return this.http.delete(`${this.url}/${challengeId}`)
+      .toPromise()
+      .then(() => this.alertService.success("Задача успешно удалена"))
+      .catch((e) => this.handleError(e));
+  }
+
   updateBookmark(challengeId: number, bookmark: boolean): Promise<void>{
     return this.http.post(`${this.url}/${challengeId}/bookmark`, bookmark.toString())
       .toPromise()
