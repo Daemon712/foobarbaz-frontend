@@ -87,9 +87,11 @@
           <i class="fa fa-spinner fa-pulse"></i>
           <span> Загрузка...</span>
         </div>
-        <div class="card description" *ngIf="challenge">
-          <div class="card-block text-justify" [innerHTML]="challenge.description"></div>
-        </div>
+        <quill-editor *ngIf="challenge"
+                      [config]="{readOnly: true, modules: { toolbar: false }}"
+                      [ngModel]="challenge.details.fullDescription"
+                      class="form-control description">
+        </quill-editor>
       </div>
       <div class="col-md-4" *ngIf="challenge">
         <div class="card mb-3">
@@ -128,14 +130,14 @@
             <tr>
               <td>Просмотры</td>
               <td>
-                <span>{{challenge.views}} </span>
+                <span>{{challenge.details.views}} </span>
                 <i class="fa fa-eye"></i>
               </td>
             </tr>
             <tr>
               <td>Успешные решения</td>
               <td [class.text-success]="challenge.status === challengeStatus.Completed">
-                <span>{{challenge.completedSolutions}} </span>
+                <span>{{challenge.details.solutions}} </span>
                 <i class="fa fa-check"></i>
               </td>
             </tr>
