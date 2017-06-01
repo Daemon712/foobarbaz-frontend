@@ -57,8 +57,8 @@ export class ViewChallengeComponent implements OnChanges, OnInit {
   }
 
   get canEdit(){
-    return this.user && this.user.username == this.challenge.author.username
-      || this.user.role > UserRole.USER;
+    return this.user && (this.user.username == this.challenge.author.username
+      || this.user.role > UserRole.USER);
   }
 
   updateChallenge(challenge: Challenge){

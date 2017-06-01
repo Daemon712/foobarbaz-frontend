@@ -70,4 +70,12 @@ export class ChallengeListService {
         return Number.parseInt(response.text());
       });
   }
+
+  likeChallengeList(listId: number, like: boolean): Promise<number>{
+    return this.http.post(`${this.url}/${listId}/like`, like)
+      .toPromise()
+      .then(response => {
+        return Number.parseInt(response.text())
+      })
+  }
 }

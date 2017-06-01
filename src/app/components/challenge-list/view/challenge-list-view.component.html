@@ -1,34 +1,83 @@
 <div class="jumbotron" *ngIf="challengeList">
   <h1 class="display-3">{{challengeList.name}}</h1>
-  <p class="lead">{{challengeList.description}}</p>
 </div>
 <div class="jumbotron" *ngIf="!challengeList">
   <h1 class="display-3">Загрузка...</h1>
 </div>
-<div *ngIf="challengeList" class="btn-group btn-group-sm btn-group-justified input-group-sm mb-3">
-  <span class="input-group-btn">
-    <button class="btn btn-secondary" type="button"
-            [disabled]="page == 0"
-            (click)="page=page-1">
-      <i class="fa fa-chevron-left"></i>
+<div class="row">
+  <div class="col-3">
+    <button class="btn btn-outline-primary btn-block"
+            [class.active]="!current"
+            (click)="current = null">
+      <i class="fa fa-info-circle"></i>
+      <span> Параметры подборки</span>
     </button>
-  </span>
-  <button *ngFor="let challenge of challengeList.challenges | slice:page:page+itemsPerPage"
-          class="btn" (click)="current = challenge"
-          [class.btn-success]="challengeStatus.Completed == challenge.status"
-          [class.btn-info]="challengeStatus.InProgress == challenge.status"
-          [class.btn-secondary]="challengeStatus.NotStarted == challenge.status"
-          [class.active]="current?.id == challenge.id">
-    <span>{{challenge.name}}</span>
-  </button>
-  <span class="input-group-btn">
-    <button class="btn btn-secondary" type="button"
-            [disabled]="page >= challengeList.challenges.length-itemsPerPage"
-            (click)="page=page+1">
-      <i class="fa fa-chevron-right"></i>
-    </button>
-  </span>
+  </div>
+  <div class="col-9">
+    <div *ngIf="challengeList" class="btn-group btn-group-justified input-group-sm mb-3">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button"
+                [disabled]="page == 0"
+                (click)="page=page-1">
+          <i class="fa fa-chevron-left"></i>
+        </button>
+      </span>
+      <button *ngFor="let challenge of challengeList.challenges | slice:page:page+itemsPerPage"
+              class="btn" (click)="current = challenge"
+              [class.btn-success]="challengeStatus.Completed == challenge.status"
+              [class.btn-info]="challengeStatus.InProgress == challenge.status"
+              [class.btn-secondary]="challengeStatus.NotStarted == challenge.status"
+              [class.active]="current?.id == challenge.id">
+        <span>{{challenge.name}}</span>
+      </button>
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button"
+                [disabled]="page >= challengeList.challenges.length-itemsPerPage"
+                (click)="page=page+1">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </span>
+    </div>
+  </div>
 </div>
 <div *ngIf="current">
   <app-view-challenge [challenge]="current"></app-view-challenge>
+</div>
+<div *ngIf="challengeList && !current" class="row">
+  <div class="col-4">
+    <blockquote class="blockquote mb-3">
+      {{challengeList.description}}
+    </blockquote>
+    <div class="card">
+      <table class="table mb-0">
+        <tr>
+          <td>Автор</td>
+          <td>
+            <app-user-link [user]="challengeList.author"></app-user-link>
+          </td>
+        </tr>
+        <tr>
+          <td>Опубликовано</td>
+          <td>{{challengeList.created | date: 'd MMM yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>Рейтинг</td>
+          <td>
+            <i class="fa fa-thumbs-up"></i>
+            <span>{{challengeList.rating}}</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <button class="btn btn-outline-primary mt-3"
+            *ngIf="currentUser && currentUser.username != challengeList.author.username"
+            (click)="like()"
+            [class.active]="challengeList.liked">
+      <i class="fa fa-thumbs-up"></i>
+      <span>Мне нравится!</span>
+    </button>
+  </div>
+  <div class="col-8">
+    <app-challenge-list [challenges]="challengeList.challenges"></app-challenge-list>
+  </div>
 </div>

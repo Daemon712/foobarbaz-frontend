@@ -6,4 +6,7 @@ export class ChallengeList {
   description: string;
   challenges: Challenge[];
   author: User;
+  created: Date;
+  rating: number;
+  liked: boolean;
 }

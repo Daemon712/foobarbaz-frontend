@@ -42,10 +42,9 @@ export class SharedSolutionService {
   }
 
   likeSharedSolution(sharedSolutionId: number, like: boolean): Promise<number>{
-    return this.http.post(`${this.url}${sharedSolutionId}`, like)
+    return this.http.post(`${this.url}${sharedSolutionId}/like`, like)
       .toPromise()
       .then(response => {
-        console.log(response);
         return Number.parseInt(response.text())
       })
       .catch(SharedSolutionService.handleError);
