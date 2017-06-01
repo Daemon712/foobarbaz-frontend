@@ -63,13 +63,45 @@
             </tr>
           </table>
         </div>
-        <button class="btn btn-outline-primary mt-3"
-                *ngIf="currentUser && currentUser.username != solution.author.username && solution.implementation"
-                (click)="like()"
-                [class.active]="solution.liked">
-          <i class="fa fa-thumbs-up"></i>
-          <span>Мне нравится!</span>
-        </button>
+        <div class="row my-3" *ngIf="canEdit">
+          <div class="col-6">
+            <button type="button"
+                    [disabled]="submitted=='edit'"
+                    (click)="editPopup.open()"
+                    class="btn btn-info btn-block">
+              <i *ngIf="submitted!='edit'" class="fa fa-edit"></i>
+              <i *ngIf="submitted=='edit'" class="fa fa-spinner fa-pulse"></i>
+              <span> Изменить</span>
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button"
+                    [disabled]="submitted=='delete'"
+                    (click)="confirmDelete.open()"
+                    class="btn btn-danger btn-block">
+              <i *ngIf="submitted!='delete'" class="fa fa-trash"></i>
+              <i *ngIf="submitted=='delete'" class="fa fa-spinner fa-pulse"></i>
+              <span> Удалить</span>
+            </button>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            <button class="btn btn-outline-primary btn-block"
+                    *ngIf="currentUser && currentUser.username != solution.author.username && solution.implementation"
+                    (click)="like()"
+                    [class.active]="solution.liked">
+              <i class="fa fa-thumbs-up"></i>
+              <span>Мне нравится!</span>
+            </button>
+          </div>
+        </div>
+        <app-confirmation-popup
+          #confirmDelete
+          title="Удалить решение"
+          [body]="'Вы действительно хотите удалить решение? Операция необратима!'"
+          (onConfirm)="deleteChallenge()">
+        </app-confirmation-popup>
       </div>
     </div>
   </tab>

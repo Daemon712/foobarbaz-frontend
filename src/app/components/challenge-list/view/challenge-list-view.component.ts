@@ -3,7 +3,7 @@ import {ChallengeList} from "../../../model/challenege-list";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeListService} from "../../../service/challenge-list.service";
-import {User} from "../../../model/user";
+import {User, UserRole} from "../../../model/user";
 import {UserService} from "../../../service/user.service";
 
 @Component({
@@ -32,6 +32,11 @@ export class ChallengeListViewComponent implements OnInit {
       .subscribe((list: ChallengeList) => {
         this.challengeList = list;
       });
+  }
+
+  get canEdit(){
+    return this.currentUser && (this.currentUser.username == this.challengeList.author.username
+      || this.currentUser.role > UserRole.USER);
   }
 
   like(){

@@ -44,6 +44,9 @@
   <app-view-challenge [challenge]="current"></app-view-challenge>
 </div>
 <div *ngIf="challengeList && !current" class="row">
+  <div class="col-8">
+    <app-challenge-list [challenges]="challengeList.challenges"></app-challenge-list>
+  </div>
   <div class="col-4">
     <blockquote class="blockquote mb-3">
       {{challengeList.description}}
@@ -69,15 +72,42 @@
         </tr>
       </table>
     </div>
-    <button class="btn btn-outline-primary mt-3"
-            *ngIf="currentUser && currentUser.username != challengeList.author.username"
-            (click)="like()"
-            [class.active]="challengeList.liked">
-      <i class="fa fa-thumbs-up"></i>
-      <span>Мне нравится!</span>
-    </button>
-  </div>
-  <div class="col-8">
-    <app-challenge-list [challenges]="challengeList.challenges"></app-challenge-list>
+    <div class="row mt-3" *ngIf="canEdit">
+      <div class="col-6">
+        <button type="button"
+                [disabled]="submitted=='edit'"
+                class="btn btn-info btn-block">
+          <i *ngIf="submitted!='edit'" class="fa fa-edit"></i>
+          <i *ngIf="submitted=='edit'" class="fa fa-spinner fa-pulse"></i>
+          <span> Изменить</span>
+        </button>
+      </div>
+      <div class="col-6">
+        <button type="button"
+                [disabled]="submitted=='delete'"
+                (click)="confirmDelete.open()"
+                class="btn btn-danger btn-block">
+          <i *ngIf="submitted!='delete'" class="fa fa-trash"></i>
+          <i *ngIf="submitted=='delete'" class="fa fa-spinner fa-pulse"></i>
+          <span> Удалить</span>
+        </button>
+      </div>
+    </div>
+    <div class="row mt-3" *ngIf="currentUser && currentUser.username != challengeList.author.username">
+      <div class="col-6">
+        <button class="btn btn-outline-primary btn-block"
+                (click)="like()"
+                [class.active]="challengeList.liked">
+          <i class="fa fa-thumbs-up"></i>
+          <span>Мне нравится!</span>
+        </button>
+      </div>
+    </div>
+    <app-confirmation-popup
+      #confirmDelete
+      title="Удалить подборку"
+      [body]="'Вы действительно хотите удалить подборку? Операция необратима!'"
+      (onConfirm)="deleteChallenge()">
+    </app-confirmation-popup>
   </div>
 </div>

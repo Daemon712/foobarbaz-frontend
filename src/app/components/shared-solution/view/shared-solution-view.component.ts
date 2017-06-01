@@ -7,7 +7,7 @@ import {SharedSolutionService} from "../../../service/shared-solution.service";
 import {Comment} from "../../../model/comment";
 import {SolutionCommentService} from "../../../service/comment.service";
 import {UserService} from "../../../service/user.service";
-import {User} from "../../../model/user";
+import {User, UserRole} from "../../../model/user";
 
 @Component({
   selector: 'app-shared-solution-view',
@@ -52,6 +52,11 @@ export class SharedSolutionViewComponent implements OnInit {
         this.solutionView.getEditor().clearSelection();
         this.loadComments();
       });
+  }
+
+  get canEdit(){
+    return this.currentUser && (this.currentUser.username == this.solution.author.username
+      || this.currentUser.role > UserRole.USER);
   }
 
   like(){
