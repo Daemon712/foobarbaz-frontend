@@ -35,7 +35,7 @@
             </button>
           </div>
         </div>
-        <div class="card mb-3">
+        <div class="card">
           <table class="table mb-0">
             <tbody>
             <tr>
@@ -89,7 +89,7 @@
             </tbody>
           </table>
         </div>
-        <div class="row mb-3" *ngIf="user">
+        <div class="row mt-3" *ngIf="user">
           <div class="col-6">
             <button type="button"
                     [class.active]="userDetails?.bookmark"
@@ -113,7 +113,7 @@
             </button>
           </div>
         </div>
-        <app-tags-line [tags]="challenge.tags"></app-tags-line>
+        <app-tags-line class="d-block mt-2" [tags]="challenge.tags"></app-tags-line>
         <app-rate-challenge
           #ratePopup
           [initRating]="userDetails?.rating"
