@@ -16,7 +16,7 @@ export class ChallengeListViewComponent implements OnInit {
   challengeStatus = ChallengeStatus;
   current: Challenge;
   page = 0;
-  itemsPerPage = 3;
+  itemsPerPage = 4;
   currentUser: User;
 
   constructor(

@@ -1,44 +1,39 @@
 <div class="jumbotron" *ngIf="challengeList">
-  <h1 class="display-3">{{challengeList.name}}</h1>
+  <h1 class="display-3">
+    {{challengeList.name}}
+    <button class="btn btn-link"
+       [class.active]="!current"
+       (click)="current = null">
+      <i class="fa fa-info-circle fa-3x"></i>
+    </button>
+  </h1>
 </div>
 <div class="jumbotron" *ngIf="!challengeList">
   <h1 class="display-3">Загрузка...</h1>
 </div>
-<div class="row">
-  <div class="col-3">
-    <button class="btn btn-outline-primary btn-block"
-            [class.active]="!current"
-            (click)="current = null">
-      <i class="fa fa-info-circle"></i>
-      <span> Параметры подборки</span>
+<div *ngIf="challengeList" class="btn-group btn-group-sm btn-group-justified input-group-sm mb-3">
+  <span class="input-group-btn">
+    <button class="btn btn-secondary" type="button"
+            [disabled]="page == 0"
+            (click)="page=page-1">
+      <i class="fa fa-chevron-left"></i>
     </button>
-  </div>
-  <div class="col-9">
-    <div *ngIf="challengeList" class="btn-group btn-group-justified input-group-sm mb-3">
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button"
-                [disabled]="page == 0"
-                (click)="page=page-1">
-          <i class="fa fa-chevron-left"></i>
-        </button>
-      </span>
-      <button *ngFor="let challenge of challengeList.challenges | slice:page:page+itemsPerPage"
-              class="btn" (click)="current = challenge"
-              [class.btn-success]="challengeStatus.Completed == challenge.status"
-              [class.btn-info]="challengeStatus.InProgress == challenge.status"
-              [class.btn-secondary]="challengeStatus.NotStarted == challenge.status"
-              [class.active]="current?.id == challenge.id">
-        <span>{{challenge.name}}</span>
-      </button>
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button"
-                [disabled]="page >= challengeList.challenges.length-itemsPerPage"
-                (click)="page=page+1">
-          <i class="fa fa-chevron-right"></i>
-        </button>
-      </span>
-    </div>
-  </div>
+  </span>
+  <button *ngFor="let challenge of challengeList.challenges | slice:page:page+itemsPerPage"
+          class="btn" (click)="current = challenge"
+          [class.btn-success]="challengeStatus.Completed == challenge.status"
+          [class.btn-info]="challengeStatus.InProgress == challenge.status"
+          [class.btn-secondary]="challengeStatus.NotStarted == challenge.status"
+          [class.active]="current?.id == challenge.id">
+    <span>{{challenge.name}}</span>
+  </button>
+  <span class="input-group-btn">
+    <button class="btn btn-secondary" type="button"
+            [disabled]="page >= challengeList.challenges.length-itemsPerPage"
+            (click)="page=page+1">
+      <i class="fa fa-chevron-right"></i>
+    </button>
+  </span>
 </div>
 <div *ngIf="current">
   <app-view-challenge [challenge]="current"></app-view-challenge>
@@ -48,31 +43,7 @@
     <app-challenge-list [challenges]="challengeList.challenges"></app-challenge-list>
   </div>
   <div class="col-4">
-    <blockquote class="blockquote mb-3">
-      {{challengeList.description}}
-    </blockquote>
-    <div class="card">
-      <table class="table mb-0">
-        <tr>
-          <td>Автор</td>
-          <td>
-            <app-user-link [user]="challengeList.author"></app-user-link>
-          </td>
-        </tr>
-        <tr>
-          <td>Опубликовано</td>
-          <td>{{challengeList.created | date: 'd MMM yyyy'}}</td>
-        </tr>
-        <tr>
-          <td>Рейтинг</td>
-          <td>
-            <i class="fa fa-thumbs-up"></i>
-            <span>{{challengeList.rating}}</span>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="row mt-3" *ngIf="canEdit">
+    <div class="row mb-3" *ngIf="canEdit">
       <div class="col-6">
         <button type="button"
                 [disabled]="submitted=='edit'"
@@ -92,6 +63,30 @@
           <span> Удалить</span>
         </button>
       </div>
+    </div>
+    <blockquote class="blockquote mb-3">
+      {{challengeList.description}}
+    </blockquote>
+    <div class="card">
+      <table class="table mb-0">
+        <tr>
+          <td>Автор</td>
+          <td>
+            <app-user-link [user]="challengeList.author"></app-user-link>
+          </td>
+        </tr>
+        <tr>
+          <td>Дата создания</td>
+          <td>{{challengeList.created | date: 'd MMM yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>Рейтинг</td>
+          <td>
+            <i class="fa fa-thumbs-up"></i>
+            <span>{{challengeList.rating}}</span>
+          </td>
+        </tr>
+      </table>
     </div>
     <div class="row mt-3" *ngIf="currentUser && currentUser.username != challengeList.author.username">
       <div class="col-6">
