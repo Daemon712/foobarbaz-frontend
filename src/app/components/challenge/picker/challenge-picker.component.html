@@ -2,17 +2,18 @@
        [(ngModel)]="newChallenge"
        [ngModelOptions]="{standalone: true}"
        [typeahead]="availableChallenges"
-       typeaheadOptionField="name"
+       [typeaheadOptionField]="'name'"
        [typeaheadWaitMs]="300"
        (typeaheadOnSelect)="onSelect($event)">
-<ng-template #itemTemplate let-item="item">
+<ng-template #itemTemplate let-item="item" let-index="index">
   <div class="card my-1">
     <div class="card-block">
-      <button type="button" class="pull-right btn btn-danger" (click)="removeItem(index)">
-        <i class="fa fa-remove"></i>
-      </button>
+      <a class="pull-right text-danger" href
+         (click)="removeItem(index)">
+        <i class="fa fa-remove fa-2x"></i>
+      </a>
       <h4><a [routerLink]="['/challenges',item.initData.id]">{{item.initData.name}}</a></h4>
-      <p>{{item.initData.shortDescription}}</p>
+      <div>{{item.initData.shortDescription}}</div>
     </div>
   </div>
 </ng-template>

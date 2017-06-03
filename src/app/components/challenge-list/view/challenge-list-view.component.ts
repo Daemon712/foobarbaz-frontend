@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ChallengeList} from "../../../model/challenege-list";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Challenge, ChallengeStatus} from "../../../model/challenge";
 import {ChallengeListService} from "../../../service/challenge-list.service";
 import {User, UserRole} from "../../../model/user";
@@ -18,11 +18,13 @@ export class ChallengeListViewComponent implements OnInit {
   page = 0;
   itemsPerPage = 4;
   currentUser: User;
+  submitted: string;
 
   constructor(
     private userService: UserService,
     private activeRoute: ActivatedRoute,
     private challengeListService: ChallengeListService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -43,5 +45,21 @@ export class ChallengeListViewComponent implements OnInit {
     this.challengeList.liked = !this.challengeList.liked;
     this.challengeListService.likeChallengeList(this.challengeList.id, this.challengeList.liked)
       .then(rating => this.challengeList.rating = rating);
+  }
+
+  updateChallengeList(update: ChallengeList){
+    this.submitted = 'edit';
+    console.log(update.challenges.length);
+    this.challengeListService.updateChallengeList(update)
+      .then(value => {
+        this.submitted = null;
+        Object.assign(this.challengeList, value);
+      });
+  }
+
+  deleteChallengeList(){
+    this.submitted = 'delete';
+    this.challengeListService.deleteChallengeList(this.challengeList.id)
+      .then(() => this.router.navigate(['/challenge-lists']));
   }
 }

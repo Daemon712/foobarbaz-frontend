@@ -1,0 +1,55 @@
+<div bsModal #modal="bs-modal" [config]="{backdrop: 'static'}"
+     class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form (ngSubmit)="submit()" [formGroup]="form">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Изменить подборку</h4>
+          <button type="button" class="close pull-right" aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="challengeList">
+          <div class="form-group">
+            <label for="name">Название</label>
+            <input type="text" class="form-control required" id="name" formControlName="name">
+            <div *ngIf="displayErrors('name')" class="text-danger">
+              <div *ngIf="displayError('name', 'required')">Укажите название подборки</div>
+              <div *ngIf="displayError('name', 'minlength')">Слишком короткое название</div>
+              <div *ngIf="displayError('name', 'maxlength')">Слишком длинное название</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea class="form-control required" id="description" formControlName="description">
+            </textarea>
+            <div *ngIf="displayErrors('description')" class="text-danger">
+              <div *ngIf="displayError('description', 'required')">Напишите краткое описание подборки</div>
+              <div *ngIf="displayError('description', 'minlength')">Слишком короткое описание</div>
+              <div *ngIf="displayError('description', 'maxlength')">Слишком длинное описание</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Задачи</label>
+            <app-challenge-picker [(challenges)]="challengeList.challenges">
+            </app-challenge-picker>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn"
+                  [disabled]="submitted">
+            <i *ngIf="submitted" class="fa fa-spinner fa-pulse"></i>
+            <i *ngIf="!submitted" class="fa fa-save"></i>
+            Сохранить изменения
+          </button>
+          <button type="button" class="btn btn-secondary btn" (click)="close()">
+            Отмена
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

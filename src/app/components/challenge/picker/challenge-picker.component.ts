@@ -8,7 +8,6 @@ import {SortableComponent, TypeaheadMatch} from "ng2-bootstrap";
 @Component({
   selector: 'app-challenge-picker',
   templateUrl: './challenge-picker.component.html',
-  styleUrls: ['./challenge-picker.component.scss']
 })
 export class ChallengePickerComponent implements OnInit {
 
@@ -19,6 +18,7 @@ export class ChallengePickerComponent implements OnInit {
   challengesChange = new EventEmitter();
 
   @Input()
+  @Output()
   challenges: Challenge[];
 
   newChallenge: Challenge;
@@ -54,5 +54,6 @@ export class ChallengePickerComponent implements OnInit {
     this.challenges.splice(index, 1);
     this.sortableComponent.writeValue(this.challenges);
     this.challengesChange.emit(this.challenges);
+    return false;
   }
 }

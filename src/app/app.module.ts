@@ -55,6 +55,7 @@ import { ChallengeStatusViewComponent } from './components/challenge/status-view
 import { LowerCaseTransformer } from './directives/lower-case-transformer.directive';
 import { ChallengeEditComponent } from './components/challenge/edit/challenge-edit.component';
 import { ConfirmationPopupComponent } from './components/common/confirmation-popup/confirmation-popup.component';
+import { EditChallengeListComponent } from './components/challenge-list/edit/edit-challenge-list.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -117,6 +118,7 @@ const routes: Routes = [
     LowerCaseTransformer,
     ChallengeEditComponent,
     ConfirmationPopupComponent,
+    EditChallengeListComponent,
   ],
   imports: [
     BrowserModule,

@@ -47,6 +47,7 @@
       <div class="col-6">
         <button type="button"
                 [disabled]="submitted=='edit'"
+                (click)="editPopup.open()"
                 class="btn btn-info btn-block">
           <i *ngIf="submitted!='edit'" class="fa fa-edit"></i>
           <i *ngIf="submitted=='edit'" class="fa fa-spinner fa-pulse"></i>
@@ -102,7 +103,12 @@
       #confirmDelete
       title="Удалить подборку"
       [body]="'Вы действительно хотите удалить подборку? Операция необратима!'"
-      (onConfirm)="deleteChallenge()">
+      (onConfirm)="deleteChallengeList()">
     </app-confirmation-popup>
+    <app-edit-challenge-list
+      #editPopup
+      [initData]="challengeList"
+      (onSubmit)="updateChallengeList($event)">
+    </app-edit-challenge-list>
   </div>
 </div>
