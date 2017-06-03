@@ -21,9 +21,9 @@
   </span>
   <button *ngFor="let challenge of challengeList.challenges | slice:page:page+itemsPerPage"
           class="btn" (click)="current = challenge"
-          [class.btn-success]="challengeStatus.Completed == challenge.status"
-          [class.btn-info]="challengeStatus.InProgress == challenge.status"
-          [class.btn-secondary]="challengeStatus.NotStarted == challenge.status"
+          [class.btn-outline-success]="challengeStatus.Completed == challenge.status"
+          [class.btn-outline-info]="challengeStatus.InProgress == challenge.status"
+          [class.btn-outline-primary]="challengeStatus.NotStarted == challenge.status"
           [class.active]="current?.id == challenge.id">
     <span>{{challenge.name}}</span>
   </button>
