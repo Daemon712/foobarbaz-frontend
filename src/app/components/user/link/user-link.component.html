@@ -6,7 +6,7 @@
     object-fit: cover;
   }
 </style>
-<img *ngIf="user" class="rounded"
+<img *ngIf="user && photo" class="rounded"
      src="/api/users/account/{{user.username}}/photo/min"
      onError="this.src='/assets/default_user_photo/min.png'"/>
 <a *ngIf="link && user" [routerLink]="['/users', user.username]"

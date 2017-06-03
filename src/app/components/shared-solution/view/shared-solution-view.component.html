@@ -4,8 +4,8 @@
     {{challenge.name}}
   </h1>
   <p *ngIf="solution" class="lead">
-    <span>Решение от пользователя</span>
-    <app-user-link [user]="solution.author"></app-user-link>
+    <span>Открытое решение от пользователя</span>
+    <app-user-link [user]="solution.author" [photo]="false"></app-user-link>
   </p>
   <h1 *ngIf="!challenge" class="display-3">Загрузка...</h1>
 </div>
@@ -31,9 +31,49 @@
         </div>
       </div>
       <div class="col-md-4" *ngIf="solution">
-        <blockquote class="blockquote mb-3">
+        <div class="row mb-3" *ngIf="canEdit">
+          <div class="col-6">
+            <button type="button"
+                    [class.active]="modify"
+                    (click)="modify = modify ? null : solution.comment"
+                    class="btn btn-info btn-block">
+              <i class="fa fa-edit"></i>
+              <span> Изменить</span>
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button"
+                    [disabled]="submitted=='delete'"
+                    (click)="confirmDelete.open()"
+                    class="btn btn-danger btn-block">
+              <i *ngIf="submitted!='delete'" class="fa fa-trash"></i>
+              <i *ngIf="submitted=='delete'" class="fa fa-spinner fa-pulse"></i>
+              <span> Удалить</span>
+            </button>
+          </div>
+        </div>
+        <blockquote *ngIf="!modify" class="blockquote mb-3">
           {{solution.comment}}
         </blockquote>
+        <div *ngIf="modify" class="mb-3">
+          <textarea [(ngModel)]="modify"
+                    [disabled]="submitted=='edit'"
+                    class="form-control mb-2"
+                    title="Комментарий Автора">
+          </textarea>
+          <button class="btn btn-sm btn-primary"
+                  (click)="updateSolution()"
+                  [disabled]="submitted=='edit'">
+            <i *ngIf="submitted!='edit'" class="fa fa-save"></i>
+            <i *ngIf="submitted=='edit'" class="fa fa-spinner fa-pulse"></i>
+            Сохранить
+          </button>
+          <button class="btn btn-sm btn-secondary"
+                  [disabled]="submitted=='edit'"
+                  (click)="modify = null">
+            Отмена
+          </button>
+        </div>
         <div class="card">
           <table class="table mb-0">
             <tr>
@@ -63,35 +103,15 @@
             </tr>
           </table>
         </div>
-        <div class="row my-3" *ngIf="canEdit">
-          <div class="col-6">
-            <button type="button"
-                    [disabled]="submitted=='edit'"
-                    (click)="editPopup.open()"
-                    class="btn btn-info btn-block">
-              <i *ngIf="submitted!='edit'" class="fa fa-edit"></i>
-              <i *ngIf="submitted=='edit'" class="fa fa-spinner fa-pulse"></i>
-              <span> Изменить</span>
-            </button>
-          </div>
-          <div class="col-6">
-            <button type="button"
-                    [disabled]="submitted=='delete'"
-                    (click)="confirmDelete.open()"
-                    class="btn btn-danger btn-block">
-              <i *ngIf="submitted!='delete'" class="fa fa-trash"></i>
-              <i *ngIf="submitted=='delete'" class="fa fa-spinner fa-pulse"></i>
-              <span> Удалить</span>
-            </button>
-          </div>
-        </div>
-        <div class="row mb-3">
+        <div class="row mt-3">
           <div class="col-6">
             <button class="btn btn-outline-primary btn-block"
                     *ngIf="currentUser && currentUser.username != solution.author.username && solution.implementation"
                     (click)="like()"
+                    [disabled]="submitted=='like'"
                     [class.active]="solution.liked">
-              <i class="fa fa-thumbs-up"></i>
+              <i *ngIf="submitted!='like'"  class="fa fa-thumbs-up"></i>
+              <i *ngIf="submitted=='like'" class="fa fa-spinner fa-pulse"></i>
               <span>Мне нравится!</span>
             </button>
           </div>
@@ -100,7 +120,7 @@
           #confirmDelete
           title="Удалить решение"
           [body]="'Вы действительно хотите удалить решение? Операция необратима!'"
-          (onConfirm)="deleteChallenge()">
+          (onConfirm)="deleteSolution()">
         </app-confirmation-popup>
       </div>
     </div>

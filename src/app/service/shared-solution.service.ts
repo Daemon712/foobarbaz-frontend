@@ -18,14 +18,14 @@ export class SharedSolutionService {
     return this.http.get(`${this.url}challenge/${challengeId}`)
       .toPromise()
       .then(response => response.json().map(item => Object.assign(new SharedSolution(), item)))
-      .catch(SharedSolutionService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   getSharedSolutionsByUser(username: string): Promise<SharedSolution[]> {
     return this.http.get(`${this.url}user/${username}`)
       .toPromise()
       .then(response => response.json().map(item => Object.assign(new SharedSolution(), item)))
-      .catch(SharedSolutionService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   getSharedSolution(sharedSolutionId: number): Promise<SharedSolution> {
@@ -38,7 +38,24 @@ export class SharedSolutionService {
         }
         return SharedSolutionService.parseSharedSolution(response.json())
       })
-      .catch(SharedSolutionService.handleError);
+      .catch((e) => this.handleError(e));
+  }
+
+  updateSharedSolution(sharedSolutionId: number, comment: string) : Promise<SharedSolution>{
+    return this.http.post(`${this.url}/${sharedSolutionId}`, comment)
+      .toPromise()
+      .then((response) => {
+        this.alertService.success("Решение успешно обновлено");
+        return SharedSolutionService.parseSharedSolution(response.json());
+      })
+      .catch((e) => this.handleError(e));
+  }
+
+  deleteSharedSolution(sharedSolutionId: number): Promise<void>{
+    return this.http.delete(`${this.url}/${sharedSolutionId}`)
+      .toPromise()
+      .then(() => this.alertService.success("Решение успешно удалено"))
+      .catch((e) => this.handleError(e));
   }
 
   likeSharedSolution(sharedSolutionId: number, like: boolean): Promise<number>{
@@ -47,7 +64,7 @@ export class SharedSolutionService {
       .then(response => {
         return Number.parseInt(response.text())
       })
-      .catch(SharedSolutionService.handleError);
+      .catch((e) => this.handleError(e));
   }
 
   private static parseSharedSolution(data: any) : SharedSolution{
@@ -56,8 +73,9 @@ export class SharedSolutionService {
     return ss;
   }
 
-  private static handleError(error: any): Promise<any> {
+  private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
+    this.alertService.danger(error.message || error);
     return Promise.reject(error.message || error);
   }
 }

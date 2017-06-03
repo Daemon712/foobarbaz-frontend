@@ -8,5 +8,6 @@ import {User, UserRole} from "../../../model/user";
 export class UserLinkComponent {
   @Input() user: User;
   @Input() link = true;
+  @Input() photo = true;
   userRole = UserRole;
 }
