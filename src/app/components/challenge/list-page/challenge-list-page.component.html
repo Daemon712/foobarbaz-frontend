@@ -25,25 +25,27 @@
         <span>Фильтр</span>
       </div>
       <div class="card-block">
-        <div class="form-group d-flex justify-content-between">
+        <div class="form-group">
           <label>Рейтинг</label>
           <rating [max]="5" [(ngModel)]="newFilter.rating"
+                  class="d-block pull-right"
                   stateOn="fa fa-lg fa-star text-warning"
                   stateOff="fa fa-lg fa-star text-muted">
           </rating>
         </div>
 
-        <div class="form-group  d-flex justify-content-between">
+        <div class="form-group">
           <label>Сложность</label>
           <rating [max]="5" [(ngModel)]="newFilter.difficulty"
+                  class="d-block pull-right"
                   stateOn="fa fa-lg fa-asterisk text-primary"
                   stateOff="fa fa-lg fa-asterisk text-muted">
           </rating>
         </div>
 
-        <div class="form-group mb-0 d-flex justify-content-between">
+        <div class="form-group mb-0">
           <label>Статус</label>
-          <div class="btn-group btn-group-sm" role="group">
+          <div class="btn-group btn-group-sm pull-right" role="group">
             <label class="btn btn-outline-primary" title="Новые"
                    [(ngModel)]="newFilter.status" [btnRadio]="challengeStatus.NotStarted">
               <i class="fa fa-play fa-fw"></i>

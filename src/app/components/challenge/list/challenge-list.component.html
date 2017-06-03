@@ -19,24 +19,24 @@
   </div>
   <div class="card-block pt-2">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="d-flex flex-column justify-content-between" style="max-width: 600px">
-        <p class="card-text text-justify mt-2">{{challenge.shortDescription}}</p>
+      <div class="d-flex flex-column justify-content-between w-75">
+        <p class="card-text mt-2">{{challenge.shortDescription}}</p>
         <app-tags-line [tags]="challenge.tags"></app-tags-line>
       </div>
-      <div class="text-right" style="max-width: 220px">
+      <div class="text-right">
         <div title="Рейтинг">
           <rating [ngModel]="challenge.rating"
                   [readonly]="true" [max]="5"
                   stateOn="fa fa-star text-warning">
           </rating>
         </div>
-        <div  title="Сложность">
+        <div title="Сложность">
           <rating [ngModel]="challenge.difficulty"
                   [readonly]="true" [max]="5"
                   stateOn="fa fa-asterisk text-primary">
           </rating>
         </div>
-        <div class="small text-muted" title="Дата Создания">
+        <div class="small text-muted mt-2" title="Дата Создания">
           <span> {{challenge.created | date: "mediumDate"}}</span>
           <i class="fa fa-calendar"></i>
         </div>
