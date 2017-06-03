@@ -46,7 +46,7 @@
         </tr>
         <tr>
           <td>Регистрация</td>
-          <td>{{userAccount.registrationDate | date:'mediumDate'}}</td>
+          <td>{{userAccount.registrationDate | date:'mediumDate' | slice:0:11}}</td>
         </tr>
         </tbody>
       </table>

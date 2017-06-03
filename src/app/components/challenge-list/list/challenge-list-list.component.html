@@ -20,7 +20,7 @@
       </h5>
       <div class="small text-muted mt-3" title="Дата Создания">
         <i class="fa fa-calendar m-1"></i>
-        <span> {{challengeList.created | date: "mediumDate"}}</span>
+        <span> {{challengeList.created | date: "mediumDate" | slice:0:11}}</span>
       </div>
     </div>
     <p>{{challengeList.description}}</p>

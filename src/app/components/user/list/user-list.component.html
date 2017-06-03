@@ -38,7 +38,7 @@
           <div class="text-muted">
             <span class="mr-3">
               <i class="fa fa-calendar"></i>
-              {{user.registrationDate | date: "mediumDate"}}
+              {{user.registrationDate | date: 'mediumDate' | slice:0:11}}
             </span>
             <span *ngIf="user.challenges" class="mr-3">
               <i class="fa fa-plus"></i>
