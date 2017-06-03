@@ -14,11 +14,11 @@
   </div>
   <div class="card-block">
     <div class="pull-right text-right">
-      <div class="lead mb-3" [class.text-primary]="challengeList.liked">
+      <h5 [class.text-primary]="challengeList.liked"  class="mb-auto">
         {{challengeList.rating}}
         <i class="fa fa-thumbs-up"></i>
-      </div>
-      <div class="small text-muted" title="Дата Создания">
+      </h5>
+      <div class="small text-muted mt-3" title="Дата Создания">
         <i class="fa fa-calendar m-1"></i>
         <span> {{challengeList.created | date: "mediumDate"}}</span>
       </div>
