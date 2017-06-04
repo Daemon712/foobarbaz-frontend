@@ -56,6 +56,19 @@ export class ChallengeViewPageComponent implements OnInit {
       .then(likes => comment.rating = likes);
   }
 
+  commentUpdated(comment: Comment){
+    this.commentService.updateComment(comment.id, comment.modify)
+      .then(value => {
+        comment.text = value.text;
+        comment.modify = null
+      });
+  }
+
+  commentDeleted(comment: Comment){
+    this.commentService.deleteComment(comment.id)
+      .then(() => this.comments.splice(this.comments.indexOf(comment), 1));
+  }
+
   loadComments(){
     if (!this.challenge || !this.commentsAllowed) return;
 

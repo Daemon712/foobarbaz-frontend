@@ -18,8 +18,17 @@ export class ConfirmationPopupComponent {
   @ViewChild("modal")
   modal: ModalDirective;
 
+  callback: () => void;
+
+  confirm(){
+    if (this.callback) this.callback();
+    this.onConfirm.emit();
+    this.modal.hide();
+  }
+
   //noinspection JSUnusedGlobalSymbols
-  open(){
+  open(callback?: () => void){
+    this.callback = callback;
     this.modal.show();
   }
 }

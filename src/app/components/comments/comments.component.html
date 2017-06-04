@@ -16,6 +16,16 @@
           <span>{{comment.rating}} </span>
           <i class="fa fa-thumbs-up"></i>
         </button>
+        <span *ngIf="canEdit(comment)">
+          <button class="btn btn-sm btn-info mb-2"
+                  (click)="comment.modify = comment.modify ? null : comment.text">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger mb-2"
+                  (click)="confirmDelete.open(deleteComment(comment))">
+            <i class="fa fa-trash"></i>
+          </button>
+        </span>
         <div class="small">
           <i class="fa fa-clock-o m-1"></i>
           <span>{{comment.created | date: 'shortTime'}} </span>
@@ -25,10 +35,30 @@
           <span>{{comment.created | date: 'mediumDate' | slice:0:11}} </span>
         </div>
       </div>
-      <h5>
-        <app-user-link [user]="comment.author"></app-user-link>
-      </h5>
-      <p>{{comment.text}}</p>
+      <div [hidden]="comment.modify">
+        <h5>
+          <app-user-link [user]="comment.author"></app-user-link>
+        </h5>
+        <p>{{comment.text}}</p>
+      </div>
+      <div *ngIf="comment.modify" class="w-75">
+        <textarea class="form-control mb-1" [(ngModel)]="comment.modify" title="Изменить комментарий">
+        </textarea>
+        <button class="btn btn-sm btn-primary"
+                (click)="updateComment(comment)">
+          <i class="fa fa-save"></i>
+          Сохранить
+        </button>
+        <button class="btn btn-sm btn-secondary"
+                (click)="comment.modify = null">
+          Отмена
+        </button>
+      </div>
     </div>
   </li >
 </ul>
+<app-confirmation-popup
+  #confirmDelete
+  title="Удалить комментарий"
+  [body]="'Вы действительно хотите удалить комментарий? Операция необратима!'">
+</app-confirmation-popup>

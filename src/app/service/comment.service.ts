@@ -22,8 +22,22 @@ abstract class CommentService {
       .catch(CommentService.handleError)
   }
 
+  updateComment(commentId: number, text: string): Promise<Comment>{
+    return this.http.post(`${this.url}/${commentId}`, text)
+      .toPromise()
+      .then(response => Object.assign(new Comment(), response.json()))
+      .catch(CommentService.handleError);
+  }
+
+  deleteComment(commentId: number): Promise<void>{
+    return this.http.delete(`${this.url}/${commentId}`)
+      .toPromise()
+      .then(() => {})
+      .catch(CommentService.handleError);
+  }
+
   likeComment(commentId: number, like: boolean): Promise<number>{
-    return this.http.post(`${this.url}/${commentId}`, like)
+    return this.http.post(`${this.url}/${commentId}/like`, like)
       .toPromise()
       .then(response => Number.parseInt(response.text()))
       .catch(CommentService.handleError);

@@ -225,7 +225,11 @@
           <i class="fa fa-comments"></i>
           <span> {{comments?.length}}</span>
         </template>
-        <app-comments [comments]="comments" (commentLiked)="commentLiked($event)"></app-comments>
+        <app-comments [comments]="comments"
+                      (commentUpdated)="commentUpdated($event)"
+                      (commentDeleted)="commentDeleted($event)"
+                      (commentLiked)="commentLiked($event)">
+        </app-comments>
       </tab>
     </tabset>
   </div>

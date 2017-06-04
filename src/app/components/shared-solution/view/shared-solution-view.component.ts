@@ -99,12 +99,22 @@ export class SharedSolutionViewComponent implements OnInit {
       .then(comments => this.comments = comments);
   }
 
+  commentUpdated(comment: Comment){
+    this.commentService.updateComment(comment.id, comment.modify)
+      .then(value => {
+        comment.text = value.text;
+        comment.modify = null
+      });
+  }
+
+  commentDeleted(comment: Comment){
+    this.commentService.deleteComment(comment.id)
+      .then(() => this.comments.splice(this.comments.indexOf(comment), 1));
+  }
+
   commentLiked(comment: Comment){
     comment.liked = !comment.liked;
-    comment.rating += comment.liked ? +1 : -1;
     this.commentService.likeComment(comment.id, comment.liked)
-      .then(likes => {
-        comment.rating = likes;
-      });
+      .then(likes => comment.rating = likes);
   }
 }

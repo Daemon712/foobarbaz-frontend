@@ -47,6 +47,8 @@
         </template>
         <app-comments *ngIf="commentsAllowed"
                       [comments]="comments"
+                      (commentUpdated)="commentUpdated($event)"
+                      (commentDeleted)="commentDeleted($event)"
                       (commentLiked)="commentLiked($event)">
         </app-comments>
         <div *ngIf="!commentsAllowed" class="alert alert-warning">
