@@ -1,5 +1,22 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+/* Logo */
+.logo>.top{
+  fill: $brand-info;
+  stroke: $brand-info;
+  stroke-width: 1;
+}
+.logo>.right{
+  fill: $brand-success;
+  stroke: $brand-success;
+  stroke-width: 1;
+}
+.logo>.left{
+  fill: $brand-primary;
+  stroke: $brand-primary;
+  stroke-width: 1;
+}
+
 /* Common */
 .jumbotron {
   padding: 2rem 4rem !important;

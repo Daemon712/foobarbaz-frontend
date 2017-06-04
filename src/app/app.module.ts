@@ -56,6 +56,7 @@ import { LowerCaseTransformer } from './directives/lower-case-transformer.direct
 import { ChallengeEditComponent } from './components/challenge/edit/challenge-edit.component';
 import { ConfirmationPopupComponent } from './components/common/confirmation-popup/confirmation-popup.component';
 import { EditChallengeListComponent } from './components/challenge-list/edit/edit-challenge-list.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -77,7 +78,7 @@ const routes: Routes = [
   },
   { path: 'challenge-lists/:id',  component: ChallengeListViewComponent },
   { path: 'challenge-lists',  component: challengeListListPageComponent },
-  { path: '', redirectTo: '/challenges', pathMatch: 'full' }
+  { path: '', component: HomePageComponent }
 ];
 
 @NgModule({
@@ -119,6 +120,7 @@ const routes: Routes = [
     ChallengeEditComponent,
     ConfirmationPopupComponent,
     EditChallengeListComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,
