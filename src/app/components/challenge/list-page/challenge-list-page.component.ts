@@ -73,10 +73,11 @@ export class ChallengeListPageComponent implements OnInit {
   }
 
   clearFilter(){
+    let reload = !this.showApplyButton();
     this.newFilter = Object.assign({}, this.defaultFilter);
     this.activeFilter = Object.assign({}, this.defaultFilter);
     Object.assign(this.request, this.activeFilter);
-    this.reload();
+    if (reload) this.reload();
   }
 
   showApplyButton(){
