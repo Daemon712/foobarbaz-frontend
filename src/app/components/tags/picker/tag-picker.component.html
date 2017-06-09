@@ -8,10 +8,11 @@
   </div>
   <input class="form-control" maxlength="25" title="Добавить значение"
          lowerCase
-         [readonly]="tags?.length >= 5"
+         [readonly]="tags?.length >= max"
          [(ngModel)]="newTag"
          [ngModelOptions]="{standalone: true}"
          [typeahead]="availableTags"
+         [typeaheadMinLength]="0"
          [typeaheadWaitMs]="300"
          (typeaheadOnSelect)="onSelect($event)">
 </div>

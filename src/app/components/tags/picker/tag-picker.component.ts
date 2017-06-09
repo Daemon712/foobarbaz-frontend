@@ -15,8 +15,11 @@ export class TagPickerComponent implements OnInit {
   @Input()
   tags: string[];
 
-  newTag: string;
+  @Input()
+  max = 5;
 
+  newTag: string;
+  allTags: string[];
   availableTags: Observable<string[]>;
 
   constructor(
@@ -24,24 +27,29 @@ export class TagPickerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.tagService.getTags().then(tags => this.allTags = tags.map(t => t.name));
+
     this.availableTags = Observable
       .create((observer: Observer<string>) => observer.next(this.newTag))
-      .mergeMap((newTag: string) =>
-        this.tagService
-            .findTags(newTag)
-            .then(tags => {
-              let result = tags.map(tag => tag.name);
-              if (this.newTag && this.newTag.length >= 3) result.push(this.newTag);
-              return this.tags ? result.filter(tagName => this.tags.indexOf(tagName) < 0) : result
-            })
-      );
+      .mergeMap((newTag: string) => {
+          if (this.tags && this.tags.length >= this.max)
+            return Observable.never;
+
+          let query = new RegExp(newTag, 'ig');
+          let result = this.allTags.filter(tag => query.test(tag));
+          if (newTag && newTag.length >= 3 && result.indexOf(newTag) < 0)
+            result.push(newTag);
+          if (this.tags)
+            result = result.filter(tagName => this.tags.indexOf(tagName) < 0);
+          return Observable.of(result);
+      });
   }
 
   onSelect(){
     if (this.tags == null) this.tags = [];
     this.tags.push(this.newTag);
     this.tagsChange.emit(this.tags);
-    this.newTag = null;
+    this.newTag = '';
   }
 
   removeTag(index: number){
