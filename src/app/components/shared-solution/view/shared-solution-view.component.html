@@ -208,15 +208,20 @@
           <i class="fa fa-plus"></i>
           <span> Комментировать</span>
         </template>
-        <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
-        <button type="button" class="btn btn-primary btn-sm"
-                [disabled]="!newComment" (click)="sendComment()">
-          Оставить комментарий
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm"
-                [disabled]="!newComment" (click)="newComment = ''">
-          Отмена
-        </button>
+        <div *ngIf="currentUser">
+          <textarea title="comment" [(ngModel)]="newComment" class="form-control mb-2"></textarea>
+          <button type="button" class="btn btn-primary btn-sm"
+                  [disabled]="!newComment" (click)="sendComment()">
+            Оставить комментарий
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm"
+                  [disabled]="!newComment" (click)="newComment = ''">
+            Отмена
+          </button>
+        </div>
+        <div *ngIf="!currentUser" class="alert alert-warning">
+          Оставлять коментарии могут только зарегистрированные пользователи
+        </div>
       </tab>
       <tab customClass="tab-sm tab-info px-2" class="py-3"
            (select)="loadComments()">
