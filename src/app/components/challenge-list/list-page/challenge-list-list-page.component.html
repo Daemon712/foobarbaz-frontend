@@ -26,22 +26,8 @@
                 [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
                 [firstText]="'&laquo;'" [lastText]="'&raquo;'">
     </pagination>
-    <div class="card">
-      <div class="card-header">
-        <i class="fa fa-gift"></i>
-        <span>Случайная подборка</span>
-      </div>
-      <div class="alert alert-info border-0 lead text-center m-0 py-3" *ngIf="!randomList">
-        <i class="fa fa-spinner fa-pulse"></i>
-        <span> Загрузка...</span>
-      </div>
-      <div class="card-block" *ngIf="randomList">
-        <h5><a [routerLink]="['/challenge-lists', randomList.id]">
-          {{randomList.name}}
-        </a></h5>
-        <div>{{randomList.description}}</div>
-      </div>
-    </div>
+    <app-random-challenge-list>
+    </app-random-challenge-list>
   </div>
   <div class="col-9">
       <app-challenge-list-list [items]="page?.content"></app-challenge-list-list>

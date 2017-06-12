@@ -82,6 +82,13 @@ export class ChallengeService {
       .catch((e) => this.handleError(e));
   }
 
+  getRandomChallengeList() {
+    return this.http.get(`${this.url}/random`)
+      .toPromise()
+      .then(response => ChallengeService.parseChallenge(response.json()))
+      .catch((e) => this.handleError(e));
+  }
+
   createChallenge(challenge: Challenge): Promise<Number|TestResult[]|String>{
     return this.http.post(this.url, {
       name: challenge.name,

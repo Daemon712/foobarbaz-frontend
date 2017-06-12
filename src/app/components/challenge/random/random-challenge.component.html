@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-gift"></i>
+    <span>Случайная задача</span>
+  </div>
+  <div class="alert alert-info border-0 lead text-center m-0 py-3" *ngIf="!challenge">
+    <i class="fa fa-spinner fa-pulse"></i>
+    <span> Загрузка...</span>
+  </div>
+  <div class="card-block" *ngIf="challenge">
+    <h5>
+      <app-challenge-status-view [status]="challenge.status"></app-challenge-status-view>
+      <a [routerLink]="['/challenges', challenge.id]">
+        {{challenge.name}}
+      </a>
+    </h5>
+    <p class="text-justify">{{challenge.shortDescription}}</p>
+    <div class="small d-flex justify-content-between">
+      <div>
+        <app-user-link [user]="challenge.author"></app-user-link>
+      </div>
+      <div title="Рейтинг">
+        <rating [ngModel]="challenge.rating"
+                [readonly]="true" [max]="5"
+                stateOn="fa fa-star text-warning">
+        </rating>
+      </div>
+      <div title="Сложность">
+        <rating [ngModel]="challenge.difficulty"
+                [readonly]="true" [max]="5"
+                stateOn="fa fa-asterisk text-primary">
+        </rating>
+      </div>
+      <div class="text-muted">
+        {{challenge.created | date: "mediumDate" | slice:0:11}}
+        <i class="fa fa-calendar"></i>
+      </div>
+    </div>
+  </div>
+</div>

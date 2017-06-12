@@ -57,6 +57,8 @@ import { ChallengeEditComponent } from './components/challenge/edit/challenge-ed
 import { ConfirmationPopupComponent } from './components/common/confirmation-popup/confirmation-popup.component';
 import { EditChallengeListComponent } from './components/challenge-list/edit/edit-challenge-list.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { RandomChallengeListComponent } from './components/challenge-list/random/random-challenge-list.component';
+import { RandomChallengeComponent } from './components/challenge/random/random-challenge.component';
 
 const routes: Routes = [
   { path: 'login',  component: LoginComponent },
@@ -121,6 +123,8 @@ const routes: Routes = [
     ConfirmationPopupComponent,
     EditChallengeListComponent,
     HomePageComponent,
+    RandomChallengeListComponent,
+    RandomChallengeComponent,
   ],
   imports: [
     BrowserModule,
