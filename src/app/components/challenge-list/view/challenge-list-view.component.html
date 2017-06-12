@@ -3,7 +3,7 @@
     {{challengeList.name}}
     <button class="btn btn-link"
        [class.active]="!current"
-       (click)="current = null">
+       (click)="openInfo()">
       <i class="fa fa-info-circle fa-3x"></i>
     </button>
   </h1>
@@ -79,6 +79,19 @@
         <tr>
           <td>Дата создания</td>
           <td>{{challengeList.created | date: 'mediumDate' | slice:0:11}}</td>
+        </tr>
+        <tr>
+          <td>Прогресс</td>
+          <td>
+            <div class="progress">
+              <div class="progress-bar bg-success" role="progressbar"
+                   [style.height]="'24px'"
+                   [style.width]="100 * solved / all + '%'">
+                <span *ngIf="solved / all > 0.3" class="m-1">{{solved}}/{{all}}</span>
+              </div>
+              <span *ngIf="solved / all <= 0.3" class="m-1">{{solved}}/{{all}}</span>
+            </div>
+          </td>
         </tr>
         <tr>
           <td>Рейтинг</td>

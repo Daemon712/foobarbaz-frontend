@@ -19,6 +19,8 @@ export class ChallengeListViewComponent implements OnInit {
   itemsPerPage = 4;
   currentUser: User;
   submitted: string;
+  solved: number;
+  all: number;
 
   constructor(
     private userService: UserService,
@@ -33,12 +35,23 @@ export class ChallengeListViewComponent implements OnInit {
       .switchMap((params: Params) => this.challengeListService.getChallengeList(+params['id']))
       .subscribe((list: ChallengeList) => {
         this.challengeList = list;
+        this.calcProgress();
       });
   }
 
   get canEdit(){
     return this.currentUser && (this.currentUser.username == this.challengeList.author.username
       || this.currentUser.role > UserRole.USER);
+  }
+
+  private calcProgress(){
+    this.solved = this.challengeList.challenges.filter(c => c.status == ChallengeStatus.Completed).length;
+    this.all = this.challengeList.challenges.length;
+  }
+
+  openInfo(){
+    this.current = null;
+    this.calcProgress();
   }
 
   like(){
@@ -54,6 +67,7 @@ export class ChallengeListViewComponent implements OnInit {
       .then(value => {
         this.submitted = null;
         Object.assign(this.challengeList, value);
+        this.calcProgress();
       });
   }
 
