@@ -19,71 +19,75 @@
 </div>
 
 <div class="row mb-3">
-  <div class="col-7 text-justify">
+  <div class="col-7 text-justify d-flex flex-column justify-content-between">
     <h2>Задачи</h2>
-    <p>На нашем сайте Вы можете решать <strong>задачи</strong> по программированию на языке <strong>Java</strong>.</p>
-    <p>
-      В <a [routerLink]="'/challenges'">архиве</a> есть множество задач. Найдите задачу, что вам по душе, и решите её!
-      Не останавливайтесь на одной задаче, попробуйте решить как можно больше!
-    </p>
-    <p>А еще вы можете сами <a [routerLink]="'/challenges'">создать задачу</a>, она будет добавлена в архив, и её смогут решать другие пользователи.</p>
-    <a [routerLink]="'/challenges'" class="btn btn-primary">
-      <i class="fa fa-database"></i>
-      Архив задач
-    </a>
-    <a [routerLink]="'/challenges/create'" class="btn btn-success">
-      <i class="fa fa-plus"></i>
-      Создать задачу
-    </a>
+    <div>
+      <p>На нашем сайте Вы можете решать <strong>задачи</strong> по программированию на языке <strong>Java</strong>.</p>
+      <p>
+        В <a [routerLink]="'/challenges'">архиве</a> есть множество задач. Найдите задачу, что вам по душе, и решите её!
+        Не останавливайтесь на одной задаче, попробуйте решить как можно больше!
+      </p>
+    </div>
+    <div>
+      <a [routerLink]="'/challenges'" class="btn btn-primary">
+        <i class="fa fa-database"></i>
+        Архив задач
+      </a>
+      <a [routerLink]="'/challenges/create'" class="btn btn-success">
+        <i class="fa fa-plus"></i>
+        Создать задачу
+      </a>
+    </div>
   </div>
   <div class="col-5">
     <app-random-challenge></app-random-challenge>
   </div>
 </div>
+<hr/>
 <div class="row my-3">
   <div class="col-5">
     <app-random-challenge-list></app-random-challenge-list>
   </div>
-  <div class="col-7 text-justify">
+  <div class="col-7 text-justify d-flex flex-column justify-content-between">
     <h2>Подборки</h2>
-    <p>Задачи по программированию могут быть объединены в тематические <strong>подборки</strong>.</p>
-    <p>Выберите одну из <a [routerLink]="'/challenge-lists'">архива</a> и решите все задачи из этой подборки!</p>
-    <p>
-      И, конечно, вы сами можете <a [routerLink]="'/challenge-lists/create'">создать подборку</a>.
-      Объедините задачи вашей любимой тематики, чтобы Вы и другие пользователи могли легко найти нужные задачи.
-    </p>
-    <a [routerLink]="'/challenge-lists'" class="btn btn-primary">
-      <i class="fa fa-database"></i>
-      Архив подборок
-    </a>
-    <a [routerLink]="'/challenge-lists/create'" class="btn btn-success">
-      <i class="fa fa-plus"></i>
-      Создать подборку
-    </a>
+    <div>
+      <p>Задачи по программированию могут быть объединены в тематические <strong>подборки</strong>.</p>
+      <p>Выберите одну из <a [routerLink]="'/challenge-lists'">архива</a> и решите все задачи из этой подборки!</p>
+    </div>
+    <div>
+      <a [routerLink]="'/challenge-lists'" class="btn btn-primary">
+        <i class="fa fa-database"></i>
+        Архив подборок
+      </a>
+      <a [routerLink]="'/challenge-lists/create'" class="btn btn-success">
+        <i class="fa fa-plus"></i>
+        Создать подборку
+      </a>
+    </div>
   </div>
 </div>
+<hr/>
 <div class="row my-3">
-  <div class="col-7 text-justify">
+  <div class="col-7 text-justify d-flex flex-column justify-content-between">
     <h2>Пользователи</h2>
     <p>
       Мы - сообщество. И весь контент, представленный на сайте, создан рядовыми <strong>пользователями</strong>.
       И Вы можете стать частью сообщества и принять активное участие в его развитии!
     </p>
-    <p><a [routerLink]="'/sign-up'">Зарегистрируйтесь</a>! Кроме решения задач, вы сможете создавать свои собственные задачи и подборки,
-      обмениваться мнениями в комментариях, оценивать задачи и получать советы по решениям.
-    </p>
-    <a [routerLink]="'/sign-up'" class="btn btn-success">
-      <i class="fa fa-user-plus"></i>
-      Зарегистрироваться
-    </a>
-    <a [routerLink]="'/login'" class="btn btn-primary">
-      <i class="fa fa-sign-in"></i>
-      Войти в систему
-    </a>
-    <a [routerLink]="'/users'" class="btn btn-secondary">
-      <i class="fa fa-database"></i>
-      Список пользователей
-    </a>
+    <div>
+      <a [routerLink]="'/sign-up'" class="btn btn-success">
+        <i class="fa fa-user-plus"></i>
+        Зарегистрироваться
+      </a>
+      <a [routerLink]="'/login'" class="btn btn-primary">
+        <i class="fa fa-sign-in"></i>
+        Войти в систему
+      </a>
+      <a [routerLink]="'/users'" class="btn btn-secondary">
+        <i class="fa fa-database"></i>
+        Список пользователей
+      </a>
+    </div>
   </div>
   <div class="col-5">
     <div class="card">

@@ -15,6 +15,11 @@ export class RandomChallengeListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.reload();
+  }
+
+  reload(){
+    this.challengeList = null;
     this.challengeListService.getRandomChallengeList()
       .then(list => this.challengeList = list);
   }

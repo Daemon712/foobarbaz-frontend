@@ -82,7 +82,7 @@ export class ChallengeService {
       .catch((e) => this.handleError(e));
   }
 
-  getRandomChallengeList() {
+  getRandomChallenge() {
     return this.http.get(`${this.url}/random`)
       .toPromise()
       .then(response => ChallengeService.parseChallenge(response.json()))
