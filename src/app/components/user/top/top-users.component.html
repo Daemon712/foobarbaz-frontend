@@ -12,7 +12,7 @@
         <i *ngSwitchCase="'rating'" class="fa fa-diamond text-primary"></i>
       </span>
     </td>
-    <td *ngIf="property=='registrationDate'" class="text-right text-muted">{{user[property] | date: "mediumDate" | slice:0:11}}</td>
+    <td *ngIf="property=='registrationDate'" class="text-right text-muted">{{user[property] | date: "mediumDate" | slice:0:12}}</td>
   </tr>
 </table>
 <div *ngIf="!users" class="alert alert-info border-0 lead text-center m-0 py-3" style="border-radius: 0">
