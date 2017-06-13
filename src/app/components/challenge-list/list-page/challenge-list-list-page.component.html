@@ -20,8 +20,8 @@
         <input #search type="text" class="form-control" placeholder="Поиск">
       </div>
     </form>
-    <pagination class="pagination-justified" *ngIf="page && page.totalElements > 10"
-                (pageChanged)="changePage($event.page - 1)"
+    <pagination class="pagination-justified" *ngIf="page && page.totalElements > 5"
+                (pageChanged)="changePage($event.page - 1)" [itemsPerPage]="5"
                 [totalItems]="page.totalElements" [ngModel]="page.number + 1"
                 [maxSize]="5" [boundaryLinks]="true" [directionLinks]="false"
                 [firstText]="'&laquo;'" [lastText]="'&raquo;'">
