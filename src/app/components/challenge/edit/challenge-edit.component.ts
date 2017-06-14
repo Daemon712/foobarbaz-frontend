@@ -46,6 +46,7 @@ export class ChallengeEditComponent {
   //noinspection JSUnusedGlobalSymbols
   open(){
     Object.assign(this.challenge, this.initData);
+    this.challenge.tags = Object.assign([], this.initData.tags);
     this.challenge.details = Object.assign(new ChallengeDetails(), this.initData.details);
     this.form.setValue({
       name: this.challenge.name,
