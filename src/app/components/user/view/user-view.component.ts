@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {UserAccount} from "../../../model/user-account";
 import {UserService} from "../../../service/user.service";
 import {Challenge} from "../../../model/challenge";
@@ -29,6 +29,7 @@ export class UserViewComponent implements OnInit {
     password: '',
     confirmPassword: '',
   };
+  modifyRoleData: UserRole;
   submitted: string;
   @ViewChild('modifyPasswordForm')
   modifyPasswordForm: NgForm;
@@ -59,6 +60,7 @@ export class UserViewComponent implements OnInit {
           name: user.name,
           description: user.description
         };
+        this.modifyRoleData = user.role;
         this.loadChallenges();
         this.loadChallengeLists();
         this.loadBookmarks();
@@ -101,6 +103,24 @@ export class UserViewComponent implements OnInit {
         this.modifyPasswordForm.reset();
       });
   }
+
+  modifyRole(){
+    this.submitted = 'role';
+    this.userService.modifyUserRole(this.userAccount.username, this.modifyRoleData)
+      .then((user) => {
+        this.submitted = null;
+        this.userAccount.role = user.role
+      });
+  }
+
+  // deleteUser(){
+  //   this.submitted = 'delete';
+  //   this.userService.deleteUser(this.userAccount.username)
+  //     .then(() => {
+  //       this.submitted = null;
+  //       this.router.navigate(['/users'])
+  //     })
+  // }
 
   private loadChallenges(){
     this.challengeService.getChallengesByAuthor(this.userAccount.username)

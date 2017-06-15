@@ -81,7 +81,7 @@
         </ng-template>
         <app-shared-solution-list [solutions]="solutions"></app-shared-solution-list>
       </tab>
-      <tab class="py-3" *ngIf="currentUser?.username == userAccount.username || currentUser?.role > userAccount.role">
+      <tab class="py-3" *ngIf="currentUser?.username == userAccount.username || currentUser?.role > userRole.USER">
         <ng-template tabHeading>
           Параметры <i class="fa fa-cogs"></i>
         </ng-template>
@@ -116,7 +116,7 @@
             </button>
           </div>
         </div>
-        <div *ngIf="currentUser?.username == userAccount.username || currentUser?.role == userRole.ADMINISTRATOR">
+        <div class="mb-3" *ngIf="currentUser?.username == userAccount.username || currentUser?.role == userRole.ADMINISTRATOR">
           <h5>
             <i class="fa fa-lock"></i>
             Изменить пароль
@@ -158,6 +158,31 @@
               </button>
             </div>
           </form>
+        </div>
+        <div class="mb-3" *ngIf="currentUser?.role == userRole.ADMINISTRATOR">
+          <h5>
+            <i class="fa fa-users"></i>
+            Изменить роль
+          </h5>
+          <select class="custom-select w-50" title="Роль пользователя"
+                  [(ngModel)]="modifyRoleData">
+            <option [value]="userRole.ADMINISTRATOR">Администратор</option>
+            <option [value]="userRole.MODERATOR">Модератор</option>
+            <option [value]="userRole.USER">Пользователь</option>
+          </select>
+          <span *ngIf="modifyRoleData != userAccount.role">
+            <button type="button" class="btn btn-primary" (click)="modifyRole()"
+                    [disabled]="submitted=='role'">
+              <i *ngIf="submitted!='role'" class="fa fa-fw fa-save"></i>
+              <i *ngIf="submitted=='role'" class="fa fa-fw fa-spinner fa-pulse"></i>
+              Сохранить
+            </button>
+            <button class="btn btn-secondary"
+                    [disabled]="submitted"
+                    (click)="modifyRoleData = userAccount.role">
+              Отменить
+            </button>
+          </span>
         </div>
       </tab>
     </tabset>

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, URLSearchParams} from "@angular/http";
-import {User} from "../model/user";
+import {User, UserRole} from "../model/user";
 import {AlertService} from "./alert.service";
 import {UserAccount} from "../model/user-account";
 import {Subject} from "rxjs/Subject";
@@ -111,6 +111,23 @@ export class UserService {
       })
       .catch(error => this.handleError(error));
   }
+
+  modifyUserRole(username: string, role: UserRole): Promise<User>{
+    return this.http.post(`${this.url}/account/${username}/role`, UserRole[role])
+      .toPromise()
+      .then((response) => {
+        this.alertService.success(`Роль пользователя успешно обновлена!`);
+        return Object.assign(new User(), response.json());
+      })
+      .catch(error => this.handleError(error));
+  }
+
+  // deleteUser(username: string): Promise<void>{
+  //   return this.http.delete(`${this.url}/account/${username}`)
+  //     .toPromise()
+  //     .then(() => this.alertService.success(`Пользователь успешно удален!`))
+  //     .catch(error => this.handleError(error));
+  // }
 
   modifyUserPhoto(username: string, photo: File): Promise<void>{
     let formData:FormData = new FormData();
