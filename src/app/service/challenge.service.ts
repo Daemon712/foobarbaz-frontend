@@ -56,7 +56,9 @@ export class ChallengeService {
   }
 
   getChallengesByName(name: string): Promise<Challenge[]>{
-    return this.http.get(`${this.url}/quick-search?name=${name}`)
+    let params = new URLSearchParams();
+    if (name) params.set("name", name);
+    return this.http.get(`${this.url}/quick-search`, {params})
       .toPromise()
       .then(response => response.json().map(c => Object.assign(new Challenge(), c)))
       .catch((e) => this.handleError(e));
